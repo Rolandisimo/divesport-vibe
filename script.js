@@ -79,6 +79,74 @@ window.addEventListener('scroll', () => {
 });
 updateDepthRail();
 
+// ============ Lightbox: click any gallery/destination photo to view full-size ============
+(function initLightbox() {
+  const items = document.querySelectorAll('.gallery__item, .dest-card');
+  if (!items.length) return;
+
+  const isRussian = document.documentElement.lang === 'ru';
+  const fallbackAlt = isRussian ? 'Фотография' : 'Fotogrāfija';
+  const closeLabel = isRussian ? 'Закрыть' : 'Aizvērt';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'lightbox';
+  overlay.innerHTML = `
+    <button type="button" class="lightbox__close" aria-label="${closeLabel}">✕</button>
+    <img class="lightbox__img" alt="">
+    <p class="lightbox__caption"></p>
+  `;
+  document.body.appendChild(overlay);
+  const img = overlay.querySelector('.lightbox__img');
+  const caption = overlay.querySelector('.lightbox__caption');
+  const closeBtn = overlay.querySelector('.lightbox__close');
+
+  function extractUrl(el) {
+    const bg = getComputedStyle(el).backgroundImage;
+    const match = bg.match(/url\(["']?(.*?)["']?\)/);
+    return match ? match[1] : null;
+  }
+
+  function open(el) {
+    const url = extractUrl(el);
+    if (!url) return;
+    const label = el.querySelector('span')?.textContent?.trim() || '';
+    img.src = url;
+    img.alt = label || fallbackAlt;
+    caption.textContent = label;
+    overlay.classList.add('open');
+    document.body.classList.add('lightbox-open');
+    closeBtn.focus();
+  }
+  function close() {
+    overlay.classList.remove('open');
+    document.body.classList.remove('lightbox-open');
+  }
+
+  items.forEach(el => {
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    if (!el.hasAttribute('aria-label')) {
+      const label = el.querySelector('span')?.textContent?.trim();
+      el.setAttribute('aria-label', label ? `${fallbackAlt}: ${label}` : fallbackAlt);
+    }
+    el.addEventListener('click', () => open(el));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        open(el);
+      }
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) close();
+  });
+})();
+
 // ============ Hero gauge: gentle ambient tick, purely decorative ============
 if (heroGauge) {
   let base = 12.4;
