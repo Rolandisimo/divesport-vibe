@@ -66,14 +66,73 @@ if (heroGauge) {
 }
 
 // ============ Contact form ============
-// Submission itself (validation, POST, success/error messages) is handled
-// declaratively by the Formspree AJAX library — see the data-fs-* attributes
-// on the form in index.html and the init call near the closing </body> tag.
-// This just keeps the button's label in sync with the library's disabled state.
+// Submits to Web3Forms (https://web3forms.com) — a free form-to-email API,
+// so messages land in the club's inbox with no server of our own to run.
+//
+// SETUP (2 minutes):
+//   1. Go to https://web3forms.com and enter the destination email address.
+//   2. Web3Forms emails you an Access Key (a UUID) — no account/login needed.
+//   3. In index.html, find the hidden input named "access_key" inside
+//      <form id="contactForm"> and paste the key in as its value, replacing
+//      "YOUR_ACCESS_KEY_HERE".
+//   4. Confirm the verification email Web3Forms sends the first time — after
+//      that, submissions arrive normally.
+const form = document.getElementById('contactForm');
 const submitBtn = document.getElementById('formSubmit');
-if (submitBtn) {
-  const defaultLabel = submitBtn.textContent;
-  new MutationObserver(() => {
-    submitBtn.textContent = submitBtn.disabled ? 'Sūta...' : defaultLabel;
-  }).observe(submitBtn, { attributes: true, attributeFilter: ['disabled'] });
+const successBox = document.getElementById('formSuccess');
+const errorBox = document.getElementById('formError');
+const defaultLabel = submitBtn?.textContent;
+
+function showBanner(box, message) {
+  successBox.textContent = '';
+  errorBox.textContent = '';
+  if (box) box.textContent = message;
 }
+
+form?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // Honeypot: if this hidden checkbox got checked (bots tend to fill/check
+  // every field), silently drop the submission instead of sending it.
+  if (form.botcheck?.checked) {
+    form.reset();
+    return;
+  }
+
+  const accessKey = form.access_key?.value || '';
+  if (!accessKey || accessKey === 'YOUR_ACCESS_KEY_HERE') {
+    showBanner(errorBox, 'Forma vēl nav pievienota Web3Forms — pievieno savu access_key vērtību index.html failā.');
+    return;
+  }
+
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  // Web3Forms uses a field named "subject" for the email subject line;
+  // build a clearer one from the category dropdown instead of sending it raw.
+  data.subject = `Divesport — ${data.category || 'Jautājums'} — ${data.name}`;
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sūta...';
+  showBanner(null, '');
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json().catch(() => null);
+
+    if (response.ok && result?.success) {
+      showBanner(successBox, 'Paldies! Ziņa nosūtīta — atbildēsim tuvākajā laikā.');
+      form.reset();
+    } else {
+      showBanner(errorBox, result?.message || 'Neizdevās nosūtīt. Pamēģini vēlreiz vai raksti tieši uz e-pastu.');
+    }
+  } catch (err) {
+    showBanner(errorBox, 'Nav interneta savienojuma vai serveris nav sasniedzams. Pamēģini vēlreiz.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = defaultLabel;
+  }
+});

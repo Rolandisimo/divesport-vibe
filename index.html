@@ -251,28 +251,30 @@
     </div>
 
     <div class="form-wrap">
-      <div class="form__banner" data-fs-success role="status" aria-live="polite"></div>
-      <div class="form__banner form__banner--error" data-fs-error role="alert" aria-live="assertive"></div>
+      <div class="form__banner" id="formSuccess" role="status" aria-live="polite"></div>
+      <div class="form__banner form__banner--error" id="formError" role="alert" aria-live="assertive"></div>
 
-      <form class="form" id="contactForm" action="https://formspree.io/f/mykrykej" method="POST">
-        <!-- Formspree's built-in honeypot: real visitors never see this field,
-             but Formspree silently discards any submission where it's filled in,
+      <form class="form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <!-- Get your key at https://web3forms.com — free, just verify an email, no login needed. -->
+        <input type="hidden" name="access_key" value="cd60fdfe-806c-4a06-854b-8ad6852cfef9">
+        <input type="hidden" name="from_name" value="Divesport kontaktforma">
+
+        <!-- Web3Forms honeypot: real visitors never see or fill this field;
+             bots that auto-fill every input trip it and get silently discarded
              server-side — works even if JavaScript is unavailable. -->
-        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 
         <div class="form__row">
           <label for="name">Vārds</label>
-          <input type="text" id="name" name="name" data-fs-field required>
-          <span class="form__field-error" data-fs-error="name"></span>
+          <input type="text" id="name" name="name" required>
         </div>
         <div class="form__row">
           <label for="email">E-pasts</label>
-          <input type="email" id="email" name="email" data-fs-field required>
-          <span class="form__field-error" data-fs-error="email"></span>
+          <input type="email" id="email" name="email" required>
         </div>
         <div class="form__row">
-          <label for="subject">Tēma</label>
-          <select id="subject" name="subject">
+          <label for="category">Tēma</label>
+          <select id="category" name="category">
             <option>Apmācība</option>
             <option>Ceļojumi</option>
             <option>Inventārs</option>
@@ -281,10 +283,9 @@
         </div>
         <div class="form__row">
           <label for="message">Ziņa</label>
-          <textarea id="message" name="message" rows="5" data-fs-field required></textarea>
-          <span class="form__field-error" data-fs-error="message"></span>
+          <textarea id="message" name="message" rows="5" required></textarea>
         </div>
-        <button type="submit" class="btn btn--solid btn--full" id="formSubmit" data-fs-submit-btn>Nosūtīt ziņu</button>
+        <button type="submit" class="btn btn--solid btn--full" id="formSubmit">Nosūtīt ziņu</button>
       </form>
     </div>
 
@@ -308,14 +309,5 @@
 </footer>
 
 <script src="script.js"></script>
-
-<!-- Formspree AJAX: handles the contact form's submit, validation errors,
-     success message, and submit-button disabled state declaratively via
-     the data-fs-* attributes on the form above. -->
-<script>
-  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-  formspree('initForm', { formElement: '#contactForm', formId: 'mykrykej' });
-</script>
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
