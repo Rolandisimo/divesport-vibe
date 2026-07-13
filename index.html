@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divesport — Niršanas klubs Latvijā</title>
+<meta name="description" content="Divesport — niršanas klubs Latvijā kopš 2003. gada. Apmācība, ceļojumi un inventārs pieredzējušiem un topošiem daiveriem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ============ TOPBAR ============ -->
+<div class="topbar">
+  <div class="topbar__inner">
+    <div class="topbar__contact">
+      <a href="tel:+37129284178">+371 292 84178</a>
+      <span class="dot">·</span>
+      <a href="mailto:divesport.lv@gmail.com">divesport.lv@gmail.com</a>
+    </div>
+    <div class="topbar__social">
+      <a href="https://www.facebook.com/divinglatvia/" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+      <a href="https://www.instagram.com/divesport/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+      <a href="https://www.youtube.com/channel/UCBKWVcXiG8IjdEr9qEJiuAQ" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__logo">
+      <span class="nav__logo-mark">◍</span>
+      DIVE<span>SPORT</span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="#about" data-depth="—">Par mums</a>
+      <a href="#courses" data-depth="18m">Apmācība</a>
+      <a href="#travel" data-depth="30m">Ceļojumi</a>
+      <a href="#gear" data-depth="40m">Inventārs</a>
+      <a href="#gallery" data-depth="—">Galerija</a>
+      <a href="#contact" data-depth="—">Kontakti</a>
+    </nav>
+    <button class="nav__toggle" id="navToggle" aria-label="Izvērst izvēlni">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ DEPTH RAIL (signature element) ============ -->
+<aside class="depth-rail" aria-hidden="true">
+  <div class="depth-rail__line"></div>
+  <div class="depth-rail__marker" id="depthMarker">
+    <span class="depth-rail__value" id="depthValue">0.0</span>
+    <span class="depth-rail__unit">m</span>
+  </div>
+  <ul class="depth-rail__stops">
+    <li data-target="top" style="--stop:0%"><em>0m</em> virsma</li>
+    <li data-target="about" style="--stop:14%"><em>5m</em> klubs</li>
+    <li data-target="courses" style="--stop:38%"><em>18m</em> apmācība</li>
+    <li data-target="travel" style="--stop:58%"><em>30m</em> ceļojumi</li>
+    <li data-target="gear" style="--stop:78%"><em>40m</em> inventārs</li>
+    <li data-target="contact" style="--stop:96%"><em>↑</em> kontakti</li>
+  </ul>
+</aside>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero__bg" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/akula-2-1300x535.jpg')"></div>
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <p class="eyebrow">Niršanas klubs · dibināts 2003. gadā</p>
+    <h1>Jūsu aizraujošie<br>zemūdens piedzīvojumi<br><span>sākas šeit.</span></h1>
+    <p class="hero__lede">Apmācība no pirmā ienirt līdz instruktora līmenim, rūpīgi plānoti ceļojumi un pilns inventāra serviss — viena kluba ietvaros, ar cilvēkiem, kuri paši dzīvo ar niršanu.</p>
+    <div class="hero__cta">
+      <a href="#courses" class="btn btn--solid">Sākt apmācību</a>
+      <a href="#contact" class="btn btn--ghost">Sazināties</a>
+    </div>
+  </div>
+  <div class="hero__gauge">
+    <span class="hero__gauge-label">DEPTH</span>
+    <span class="hero__gauge-num" id="heroGauge">000.0</span>
+    <span class="hero__gauge-label">M</span>
+  </div>
+</section>
+
+<main>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about">
+  <div class="section__inner">
+    <p class="section__eyebrow">Par klubu</p>
+    <h2 class="section__title">Kopš 2003. gada zem virsmas</h2>
+    <p class="section__text">
+      Niršanas klubs DIVESPORT uzsāka darbu 2003. gadā un kopš tā laika ir iepazīstinājis desmitiem cilvēku ar
+      klusu, noslēpumainu pasauli zem ūdens. Strādājam gan ar tiem, kas nirst pirmo reizi, gan ar pieredzējušiem
+      daiveriem, kuri virzās uz tehnisko niršanu un trimix sertifikātiem.
+    </p>
+
+    <div class="team">
+      <article class="team__card">
+        <div class="team__photo" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/03/28471732_10211943317674024_4428251208978217532_n-288x300.jpg')"></div>
+        <div class="team__body">
+          <h3>Aleksejs Kravčuks</h3>
+          <p class="team__cert">PADI Master Scuba Diver Trainer #627929</p>
+          <p class="team__cert">IANTD Normoxic Trimix Instructor Trainer #7428</p>
+          <blockquote>„Jau daudzu gadu garumā es apmācu cilvēkus peldēt ar akvalangu, iepazīstinu viņus ar citu mūsu planētas pasauli — noslēpumainu, klusu, kas pārsteidz ar savu lieliskumu.”</blockquote>
+        </div>
+      </article>
+
+      <article class="team__card">
+        <div class="team__photo" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/03/16363_442442555824078_915371131_n-150x150.jpg')"></div>
+        <div class="team__body">
+          <h3>Liene Klementjeva</h3>
+          <p class="team__cert">Divemaster IANTD</p>
+          <blockquote>„Ceļojumos mēs varam ne tikai atpūsties un izzināt jaunas zemes, bet arī bagātināt savu pieredzi. Man patīk maršruti, kas iziet ārpus iestaigātās tūrista takas — ar vietējo palīdzību var atrast īstas, neskartas pērles.”</blockquote>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COURSES ============ -->
+<section class="section section--alt" id="courses">
+  <div class="section__inner">
+    <p class="section__eyebrow">18m · atklātā ūdens robeža</p>
+    <h2 class="section__title">Apmācība</h2>
+    <p class="section__text">Kursi iesācējiem un pieredzējušiem daiveriem — no pirmā elpas vilciena zem ūdens līdz instruktora sertifikātam.</p>
+
+    <div class="cards cards--4">
+      <article class="card">
+        <span class="card__num">01</span>
+        <h3>Kursi</h3>
+        <p>Pamata sertifikācijas kursi tiem, kas tikai sāk savu ceļu niršanas pasaulē.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">02</span>
+        <h3>Specializācijas</h3>
+        <p>Padziļinātas iemaņas — nakts niršana, navigācija, vraku niršana un citas specializācijas.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">03</span>
+        <h3>Tehniskā niršana</h3>
+        <p>Trimix un dekompresijas niršana pieredzējušiem daiveriem, kas grib doties dziļāk un ilgāk.</p>
+      </article>
+      <article class="card">
+        <span class="card__num">04</span>
+        <h3>Instruktoru kursi</h3>
+        <p>Kļūsti par sertificētu instruktoru un māci citus atklāt zemūdens pasauli.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAVEL ============ -->
+<section class="section" id="travel">
+  <div class="section__inner section__inner--split">
+    <div>
+      <p class="section__eyebrow">30m · rekreatīvās niršanas robeža</p>
+      <h2 class="section__title">Ceļojumi</h2>
+      <p class="section__text">
+        Organizējam niršanas ceļojumus un ar daivingu saistītus pasākumus visā pasaulē. Mēs neapstājamies pie
+        pazīstamākajām vietām — ar vietējo iedzīvotāju palīdzību meklējam maršrutus, kas atklāj gan neskartu
+        dabu, gan vietējo kultūru un sadzīvi. Katrs ceļojums tiek plānots rūpīgi, ņemot vērā dalībnieku
+        pieredzes līmeni un intereses.
+      </p>
+      <a href="#contact" class="btn btn--solid">Uzzināt par tuvākajiem ceļojumiem</a>
+    </div>
+    <div class="travel__strip">
+      <div class="travel__img" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_9549-1-900x370.jpg')"></div>
+      <div class="travel__img" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_1448-1-900x370.jpg')"></div>
+      <div class="travel__img" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/P1155193-1-900x370.jpg')"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GEAR ============ -->
+<section class="section section--alt" id="gear">
+  <div class="section__inner">
+    <p class="section__eyebrow">40m · trimix robeža</p>
+    <h2 class="section__title">Inventārs</h2>
+
+    <div class="cards cards--3">
+      <article class="card">
+        <h3>Inventāra noma</h3>
+        <p>Pilns komplekts niršanas aprīkojuma nomai — no pirmās nirtes līdz tehniskajai konfigurācijai.</p>
+      </article>
+      <article class="card">
+        <h3>Remonts un apkalpošana</h3>
+        <ul class="card__list">
+          <li>Sauso tērpu remonts — aproces, rāvējslēdzēji, boti, hermētiskuma pārbaude</li>
+          <li>Vārstu remonts, sauso cimdu uzstādīšana</li>
+          <li>Regulatoru un peldspējas kompensatoru ikgadēja apkalpošana</li>
+          <li>Slapjo tērpu remonts</li>
+          <li>Balonu pārbaude un hidrotests, ventiļu remonts</li>
+          <li>Augstspiediena kompresoru remonts un apkalpošana</li>
+          <li>Barošanas bateriju nomaiņa niršanas datoros</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Balonu uzpildīšana</h3>
+        <p>Gaisa un nitrox balonu uzpildīšana klubā uz vietas.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="section" id="gallery">
+  <div class="section__inner">
+    <p class="section__eyebrow">Galerija</p>
+    <h2 class="section__title">Kadri no dzelmes</h2>
+    <div class="gallery" id="galleryGrid">
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2019/03/divesport-sl2-960x395.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_9549-1-900x370.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_1448-1-900x370.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/P1155193-1-900x370.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2019/03/22095860_1896830913674661_2776940025745771315_o-1280x527.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/02/obuchenie-3.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/02/puteshestvija-1.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2019/03/equipment1.png')"></div>
+    </div>
+    <p class="gallery__note">Vēlas pievienot vairāk bilžu — vienkārši nomaini attēlu adreses <code>styles</code> vietā ar savām jaunajām fotogrāfijām.</p>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section section--contact" id="contact">
+  <div class="section__inner section__inner--split">
+    <div>
+      <p class="section__eyebrow">Kontakti</p>
+      <h2 class="section__title">Runāsim par nirumu</h2>
+      <p class="section__text">Zvani, raksti vai aizpildi formu — atbildēsim ātri.</p>
+
+      <ul class="contact-info">
+        <li><span>Adrese</span> Stiebru iela 15, Mežāres, Babītes pagasts, LV-2101</li>
+        <li><span>Tālrunis</span> <a href="tel:+37129284178">+371 292 84178</a></li>
+        <li><span>E-pasts</span> <a href="mailto:divesport.lv@gmail.com">divesport.lv@gmail.com</a></li>
+        <li><span>Instruktors</span> Aleksejs Kravčuks — PADI MSDT, EFR, IANTD Instructor Trainer (Normoxic Trimix)</li>
+      </ul>
+
+      <div class="map">
+        <iframe
+          src="https://maps.google.com/maps?q=Stiebru%20iela%2015%2C%20Me%C5%BE%C4%81res%2C%20Bab%C4%ABtes%20pagasts%2C%20LV-2101&t=m&z=13&output=embed"
+          width="100%" height="260" style="border:0" loading="lazy" title="Divesport karte"></iframe>
+      </div>
+    </div>
+
+    <div class="form-wrap">
+      <div class="form__banner" data-fs-success role="status" aria-live="polite"></div>
+      <div class="form__banner form__banner--error" data-fs-error role="alert" aria-live="assertive"></div>
+
+      <form class="form" id="contactForm" action="https://formspree.io/f/mykrykej" method="POST">
+        <!-- Formspree's built-in honeypot: real visitors never see this field,
+             but Formspree silently discards any submission where it's filled in,
+             server-side — works even if JavaScript is unavailable. -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="form__row">
+          <label for="name">Vārds</label>
+          <input type="text" id="name" name="name" data-fs-field required>
+          <span class="form__field-error" data-fs-error="name"></span>
+        </div>
+        <div class="form__row">
+          <label for="email">E-pasts</label>
+          <input type="email" id="email" name="email" data-fs-field required>
+          <span class="form__field-error" data-fs-error="email"></span>
+        </div>
+        <div class="form__row">
+          <label for="subject">Tēma</label>
+          <select id="subject" name="subject">
+            <option>Apmācība</option>
+            <option>Ceļojumi</option>
+            <option>Inventārs</option>
+            <option>Cits jautājums</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <label for="message">Ziņa</label>
+          <textarea id="message" name="message" rows="5" data-fs-field required></textarea>
+          <span class="form__field-error" data-fs-error="message"></span>
+        </div>
+        <button type="submit" class="btn btn--solid btn--full" id="formSubmit" data-fs-submit-btn>Nosūtīt ziņu</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">DIVE<span>SPORT</span></div>
+    <div class="footer__social">
+      <a href="https://www.facebook.com/divinglatvia/" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.instagram.com/divesport/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/channel/UCBKWVcXiG8IjdEr9qEJiuAQ" target="_blank" rel="noopener">YouTube</a>
+      <a href="http://divesport.blogspot.com" target="_blank" rel="noopener">Blogs</a>
+    </div>
+    <p class="footer__copy">© <span id="year"></span> Divesport. Visas tiesības aizsargātas.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+<!-- Formspree AJAX: handles the contact form's submit, validation errors,
+     success message, and submit-button disabled state declaratively via
+     the data-fs-* attributes on the form above. -->
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { formElement: '#contactForm', formId: 'mykrykej' });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</body>
+</html>
