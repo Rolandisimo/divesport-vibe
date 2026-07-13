@@ -64,6 +64,14 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
 .topbar__social a{color:var(--mist);letter-spacing:0.05em;}
 .topbar__social a:hover{color:var(--teal);}
 
+.topbar__lang{
+  display:flex;align-items:center;gap:8px;margin-left:18px;
+  font-family:var(--font-mono);letter-spacing:0.05em;
+}
+.topbar__lang a{color:var(--mist);}
+.topbar__lang a:hover{color:var(--amber);}
+.topbar__lang-active{color:var(--teal);font-weight:700;}
+
 /* ============ NAV ============ */
 .nav{
   position:sticky;top:0;z-index:100;

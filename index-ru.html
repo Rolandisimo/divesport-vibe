@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divesport — Дайвинг-клуб в Латвии</title>
+<meta name="description" content="Divesport — дайвинг-клуб в Латвии с 2003 года. Обучение, путешествия и снаряжение для опытных и начинающих дайверов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ============ TOPBAR ============ -->
+<div class="topbar">
+  <div class="topbar__inner">
+    <div class="topbar__contact">
+      <a href="tel:+37129284178">+371 292 84178</a>
+      <span class="dot">·</span>
+      <a href="mailto:divesport.lv@gmail.com">divesport.lv@gmail.com</a>
+    </div>
+    <div class="topbar__right" style="display:flex;align-items:center;">
+      <div class="topbar__social">
+        <a href="https://www.facebook.com/divinglatvia/" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+        <a href="https://www.instagram.com/divesport/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+        <a href="https://www.youtube.com/channel/UCBKWVcXiG8IjdEr9qEJiuAQ" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
+      </div>
+      <div class="topbar__lang">
+        <span class="topbar__lang-active">RU</span>
+        <a href="index.html">LV</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__logo">
+      <span class="nav__logo-mark">◍</span>
+      DIVE<span>SPORT</span>
+    </a>
+    <nav class="nav__links" id="navLinks">
+      <a href="par-mums-ru.html">О нас</a>
+      <div class="nav__drop">
+        <a href="apmaciba-ru.html">Обучение</a>
+        <div class="nav__drop-menu">
+          <a href="apmaciba-kursi-ru.html">Курсы</a>
+          <a href="apmaciba-specializacijas-ru.html">Специализации</a>
+          <a href="apmaciba-tehniska-nirsana-ru.html">Технический дайвинг</a>
+          <a href="apmaciba-instruktoru-kursi-ru.html">Курсы инструкторов</a>
+        </div>
+      </div>
+      <div class="nav__drop">
+        <a href="celojumi-ru.html">Путешествия</a>
+        <div class="nav__drop-menu">
+          <a href="celojumi-foto-ru.html">Фото</a>
+        </div>
+      </div>
+      <div class="nav__drop">
+        <a href="inventars-ru.html">Инвентарь</a>
+        <div class="nav__drop-menu">
+          <a href="inventars-noma-ru.html">Аренда инвентаря</a>
+          <a href="inventars-remonts-ru.html">Ремонт</a>
+          <a href="inventars-balonu-uzpildisana-ru.html">Заправка баллонов</a>
+        </div>
+      </div>
+      <a href="kontakti-ru.html">Контакты</a>
+    </nav>
+    <button class="nav__toggle" id="navToggle" aria-label="Открыть меню">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============ DEPTH RAIL (signature element) ============ -->
+<aside class="depth-rail" aria-hidden="true">
+  <div class="depth-rail__line"></div>
+  <div class="depth-rail__marker" id="depthMarker">
+    <span class="depth-rail__value" id="depthValue">0.0</span>
+    <span class="depth-rail__unit">m</span>
+  </div>
+  <ul class="depth-rail__stops">
+    <li data-target="top" style="--stop:0%"><em>0m</em> поверхность</li>
+    <li data-target="about" style="--stop:14%"><em>5m</em> клуб</li>
+    <li data-target="courses" style="--stop:38%"><em>18m</em> обучение</li>
+    <li data-target="travel" style="--stop:58%"><em>30m</em> путешествия</li>
+    <li data-target="gear" style="--stop:78%"><em>40m</em> инвентарь</li>
+    <li data-target="contact" style="--stop:96%"><em>↑</em> контакты</li>
+  </ul>
+</aside>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero__bg" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/akula-2-1300x535.jpg')"></div>
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <p class="eyebrow">Дайвинг-клуб · основан в 2003 году</p>
+    <h1>Ваши захватывающие<br>подводные приключения<br><span>начинаются здесь.</span></h1>
+    <p class="hero__lede">Обучение от первого погружения до уровня инструктора, тщательно спланированные путешествия и полный сервис снаряжения — всё в одном клубе, с людьми, для которых дайвинг — это жизнь.</p>
+    <div class="hero__cta">
+      <a href="#courses" class="btn btn--solid">Начать обучение</a>
+      <a href="#contact" class="btn btn--ghost">Связаться</a>
+    </div>
+  </div>
+  <div class="hero__gauge">
+    <span class="hero__gauge-label">DEPTH</span>
+    <span class="hero__gauge-num" id="heroGauge">000.0</span>
+    <span class="hero__gauge-label">M</span>
+  </div>
+</section>
+
+<main>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about">
+  <div class="section__inner">
+    <p class="section__eyebrow">О клубе</p>
+    <h2 class="section__title">С 2003 года под поверхностью</h2>
+    <p class="section__text">
+      Дайвинг-клуб DIVESPORT начал работу в 2003 году и с тех пор познакомил десятки людей с тихим,
+      загадочным миром под водой. Работаем как с теми, кто ныряет впервые, так и с опытными дайверами,
+      идущими к техническому дайвингу и сертификатам тримикс.
+    </p>
+    <a href="par-mums-ru.html" class="btn btn--ghost" style="margin-top:20px;">Больше о клубе и команде</a>
+
+    <div class="team">
+      <article class="team__card">
+        <div class="team__photo" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/03/28471732_10211943317674024_4428251208978217532_n-288x300.jpg')"></div>
+        <div class="team__body">
+          <h3>Алексей Кравчук</h3>
+          <p class="team__cert">PADI Master Scuba Diver Trainer #627929</p>
+          <p class="team__cert">IANTD Normoxic Trimix Instructor Trainer #7428</p>
+          <blockquote>«Уже много лет я обучаю людей плавать с аквалангом, знакомлю их с другим миром нашей планеты — загадочным, тихим, поражающим своим величием.»</blockquote>
+        </div>
+      </article>
+
+      <article class="team__card">
+        <div class="team__photo" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/03/16363_442442555824078_915371131_n-150x150.jpg')"></div>
+        <div class="team__body">
+          <h3>Лиене Клементьева</h3>
+          <p class="team__cert">Divemaster IANTD</p>
+          <blockquote>«В путешествиях мы можем не только отдохнуть и открыть новые земли, но и обогатить свой опыт. Мне нравятся маршруты, выходящие за пределы протоптанных туристических троп — с помощью местных жителей можно найти настоящие, нетронутые жемчужины.»</blockquote>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COURSES ============ -->
+<section class="section section--alt" id="courses">
+  <div class="section__inner">
+    <p class="section__eyebrow">18m · граница открытой воды</p>
+    <h2 class="section__title">Обучение</h2>
+    <p class="section__text">Курсы для начинающих и опытных дайверов — от первого вдоха под водой до сертификата инструктора.</p>
+
+    <div class="cards cards--4">
+      <a href="apmaciba-kursi-ru.html" class="card">
+        <span class="card__num">01</span>
+        <h3>Курсы</h3>
+        <p>Базовые сертификационные курсы для тех, кто только начинает свой путь в мире дайвинга.</p>
+      </a>
+      <a href="apmaciba-specializacijas-ru.html" class="card">
+        <span class="card__num">02</span>
+        <h3>Специализации</h3>
+        <p>Углублённые навыки — ночные погружения, навигация, дайвинг на затонувших объектах и другое.</p>
+      </a>
+      <a href="apmaciba-tehniska-nirsana-ru.html" class="card">
+        <span class="card__num">03</span>
+        <h3>Технический дайвинг</h3>
+        <p>Тримикс и декомпрессионный дайвинг для опытных дайверов, желающих идти глубже и дольше.</p>
+      </a>
+      <a href="apmaciba-instruktoru-kursi-ru.html" class="card">
+        <span class="card__num">04</span>
+        <h3>Курсы инструкторов</h3>
+        <p>Стань сертифицированным инструктором и обучай других открывать для себя подводный мир.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRAVEL ============ -->
+<section class="section" id="travel">
+  <div class="section__inner section__inner--split">
+    <div>
+      <p class="section__eyebrow">30m · граница рекреационного дайвинга</p>
+      <h2 class="section__title">Путешествия</h2>
+      <p class="section__text">
+        Организуем дайвинг-поездки и связанные с дайвингом мероприятия по всему миру. Мы не останавливаемся
+        на самых известных местах — с помощью местных жителей ищем маршруты, раскрывающие как нетронутую
+        природу, так и местную культуру и быт. Каждая поездка тщательно планируется с учётом уровня
+        подготовки и интересов участников.
+      </p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="celojumi-ru.html" class="btn btn--solid">Узнать о ближайших поездках</a>
+        <a href="celojumi-foto-ru.html" class="btn btn--ghost">Смотреть фото по направлениям</a>
+      </div>
+    </div>
+    <div class="travel__strip">
+      <div class="travel__img" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_9549-1-900x370.jpg')"></div>
+      <div class="travel__img" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_1448-1-900x370.jpg')"></div>
+      <div class="travel__img" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/P1155193-1-900x370.jpg')"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GEAR ============ -->
+<section class="section section--alt" id="gear">
+  <div class="section__inner">
+    <p class="section__eyebrow">40m · граница тримикса</p>
+    <h2 class="section__title">Инвентарь</h2>
+
+    <div class="cards cards--3">
+      <a href="inventars-noma-ru.html" class="card">
+        <h3>Аренда инвентаря</h3>
+        <p>Полный комплект снаряжения для дайвинга в аренду — от первого погружения до технической конфигурации.</p>
+      </a>
+      <a href="inventars-remonts-ru.html" class="card">
+        <h3>Ремонт и обслуживание</h3>
+        <ul class="card__list">
+          <li>Ремонт сухих костюмов — манжеты, молнии, замена ботинок, проверка герметичности</li>
+          <li>Ремонт клапанов, установка сухих перчаток</li>
+          <li>Ежегодное обслуживание регуляторов и компенсаторов плавучести</li>
+          <li>Ремонт мокрых костюмов</li>
+          <li>Проверка баллонов и гидротест, ремонт вентилей</li>
+          <li>Ремонт и обслуживание компрессоров высокого давления</li>
+          <li>Замена батареек в дайв-компьютерах</li>
+        </ul>
+      </a>
+      <a href="inventars-balonu-uzpildisana-ru.html" class="card">
+        <h3>Заправка баллонов</h3>
+        <p>Заправка баллонов воздухом и найтроксом в клубе на месте.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="section" id="gallery">
+  <div class="section__inner">
+    <p class="section__eyebrow">Галерея</p>
+    <h2 class="section__title">Кадры из глубины</h2>
+    <div class="gallery" id="galleryGrid">
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2019/03/divesport-sl2-960x395.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_9549-1-900x370.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/IMG_1448-1-900x370.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/04/P1155193-1-900x370.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2019/03/22095860_1896830913674661_2776940025745771315_o-1280x527.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/02/obuchenie-3.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2018/02/puteshestvija-1.jpg')"></div>
+      <div class="gallery__item" style="background-image:url('https://www.divesport.lv/wp-content/uploads/2019/03/equipment1.png')"></div>
+    </div>
+    <p class="gallery__note">Хотите добавить больше фотографий — просто замените адреса изображений в HTML-файле на свои новые фото.</p>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section section--contact" id="contact">
+  <div class="section__inner section__inner--split">
+    <div>
+      <p class="section__eyebrow">Контакты</p>
+      <h2 class="section__title">Поговорим о погружении</h2>
+      <p class="section__text">Звоните, пишите или заполните форму — ответим быстро.</p>
+
+      <ul class="contact-info">
+        <li><span>Адрес</span> Stiebru iela 15, Mežāres, Babītes pagasts, LV-2101</li>
+        <li><span>Телефон</span> <a href="tel:+37129284178">+371 292 84178</a></li>
+        <li><span>Эл. почта</span> <a href="mailto:divesport.lv@gmail.com">divesport.lv@gmail.com</a></li>
+        <li><span>Инструктор</span> Алексей Кравчук — PADI MSDT, EFR, IANTD Instructor Trainer (Normoxic Trimix)</li>
+      </ul>
+
+      <div class="map">
+        <iframe
+          src="https://maps.google.com/maps?q=Stiebru%20iela%2015%2C%20Me%C5%BE%C4%81res%2C%20Bab%C4%ABtes%20pagasts%2C%20LV-2101&t=m&z=13&output=embed"
+          width="100%" height="260" style="border:0" loading="lazy" title="Карта Divesport"></iframe>
+      </div>
+    </div>
+
+    <div class="form-wrap">
+      <div class="form__banner" id="formSuccess" role="status" aria-live="polite"></div>
+      <div class="form__banner form__banner--error" id="formError" role="alert" aria-live="assertive"></div>
+
+      <form class="form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="cd60fdfe-806c-4a06-854b-8ad6852cfef9">
+        <input type="hidden" name="from_name" value="Divesport форма обратной связи">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="form__row">
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form__row">
+          <label for="email">Эл. почта</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form__row">
+          <label for="category">Тема</label>
+          <select id="category" name="category">
+            <option>Обучение</option>
+            <option>Путешествия</option>
+            <option>Инвентарь</option>
+            <option>Другой вопрос</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <label for="message">Сообщение</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid btn--full" id="formSubmit">Отправить сообщение</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">DIVE<span>SPORT</span></div>
+    <div class="footer__social">
+      <a href="https://www.facebook.com/divinglatvia/" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.instagram.com/divesport/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/channel/UCBKWVcXiG8IjdEr9qEJiuAQ" target="_blank" rel="noopener">YouTube</a>
+      <a href="http://divesport.blogspot.com" target="_blank" rel="noopener">Блог</a>
+    </div>
+    <p class="footer__copy">© <span id="year"></span> Divesport. Все права защищены.</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
