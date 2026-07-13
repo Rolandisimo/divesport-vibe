@@ -4,12 +4,36 @@ document.getElementById('year').textContent = new Date().getFullYear();
 // ============ Mobile nav toggle ============
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
-navToggle?.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
-navLinks?.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'));
-});
+
+if (navToggle && navLinks) {
+  const backdrop = document.createElement('div');
+  backdrop.className = 'nav-backdrop';
+  document.body.appendChild(backdrop);
+
+  function openNav() {
+    navLinks.classList.add('open');
+    navToggle.classList.add('active');
+    document.body.classList.add('nav-open');
+    navToggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeNav() {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('active');
+    document.body.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }
+
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.contains('open') ? closeNav() : openNav();
+  });
+  backdrop.addEventListener('click', closeNav);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNav();
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeNav);
+  });
+}
 
 // ============ Depth rail: track scroll position against section stops ============
 const stops = Array.from(document.querySelectorAll('.depth-rail__stops li'));
