@@ -95,6 +95,24 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
 .nav__toggle{display:none;background:none;border:0;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
 .nav__toggle span{width:22px;height:2px;background:var(--foam);}
 
+/* ============ NAV DROPDOWNS ============ */
+.nav__drop{position:relative;}
+.nav__drop-menu{
+  position:absolute;top:100%;left:0;margin-top:14px;min-width:220px;
+  background:var(--deep);border:1px solid var(--line);border-radius:3px;
+  padding:8px 0;display:none;flex-direction:column;z-index:50;
+}
+.nav__drop-menu a{
+  padding:10px 18px;font-size:0.76rem;text-transform:none;letter-spacing:0.02em;
+}
+.nav__drop-menu a:hover{background:rgba(234,245,243,0.05);color:var(--foam);}
+.nav__drop-menu a::after{display:none;}
+.nav__drop:hover .nav__drop-menu,
+.nav__drop:focus-within .nav__drop-menu{display:flex;}
+.nav__drop > a::before{
+  content:'▾';display:inline-block;margin-left:5px;font-size:0.6rem;color:var(--mist);
+}
+
 /* ============ DEPTH RAIL (signature) ============ */
 .depth-rail{
   position:fixed;left:28px;top:50%;transform:translateY(-50%);
@@ -218,8 +236,9 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
 .cards--3{grid-template-columns:repeat(3,1fr);}
 .card{
   background:var(--panel);border:1px solid var(--line);border-radius:4px;
-  padding:30px 26px;position:relative;
+  padding:30px 26px;position:relative;display:block;transition:border-color 0.2s,transform 0.2s;
 }
+.card:hover{border-color:var(--teal);transform:translateY(-2px);}
 .card__num{
   font-family:var(--font-mono);color:var(--teal-dim);font-size:1.8rem;
   display:block;margin-bottom:14px;color:var(--teal);opacity:0.5;
@@ -324,15 +343,112 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   *{transition:none !important;animation:none !important;}
 }
 
+/* ============ INNER-PAGE HERO ============ */
+.page-hero{
+  position:relative;padding:70px 24px 56px;overflow:hidden;
+  background:
+    linear-gradient(180deg, rgba(5,20,28,0.2), var(--abyss) 90%),
+    repeating-linear-gradient(180deg, transparent, transparent 39px, var(--line) 40px);
+  border-bottom:1px solid var(--line);
+}
+.page-hero__inner{max-width:var(--maxw);margin:0 auto;position:relative;}
+.breadcrumb{
+  font-family:var(--font-mono);font-size:0.72rem;color:var(--mist);
+  text-transform:uppercase;letter-spacing:0.08em;margin:0 0 14px;
+}
+.breadcrumb a{color:var(--teal);}
+.breadcrumb a:hover{color:var(--amber);}
+.page-hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);color:var(--foam);}
+.page-hero__lede{color:var(--mist);max-width:600px;margin-top:16px;font-size:1.02rem;}
+
+/* ============ BADGE CARDS (Apmācība hub) ============ */
+.badge-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:50px;}
+.badge-card{
+  background:var(--panel);border:1px solid var(--line);border-radius:4px;
+  padding:32px 24px;text-align:center;transition:border-color 0.2s;
+}
+.badge-card:hover{border-color:var(--teal);}
+.badge-card img{width:56px;height:56px;margin:0 auto 18px;object-fit:contain;}
+.badge-card h3{font-size:1.1rem;margin-bottom:8px;}
+.badge-card p{color:var(--mist);font-size:0.86rem;margin:0 0 16px;}
+.badge-card .btn{font-size:0.72rem;padding:10px 18px;}
+
+/* ============ PRICE LIST ============ */
+.price-list{margin-top:36px;border-top:1px solid var(--line);}
+.price-list__row{
+  display:flex;justify-content:space-between;gap:20px;padding:18px 0;
+  border-bottom:1px solid var(--line);align-items:baseline;
+}
+.price-list__row dt{font-size:0.98rem;color:var(--foam);}
+.price-list__row dd{
+  margin:0;font-family:var(--font-mono);color:var(--amber);font-size:1.05rem;
+  white-space:nowrap;font-weight:700;
+}
+.price-note{
+  margin-top:24px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);
+  border-radius:4px;color:var(--mist);font-size:0.88rem;
+}
+
+/* ============ DESTINATION GRID (Foto) ============ */
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:50px;}
+.dest-card{
+  position:relative;aspect-ratio:4/3;border-radius:4px;overflow:hidden;
+  background-size:cover;background-position:center;filter:saturate(0.9);
+}
+.dest-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg, transparent 40%, rgba(5,20,28,0.9));
+}
+.dest-card span{
+  position:absolute;left:18px;bottom:16px;z-index:1;
+  font-family:var(--font-display);font-size:1.3rem;color:var(--foam);
+}
+
+/* ============ COURSE DETAIL BLOCK ============ */
+.course-block{
+  border-top:1px solid var(--line);padding:36px 0;
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;
+}
+.course-block:last-child{border-bottom:1px solid var(--line);}
+.course-block h3{font-size:1.4rem;margin-bottom:10px;}
+.course-block p{color:var(--mist);max-width:640px;margin:0;}
+.course-block__price{
+  font-family:var(--font-mono);font-size:1.4rem;color:var(--amber);font-weight:700;white-space:nowrap;
+}
+
+/* ============ SUBPAGE NAV (breadcrumb siblings) ============ */
+.subnav{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px;}
+.subnav a{
+  font-family:var(--font-mono);font-size:0.74rem;text-transform:uppercase;letter-spacing:0.04em;
+  padding:9px 16px;border:1px solid var(--line);border-radius:3px;color:var(--mist);
+}
+.subnav a:hover,.subnav a.active{border-color:var(--teal);color:var(--foam);}
+
+@media (max-width:900px){
+  .badge-cards{grid-template-columns:1fr 1fr;}
+  .dest-grid{grid-template-columns:1fr 1fr;}
+  .course-block{grid-template-columns:1fr;}
+}
+@media (max-width:560px){
+  .badge-cards{grid-template-columns:1fr;}
+  .dest-grid{grid-template-columns:1fr;}
+}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width:900px){
   .nav__links{
     position:fixed;top:0;right:0;height:100vh;width:min(280px,80vw);
     background:var(--deep);flex-direction:column;padding:100px 32px;gap:26px;
     transform:translateX(100%);transition:transform 0.3s;border-left:1px solid var(--line);
+    overflow-y:auto;
   }
   .nav__links.open{transform:translateX(0);}
   .nav__toggle{display:flex;}
+  .nav__drop{display:flex;flex-direction:column;gap:14px;}
+  .nav__drop-menu{
+    display:flex;position:static;margin:0 0 0 16px;padding:0;border:0;background:none;gap:12px;
+  }
+  .nav__drop-menu a{padding:0;font-size:0.72rem;color:var(--mist);}
   .section__inner--split{grid-template-columns:1fr;}
   .team{grid-template-columns:1fr;}
   .cards--4,.cards--3{grid-template-columns:1fr 1fr;}
