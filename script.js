@@ -92,7 +92,9 @@ updateDepthRail();
   overlay.className = 'lightbox';
   overlay.innerHTML = `
     <button type="button" class="lightbox__close" aria-label="${closeLabel}">✕</button>
-    <img class="lightbox__img" alt="">
+    <div class="lightbox__frame">
+      <img class="lightbox__img" alt="">
+    </div>
     <p class="lightbox__caption"></p>
   `;
   document.body.appendChild(overlay);

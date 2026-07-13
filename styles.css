@@ -374,18 +374,26 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
 
 /* ============ LIGHTBOX ============ */
 .lightbox{
-  position:fixed;inset:0;z-index:300;padding:48px;
-  display:flex;align-items:center;justify-content:center;
+  position:fixed;inset:0;z-index:300;padding:24px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
   background:rgba(5,20,28,0.92);
   opacity:0;pointer-events:none;transition:opacity 0.25s;
 }
 .lightbox.open{opacity:1;pointer-events:auto;}
-.lightbox__img{
-  max-width:100%;max-height:100%;border-radius:4px;
+.lightbox__frame{
+  width:min(880px,92vw);
+  height:min(620px,74vh);
+  background:#000;
+  border-radius:4px;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
   box-shadow:0 20px 60px rgba(0,0,0,0.5);
   opacity:0;transform:scale(0.97);transition:opacity 0.25s,transform 0.25s;
 }
-.lightbox.open .lightbox__img{opacity:1;transform:scale(1);}
+.lightbox.open .lightbox__frame{opacity:1;transform:scale(1);}
+.lightbox__img{
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;
+}
 .lightbox__close{
   position:absolute;top:20px;right:20px;z-index:1;
   width:44px;height:44px;border-radius:50%;
@@ -394,12 +402,12 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
 }
 .lightbox__close:hover{border-color:var(--teal);color:var(--teal);}
 .lightbox__caption{
-  position:absolute;left:0;right:0;bottom:20px;text-align:center;
-  font-family:var(--font-mono);font-size:0.78rem;color:var(--mist);
+  font-family:var(--font-mono);font-size:0.78rem;color:var(--mist);text-align:center;min-height:1em;
 }
 body.lightbox-open{overflow:hidden;}
 @media (max-width:560px){
-  .lightbox{padding:20px;}
+  .lightbox{padding:16px;}
+  .lightbox__frame{width:94vw;height:60vh;}
   .lightbox__close{top:12px;right:12px;}
 }
 
