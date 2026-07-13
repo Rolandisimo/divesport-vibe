@@ -110,6 +110,9 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
   background:var(--deep);border:1px solid var(--line);border-radius:3px;
   padding:8px 0;display:none;flex-direction:column;z-index:50;
 }
+.nav__drop-menu::before{
+  content:'';position:absolute;top:-14px;left:0;right:0;height:14px;
+}
 .nav__drop-menu a{
   padding:10px 18px;font-size:0.76rem;text-transform:none;letter-spacing:0.02em;
 }
@@ -456,6 +459,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
   .nav__drop-menu{
     display:flex;position:static;margin:0 0 0 16px;padding:0;border:0;background:none;gap:12px;
   }
+  .nav__drop-menu::before{display:none;}
   .nav__drop-menu a{padding:0;font-size:0.72rem;color:var(--mist);}
   .section__inner--split{grid-template-columns:1fr;}
   .team{grid-template-columns:1fr;}
