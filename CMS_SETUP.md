@@ -100,13 +100,28 @@ A new "Upcoming trips" section that appears on the Ceļojumi page — **only sho
 all once this tab has rows**, so it's fine to leave empty until there's an actual trip
 to announce.
 
+This is modeled directly on how trip announcements already get written for Facebook/
+Instagram — flag emoji, a short intro, a few bullet-point sections, and pricing lines.
+
 | Column | Required | Example |
 |---|---|---|
 | `lang` | yes | `lv` |
-| `title` | yes | `Ceļojums uz Ēģipti` |
-| `dates` | no | `2027. gada aprīlis` |
-| `description` | no | `Nedēļa Sarkanajā jūrā, iekļauti 10 niršanas...` |
+| `flag` | no | `🇳🇴` |
+| `title` | yes | `Niršanas ceļojums uz Averøy salu — vasara 2026` |
+| `intro` | no | `Aicinām jūs uz aizraujošu niršanas piedzīvojumu Norvēģijā...` |
+| `dates` | no | see "multi-line cells" below — one date range per line |
+| `highlights` | no | "what awaits you" bullets, one per line |
+| `accommodation` | no | accommodation details, one bullet per line |
+| `gettingThere` | no | travel/logistics bullets, one per line |
+| `accommodationPrice` | no | `250 € / 7 dienas` |
+| `divingPrice` | no | `450 € / 10 niršanām` |
 | `imageUrl` | no | same as Destinations tab above |
+| `cta` | no | `Rakstiet privāti, lai saņemtu sīkāku informāciju...` — leave blank to use a generic default |
+
+**Multi-line cells (`dates`, `highlights`, `accommodation`, `gettingThere`):** these
+render as bullet lists, one bullet per line within the cell. To put more than one line
+in a single Google Sheets cell, press **Alt+Enter** (Windows) or **⌥+Return** (Mac)
+between lines instead of Enter — regular Enter moves to the next row.
 
 ---
 

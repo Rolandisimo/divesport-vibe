@@ -5,17 +5,35 @@ export interface SheetCourseRow extends Course {
   tier: string;
 }
 
-/** An "upcoming trip" entry — this concept only exists via the sheet, there's no static fallback content for it. */
+/** An "upcoming trip" entry — this concept only exists via the sheet, there's no static fallback content for it.
+ *  Several fields (dates, highlights, accommodation, gettingThere) hold a LIST of bullet points — in the
+ *  sheet these are one cell each, with each bullet on its own line (Alt+Enter in Google Sheets). */
 export interface Trip {
+  flag: string;
   title: string;
-  dates: string;
-  description: string;
+  intro: string;
+  dates: string[];
+  highlights: string[];
+  accommodation: string[];
+  gettingThere: string[];
+  accommodationPrice: string;
+  divingPrice: string;
   imageUrl: string;
+  cta: string;
 }
 
 function requireField(row: Record<string, string>, key: string): string | null {
   const value = row[key]?.trim();
   return value ? value : null;
+}
+
+/** Splits a multi-line cell into a clean bullet list — one entry per non-empty line. */
+function splitLines(value: string | undefined): string[] {
+  if (!value) return [];
+  return value
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
 }
 
 export function mapCourseRow(row: Record<string, string>): SheetCourseRow | null {
@@ -74,11 +92,19 @@ export function mapTankPriceRow(row: Record<string, string>): PriceRow | null {
 export function mapTripRow(row: Record<string, string>): Trip | null {
   const title = requireField(row, 'title');
   if (!title) return null;
+
   return {
+    flag: row.flag?.trim() ?? '',
     title,
-    dates: row.dates?.trim() ?? '',
-    description: row.description?.trim() ?? '',
+    intro: row.intro?.trim() ?? '',
+    dates: splitLines(row.dates),
+    highlights: splitLines(row.highlights),
+    accommodation: splitLines(row.accommodation),
+    gettingThere: splitLines(row.gettingThere),
+    accommodationPrice: row.accommodationPrice?.trim() ?? '',
+    divingPrice: row.divingPrice?.trim() ?? '',
     imageUrl: row.imageUrl?.trim() ?? '',
+    cta: row.cta?.trim() ?? '',
   };
 }
 
