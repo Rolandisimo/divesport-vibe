@@ -1,6 +1,5 @@
 import type { SiteContent } from '@/types/content';
 
-const AKULA = 'https://www.divesport.lv/wp-content/uploads/2018/04/akula-2-1300x535.jpg';
 const ALEKSEJS_PHOTO =
   'https://www.divesport.lv/wp-content/uploads/2018/03/28471732_10211943317674024_4428251208978217532_n-288x300.jpg';
 const LIENE_PHOTO =

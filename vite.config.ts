@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { fileURLToPath, URL } from 'node:url';
 
 // Base path matches a GitHub Pages project site (https://<user>.github.io/divesport-vibe/).
 // Change to '/' if deploying to a custom domain or a user/organization root site.
@@ -9,7 +9,7 @@ export default defineConfig({
   base: '/divesport-vibe/',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
 });
