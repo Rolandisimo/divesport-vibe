@@ -159,6 +159,39 @@ if (heroGauge) {
   }, 1400);
 }
 
+// ============ Prefill contact form from a course booking link ============
+// Course cards link here as e.g. kontakti.html?course=PADI%20Open%20Water%20Diver&price=400%E2%82%AC
+// so the visitor lands with the category and message already filled in.
+(function prefillFromQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const course = params.get('course');
+  if (!course) return;
+
+  const isRussian = document.documentElement.lang === 'ru';
+  const price = params.get('price');
+  const priceText = price ? ` (${price})` : '';
+
+  const categorySelect = document.getElementById('category');
+  if (categorySelect) {
+    const targetLabel = isRussian ? 'Обучение' : 'Apmācība';
+    for (const opt of categorySelect.options) {
+      if (opt.textContent.trim() === targetLabel) {
+        categorySelect.value = opt.value;
+        break;
+      }
+    }
+  }
+
+  const messageField = document.getElementById('message');
+  if (messageField && !messageField.value) {
+    messageField.value = isRussian
+      ? `Здравствуйте! Меня интересует курс: ${course}${priceText}. Пожалуйста, свяжитесь со мной, чтобы обсудить доступные даты.`
+      : `Sveiki! Mani interesē kurss: ${course}${priceText}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus.`;
+  }
+
+  document.getElementById('name')?.focus();
+})();
+
 // ============ Contact form ============
 // Submits to Web3Forms (https://web3forms.com) — a free form-to-email API,
 // so messages land in the club's inbox with no server of our own to run.
