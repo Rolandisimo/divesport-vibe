@@ -2,10 +2,14 @@ import { Layout } from '@/components/layout/Layout';
 import { PageHero } from '@/components/shared/PageHero';
 import { DestinationGrid } from '@/components/shared/DestinationGrid';
 import { useLang } from '@/context/LangContext';
+import { useSheetData } from '@/hooks/useSheetData';
+import { DESTINATIONS_SHEET_URL } from '@/config/sheets';
+import { mapDestinationRow } from '@/types/sheets';
 
 export function CelojumiFotoPage() {
-  const { content } = useLang();
+  const { lang, content } = useLang();
   const { celojumiFoto: page } = content;
+  const { data: destinations } = useSheetData(DESTINATIONS_SHEET_URL, lang, mapDestinationRow, page.destinations);
 
   return (
     <Layout slug="celojumi-foto">
@@ -20,7 +24,7 @@ export function CelojumiFotoPage() {
       <main>
         <section className="section">
           <div className="section__inner">
-            <DestinationGrid destinations={page.destinations} />
+            <DestinationGrid destinations={destinations} />
             <p className="gallery__note">{page.note}</p>
           </div>
         </section>

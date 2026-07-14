@@ -5,11 +5,12 @@ import { CourseCatalog } from '@/components/shared/CourseCatalog';
 import { SubNav } from '@/components/shared/SubNav';
 import { ContactForm, type BookingRequest } from '@/components/shared/ContactForm';
 import { useLang } from '@/context/LangContext';
-import { getAllCourseOptions } from '@/content';
+import { useCourseCatalog } from '@/hooks/useCourseCatalog';
 
 export function ApmacibaKursiPage() {
   const { content } = useLang();
   const { apmacibaKursi } = content;
+  const { tiers, bookingOptions } = useCourseCatalog();
   const [bookingRequest, setBookingRequest] = useState<BookingRequest | null>(null);
 
   function handleBook(course: string) {
@@ -29,7 +30,7 @@ export function ApmacibaKursiPage() {
       <main>
         <section className="section">
           <div className="section__inner">
-            <CourseCatalog tiers={apmacibaKursi.tiers} bookLabel={apmacibaKursi.bookButtonLabel} onBook={handleBook} />
+            <CourseCatalog tiers={tiers} bookLabel={apmacibaKursi.bookButtonLabel} onBook={handleBook} />
             <SubNav items={apmacibaKursi.subnav} />
           </div>
         </section>
@@ -43,7 +44,7 @@ export function ApmacibaKursiPage() {
             <div style={{ marginTop: 32 }}>
               <ContactForm
                 fromName="Divesport kursu pieteikums"
-                courseOptions={getAllCourseOptions(content)}
+                courseOptions={bookingOptions}
                 bookingRequest={bookingRequest}
                 sectionId="booking"
               />

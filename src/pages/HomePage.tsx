@@ -8,11 +8,12 @@ import { TeamGrid } from '@/components/shared/TeamCard';
 import { Gallery } from '@/components/shared/Gallery';
 import { ContactForm } from '@/components/shared/ContactForm';
 import { ContactDetails } from '@/components/shared/ContactDetails';
-import { getAllCourseOptions } from '@/content';
+import { useCourseCatalog } from '@/hooks/useCourseCatalog';
 
 export function HomePage() {
   const { content, pathFor } = useLang();
   const { home } = content;
+  const { bookingOptions } = useCourseCatalog();
 
   return (
     <Layout slug="home">
@@ -113,7 +114,7 @@ export function HomePage() {
               <ContactDetails />
             </div>
 
-            <ContactForm fromName="Divesport kontaktforma" courseOptions={getAllCourseOptions(content)} />
+            <ContactForm fromName="Divesport kontaktforma" courseOptions={bookingOptions} />
           </div>
         </section>
       </main>

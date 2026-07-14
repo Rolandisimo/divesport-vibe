@@ -3,11 +3,12 @@ import { PageHero } from '@/components/shared/PageHero';
 import { ContactForm } from '@/components/shared/ContactForm';
 import { ContactDetails } from '@/components/shared/ContactDetails';
 import { useLang } from '@/context/LangContext';
-import { getAllCourseOptions } from '@/content';
+import { useCourseCatalog } from '@/hooks/useCourseCatalog';
 
 export function KontaktiPage() {
   const { content } = useLang();
   const { kontakti: page } = content;
+  const { bookingOptions } = useCourseCatalog();
 
   return (
     <Layout slug="kontakti">
@@ -19,7 +20,7 @@ export function KontaktiPage() {
               <ContactDetails />
             </div>
 
-            <ContactForm fromName="Divesport kontaktforma" courseOptions={getAllCourseOptions(content)} />
+            <ContactForm fromName="Divesport kontaktforma" courseOptions={bookingOptions} />
           </div>
         </section>
       </main>
