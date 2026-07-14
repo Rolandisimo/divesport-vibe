@@ -159,38 +159,49 @@ if (heroGauge) {
   }, 1400);
 }
 
-// ============ Prefill contact form from a course booking link ============
-// Course cards link here as e.g. kontakti.html?course=PADI%20Open%20Water%20Diver&price=400%E2%82%AC
-// so the visitor lands with the category and message already filled in.
-(function prefillFromQuery() {
-  const params = new URLSearchParams(window.location.search);
-  const course = params.get('course');
-  if (!course) return;
+// ============ Course booking buttons: prefill the embedded booking form ============
+// Each course card's "Pieteikties" button carries data-book-course="Course name (price)".
+// Clicking it sets the request-type and course dropdowns, writes a short message
+// template, then scrolls down to the booking form on the same page.
+document.querySelectorAll('[data-book-course]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const course = btn.dataset.bookCourse;
+    const isRussian = document.documentElement.lang === 'ru';
 
-  const isRussian = document.documentElement.lang === 'ru';
-  const price = params.get('price');
-  const priceText = price ? ` (${price})` : '';
+    const categorySelect = document.getElementById('category');
+    const courseSelect = document.getElementById('course');
+    const messageField = document.getElementById('message');
+    const bookingSection = document.getElementById('booking');
 
-  const categorySelect = document.getElementById('category');
-  if (categorySelect) {
-    const targetLabel = isRussian ? 'Обучение' : 'Apmācība';
-    for (const opt of categorySelect.options) {
-      if (opt.textContent.trim() === targetLabel) {
-        categorySelect.value = opt.value;
-        break;
+    if (categorySelect) {
+      const targetLabel = isRussian ? 'Курсы' : 'Kursi';
+      for (const opt of categorySelect.options) {
+        if (opt.textContent.trim() === targetLabel) {
+          categorySelect.value = opt.value;
+          break;
+        }
       }
     }
-  }
 
-  const messageField = document.getElementById('message');
-  if (messageField && !messageField.value) {
-    messageField.value = isRussian
-      ? `Здравствуйте! Меня интересует курс: ${course}${priceText}. Пожалуйста, свяжитесь со мной, чтобы обсудить доступные даты.`
-      : `Sveiki! Mani interesē kurss: ${course}${priceText}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus.`;
-  }
+    if (courseSelect) {
+      for (const opt of courseSelect.options) {
+        if (opt.value === course) {
+          courseSelect.value = course;
+          break;
+        }
+      }
+    }
 
-  document.getElementById('name')?.focus();
-})();
+    if (messageField) {
+      messageField.value = isRussian
+        ? `Интересует курс: ${course}. Пожалуйста, свяжитесь со мной, чтобы обсудить доступные даты.`
+        : `Interesē kurss: ${course}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus.`;
+    }
+
+    bookingSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => document.getElementById('name')?.focus(), 450);
+  });
+});
 
 // ============ Contact form ============
 // Submits to Web3Forms (https://web3forms.com) — a free form-to-email API,
@@ -236,7 +247,7 @@ form?.addEventListener('submit', async (e) => {
   const data = Object.fromEntries(formData.entries());
   // Web3Forms uses a field named "subject" for the email subject line;
   // build a clearer one from the category dropdown instead of sending it raw.
-  data.subject = `Divesport — ${data.category || 'Jautājums'} — ${data.name}`;
+  data.subject = `Divesport — ${data.category || 'Jautājums'}${data.course ? ' — ' + data.course : ''} — ${data.name}`;
 
   submitBtn.disabled = true;
   submitBtn.textContent = 'Sūta...';

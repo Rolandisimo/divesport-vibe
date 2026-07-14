@@ -176,7 +176,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
 
 /* ============ HERO ============ */
 .hero{
-  position:relative;min-height:92vh;display:flex;flex-direction:column;
+  position:relative;min-height:100vh;display:flex;flex-direction:column;
   justify-content:center;overflow:hidden;
 }
 .hero__bg{
@@ -193,13 +193,15 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
   font-family:var(--font-mono);color:var(--teal);text-transform:uppercase;
   letter-spacing:0.12em;font-size:0.78rem;margin:0 0 18px;
 }
-.hero h1{
-  font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;color:var(--foam);
+.hero__title-list{
+  display:flex;flex-direction:column;gap:2px;
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(1.9rem,4.6vw,3.2rem);line-height:1.14;color:var(--foam);
+  margin:0 0 34px;
 }
-.hero h1 span{color:var(--amber);}
-.hero__lede{
-  max-width:520px;color:var(--mist);font-size:1.05rem;margin:22px 0 34px;
-}
+.hero__title-list span{display:block;}
+.hero__title-list span:first-child{color:var(--teal);}
+.hero__title-list span:last-child{color:var(--amber);}
 .hero__cta{display:flex;gap:16px;flex-wrap:wrap;}
 .hero__gauge{
   position:absolute;right:40px;bottom:40px;text-align:right;
@@ -384,6 +386,10 @@ h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;letter-spacing
   outline:none;border-color:var(--teal);
 }
 .form__row textarea{resize:vertical;}
+.form__optional{
+  text-transform:none;letter-spacing:0;font-weight:400;color:var(--mist);
+  font-size:0.68rem;margin-left:4px;
+}
 .form__row input[aria-invalid="true"],.form__row textarea[aria-invalid="true"]{
   border-color:#e2685c;
 }
@@ -615,8 +621,7 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto;}
   .course-card__price{font-size:1.15rem;}
 }
 @media (max-width:400px){
-  .hero h1{font-size:2.15rem;}
-  .hero__lede{font-size:0.96rem;}
+  .hero__title-list{font-size:1.5rem;}
   .page-hero h1{font-size:1.9rem;}
   .section__title{font-size:1.7rem;}
   .nav__logo{font-size:1.2rem;}

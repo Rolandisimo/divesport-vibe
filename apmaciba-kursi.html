@@ -100,7 +100,7 @@
         </p>
         <div class="course-card__footer">
           <span class="course-card__price">60 €</span>
-          <a href="kontakti.html?course=Intro%20dive%20(izm%C4%93%C4%A3in%C4%81juma%20ieniro%C5%A1ana)&price=60%E2%82%AC" class="btn btn--solid btn--sm">Pieteikties</a>
+          <button type="button" class="btn btn--solid btn--sm" data-book-course="Intro dive (60 €)">Pieteikties</button>
         </div>
       </div>
 
@@ -113,7 +113,7 @@
         </p>
         <div class="course-card__footer">
           <span class="course-card__price">30 €</span>
-          <a href="kontakti.html?course=Check%20dive%20(p%C4%81rbaudes%20ieniro%C5%A1ana)&price=30%E2%82%AC" class="btn btn--solid btn--sm">Pieteikties</a>
+          <button type="button" class="btn btn--solid btn--sm" data-book-course="Check dive (30 €)">Pieteikties</button>
         </div>
       </div>
     </div>
@@ -134,7 +134,7 @@
         </p>
         <div class="course-card__footer">
           <span class="course-card__price">400 €</span>
-          <a href="kontakti.html?course=PADI%20Open%20Water%20Diver&price=400%E2%82%AC" class="btn btn--solid btn--sm">Pieteikties</a>
+          <button type="button" class="btn btn--solid btn--sm" data-book-course="PADI Open Water Diver (400 €)">Pieteikties</button>
         </div>
       </div>
 
@@ -148,7 +148,7 @@
         </p>
         <div class="course-card__footer">
           <span class="course-card__price">300 €</span>
-          <a href="kontakti.html?course=PADI%20Advanced%20Open%20Water%20Diver&price=300%E2%82%AC" class="btn btn--solid btn--sm">Pieteikties</a>
+          <button type="button" class="btn btn--solid btn--sm" data-book-course="PADI Advanced Open Water Diver (300 €)">Pieteikties</button>
         </div>
       </div>
 
@@ -161,7 +161,7 @@
         </p>
         <div class="course-card__footer">
           <span class="course-card__price">100 €</span>
-          <a href="kontakti.html?course=Emergency%20First%20Response&price=100%E2%82%AC" class="btn btn--solid btn--sm">Pieteikties</a>
+          <button type="button" class="btn btn--solid btn--sm" data-book-course="Emergency First Response (100 €)">Pieteikties</button>
         </div>
       </div>
 
@@ -174,7 +174,7 @@
         </p>
         <div class="course-card__footer">
           <span class="course-card__price">300 €</span>
-          <a href="kontakti.html?course=Rescue%20Diver&price=300%E2%82%AC" class="btn btn--solid btn--sm">Pieteikties</a>
+          <button type="button" class="btn btn--solid btn--sm" data-book-course="Rescue Diver (300 €)">Pieteikties</button>
         </div>
       </div>
     </div>
@@ -192,20 +192,81 @@
         </p>
         <div class="course-card__footer">
           <span class="course-card__price">550 €</span>
-          <a href="kontakti.html?course=Divemaster&price=550%E2%82%AC" class="btn btn--solid btn--sm">Pieteikties</a>
+          <button type="button" class="btn btn--solid btn--sm" data-book-course="Divemaster (550 €)">Pieteikties</button>
         </div>
       </div>
     </div>
-
-    <p class="price-note" style="margin-top:32px;">
-      Neesi pārliecināts, kurš kurss ir piemērots tavam pieredzes līmenim? <a href="kontakti.html" style="color:var(--teal);">Sazinies ar mums</a> — palīdzēsim izvēlēties.
-    </p>
 
     <div class="subnav">
       <a href="apmaciba-specializacijas.html">Specializācijas →</a>
       <a href="apmaciba-tehniska-nirsana.html">Tehniskā niršana →</a>
       <a href="apmaciba-instruktoru-kursi.html">Instruktoru kursi →</a>
     </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING FORM ============ -->
+<section class="section section--alt" id="booking">
+  <div class="section__inner" style="max-width:640px;">
+    <p class="section__eyebrow">Pieteikšanās</p>
+    <h2 class="section__title">Piesakies kursam</h2>
+    <p class="section__text">Uzklikšķini "Pieteikties" pie kursa augstāk — šī forma automātiski sagatavosies. Pēc tam pievieno savu vārdu un e-pastu.</p>
+
+    <div class="form-wrap" style="margin-top:32px;">
+      <div class="form__banner" id="formSuccess" role="status" aria-live="polite"></div>
+      <div class="form__banner form__banner--error" id="formError" role="alert" aria-live="assertive"></div>
+
+      <form class="form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="cd60fdfe-806c-4a06-854b-8ad6852cfef9">
+        <input type="hidden" name="from_name" value="Divesport kursu pieteikums">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="form__row">
+          <label for="name">Vārds</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form__row">
+          <label for="email">E-pasts</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form__row">
+          <label for="category">Pieprasījuma veids</label>
+          <select id="category" name="category">
+            <option>Kursi</option>
+            <option>Ceļojumi</option>
+            <option>Inventārs</option>
+            <option>Cits jautājums</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <label for="course">Kurss</label>
+          <select id="course" name="course">
+            <option value="">— Izvēlies kursu —</option>
+            <option value="Intro dive (60 €)">Intro dive (60 €)</option>
+            <option value="Check dive (30 €)">Check dive (30 €)</option>
+            <option value="PADI Open Water Diver (400 €)">PADI Open Water Diver (400 €)</option>
+            <option value="PADI Advanced Open Water Diver (300 €)">PADI Advanced Open Water Diver (300 €)</option>
+            <option value="Emergency First Response (100 €)">Emergency First Response (100 €)</option>
+            <option value="Rescue Diver (300 €)">Rescue Diver (300 €)</option>
+            <option value="Divemaster (550 €)">Divemaster (550 €)</option>
+          </select>
+        </div>
+        <div class="form__row">
+          <label for="start_date">Vēlamais sākuma datums <span class="form__optional">(nav obligāts, bet ieteicams)</span></label>
+          <input type="date" id="start_date" name="start_date">
+        </div>
+        <div class="form__row">
+          <label for="message">Ziņa</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid btn--full" id="formSubmit">Nosūtīt pieteikumu</button>
+      </form>
+    </div>
+
+    <p class="price-note" style="margin-top:24px;">
+      Neesi pārliecināts, kurš kurss ir piemērots tavam pieredzes līmenim? Vienkārši uzraksti to ziņā —
+      palīdzēsim izvēlēties.
+    </p>
   </div>
 </section>
 </main>
