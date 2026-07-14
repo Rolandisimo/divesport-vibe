@@ -4,10 +4,17 @@ import { useWeb3FormsSubmit } from '@/hooks/useWeb3FormsSubmit';
 
 const WEB3FORMS_ACCESS_KEY = 'cd60fdfe-806c-4a06-854b-8ad6852cfef9';
 
-export interface BookingRequest {
-  /** The course's booking value, e.g. "PADI Open Water Diver (400 €)" */
-  course: string;
-  /** Increments on every click so the same course can be re-selected and still re-trigger the effect. */
+/**
+ * A generic "fill this form in for me" request — used by both the Kursi page's course
+ * booking buttons and the Ceļojumi page's trip booking buttons. `course` is only set
+ * for course bookings (it also populates the Course <select>); trip bookings just set
+ * category + message.
+ */
+export interface PrefillRequest {
+  category: string;
+  message: string;
+  course?: string;
+  /** Increments on every click so clicking the same button twice in a row still re-triggers the effect. */
   nonce: number;
 }
 
@@ -16,22 +23,22 @@ interface ContactFormProps {
   fromName: string;
   /** The full list of bookable courses — every ContactForm instance gets the same list, from the same content source. */
   courseOptions: string[];
-  /** Set by a parent page when a course card's booking button is clicked. */
-  bookingRequest?: BookingRequest | null;
+  /** Set by a parent page when a course or trip booking button is clicked. */
+  prefillRequest?: PrefillRequest | null;
   /** Gives the wrapping element an id so booking buttons can scroll to it. */
   sectionId?: string;
 }
 
 /**
- * The one contact form used everywhere on the site — homepage, Kontakti, and the Kursi
- * booking flow all render this same component with the same props shape. The only things
- * that differ between call sites are `fromName` (for inbox triage) and whether a page feeds
- * in a `bookingRequest` (only the Kursi page's course buttons do that).
+ * The one contact form used everywhere on the site — homepage, Kontakti, the Kursi
+ * booking flow, and the Ceļojumi trip booking flow all render this same component with
+ * the same props shape. The only things that differ between call sites are `fromName`
+ * (for inbox triage) and whether a page feeds in a `prefillRequest`.
  *
  * The Course + Preferred date fields only appear once the visitor picks the course-request
  * category — they're not a separate form variant, just a conditional section of this one.
  */
-export function ContactForm({ fromName, courseOptions, bookingRequest, sectionId }: ContactFormProps) {
+export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId }: ContactFormProps) {
   const { content } = useLang();
   const { form: labels } = content;
   const { status, submit } = useWeb3FormsSubmit(WEB3FORMS_ACCESS_KEY);
@@ -72,18 +79,18 @@ export function ContactForm({ fromName, courseOptions, bookingRequest, sectionId
     }
   }
 
-  // Prefill from a course booking click: switch to the course category, select the
-  // course (which also fills the message via selectCourse above), then scroll this
-  // form into view and focus Name.
+  // Prefill from a course or trip booking click: set the category, optionally select
+  // a course, write the message, then scroll this form into view and focus Name.
   useEffect(() => {
-    if (!bookingRequest) return;
-    setCategory(labels.courseCategoryValue);
-    selectCourse(bookingRequest.course);
+    if (!prefillRequest) return;
+    setCategory(prefillRequest.category);
+    setCourse(prefillRequest.course ?? '');
+    setMessage(prefillRequest.message);
     sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     const timer = setTimeout(() => nameInputRef.current?.focus(), 450);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingRequest]);
+  }, [prefillRequest]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();

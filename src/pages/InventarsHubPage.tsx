@@ -9,7 +9,7 @@ export function InventarsHubPage() {
 
   return (
     <Layout slug="inventars">
-      <PageHero trail={[{ label: page.heroTitle, slug: 'inventars' }]} title={page.heroTitle} lede={page.heroLede} />
+      <PageHero title={page.heroTitle} lede={page.heroLede} />
       <main>
         <section className="section">
           <div className="section__inner">

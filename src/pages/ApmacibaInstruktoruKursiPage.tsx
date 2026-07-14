@@ -11,10 +11,6 @@ export function ApmacibaInstruktoruKursiPage() {
   return (
     <Layout slug="apmaciba-instruktoru-kursi">
       <PageHero
-        trail={[
-          { label: content.nav[1].label, slug: 'apmaciba' },
-          { label: page.heroTitle, slug: 'apmaciba-instruktoru-kursi' },
-        ]}
         title={page.heroTitle}
         lede={page.heroLede}
       />

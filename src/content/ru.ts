@@ -52,7 +52,7 @@ const ru: SiteContent = {
         { label: 'Курсы инструкторов', slug: 'apmaciba-instruktoru-kursi' },
       ],
     },
-    { label: 'Путешествия', slug: 'celojumi', children: [{ label: 'Фото', slug: 'celojumi-foto' }] },
+    { label: 'Путешествия', slug: 'celojumi' },
     {
       label: 'Инвентарь',
       slug: 'inventars',
@@ -93,6 +93,9 @@ const ru: SiteContent = {
     requiredFieldsError: 'Пожалуйста, заполните все обязательные поля.',
     courseTemplate: (course) =>
       `Интересует курс: ${course}. Пожалуйста, свяжитесь со мной, чтобы обсудить доступные даты.`,
+    tripCategoryValue: 'Путешествия',
+    tripTemplate: (tripTitle) =>
+      `Интересует поездка: ${tripTitle}. Пожалуйста, свяжитесь со мной, чтобы обсудить даты и бронирование.`,
   },
   home: {
     heroEyebrow: 'Дайвинг-клуб · с 2003 года',
@@ -402,6 +405,11 @@ const ru: SiteContent = {
       'https://www.divesport.lv/wp-content/uploads/2018/04/IMG_1448-1-900x370.jpg',
       'https://www.divesport.lv/wp-content/uploads/2018/04/P1155193-1-900x370.jpg',
     ],
+    tripBookButtonLabel: 'Записаться на эту поездку',
+    bookingEyebrow: 'Запись',
+    bookingTitle: 'Запишись на поездку',
+    bookingText:
+      'Нажми «Записаться на эту поездку» у нужной поездки выше — эта форма заполнится автоматически. Затем добавь своё имя и email.',
   },
   celojumiFoto: {
     heroTitle: 'Фото с путешествий',

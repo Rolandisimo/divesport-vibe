@@ -105,6 +105,9 @@ export interface FormLabels {
   missingKeyError: string;
   requiredFieldsError: string;
   courseTemplate: (course: string) => string;
+  /** The category option that should be preselected when arriving via a trip booking button. */
+  tripCategoryValue: string;
+  tripTemplate: (tripTitle: string) => string;
 }
 
 export interface SiteContent {
@@ -212,6 +215,10 @@ export interface SiteContent {
     ctaPrimary: string;
     ctaSecondary: string;
     images: string[];
+    tripBookButtonLabel: string;
+    bookingEyebrow: string;
+    bookingTitle: string;
+    bookingText: string;
   };
   celojumiFoto: {
     heroTitle: string;

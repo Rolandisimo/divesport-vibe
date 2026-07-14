@@ -10,7 +10,7 @@ export function AboutPage() {
 
   return (
     <Layout slug="par-mums">
-      <PageHero trail={[{ label: about.heroTitle, slug: 'par-mums' }]} title={about.heroTitle} lede={about.heroLede} />
+      <PageHero title={about.heroTitle} lede={about.heroLede} />
       <main>
         <section className="section">
           <div className="section__inner">

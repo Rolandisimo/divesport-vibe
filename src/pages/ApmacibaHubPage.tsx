@@ -9,7 +9,7 @@ export function ApmacibaHubPage() {
 
   return (
     <Layout slug="apmaciba">
-      <PageHero trail={[{ label: apmacibaHub.heroTitle, slug: 'apmaciba' }]} title={apmacibaHub.heroTitle} lede={apmacibaHub.heroLede} />
+      <PageHero title={apmacibaHub.heroTitle} lede={apmacibaHub.heroLede} />
       <main>
         <section className="section">
           <div className="section__inner">

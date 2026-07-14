@@ -12,10 +12,6 @@ export function ApmacibaTehniskaNirsanaPage() {
   return (
     <Layout slug="apmaciba-tehniska-nirsana">
       <PageHero
-        trail={[
-          { label: content.nav[1].label, slug: 'apmaciba' },
-          { label: page.heroTitle, slug: 'apmaciba-tehniska-nirsana' },
-        ]}
         title={page.heroTitle}
         lede={page.heroLede}
       />

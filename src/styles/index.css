@@ -465,21 +465,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 
 /* ============ INNER-PAGE HERO ============ */
 .page-hero{
-  position:relative;padding:70px 24px 56px;overflow:hidden;
+  position:relative;padding:40px 24px 32px;overflow:hidden;
   background:
     linear-gradient(180deg, rgba(5,20,28,0.2), var(--abyss) 90%),
     repeating-linear-gradient(180deg, transparent, transparent 39px, var(--line) 40px);
   border-bottom:1px solid var(--line);
 }
 .page-hero__inner{max-width:var(--maxw);margin:0 auto;position:relative;}
-.breadcrumb{
-  font-family:var(--font-mono);font-size:0.72rem;color:var(--mist);
-  text-transform:uppercase;letter-spacing:0.08em;margin:0 0 14px;
-}
-.breadcrumb a{color:var(--teal);}
-.breadcrumb a:hover{color:var(--amber);}
-.page-hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);color:var(--foam);}
-.page-hero__lede{color:var(--mist);max-width:600px;margin-top:16px;font-size:1.02rem;}
+.page-hero h1{font-size:clamp(1.9rem,3.6vw,2.6rem);color:var(--foam);}
+.page-hero__lede{color:var(--mist);max-width:600px;margin-top:10px;font-size:0.96rem;}
 
 /* ============ BADGE CARDS (Apmācība hub) ============ */
 .badge-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:50px;}
@@ -545,6 +539,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 .trip-card__img{width:260px;min-height:220px;background-size:cover;background-position:center;flex-shrink:0;}
 .trip-card__body{padding:28px 30px;flex:1;min-width:280px;}
 .trip-card__body h3{font-size:1.3rem;margin-bottom:10px;}
+.trip-card__flag{margin-right:10px;display:inline-block;}
 .trip-card__intro{color:var(--mist);font-size:0.92rem;margin:0 0 22px;max-width:640px;}
 
 .trip-card__grid{
@@ -561,16 +556,19 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 }
 .trip-card__section li::before{content:'–';position:absolute;left:0;color:var(--mist);}
 
-.trip-card__cta{
-  margin:22px 0 0;padding-top:18px;border-top:1px solid var(--line);
-  color:var(--amber);font-size:0.88rem;
+.trip-card__footer{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
 }
+.trip-card__price{font-family:var(--font-mono);font-size:0.82rem;color:var(--amber);}
 @media (max-width:700px){
   .trip-card__grid{grid-template-columns:1fr;}
 }
 @media (max-width:560px){
   .trip-card{flex-direction:column;}
   .trip-card__img{width:100%;height:180px;min-height:0;}
+  .trip-card__footer{flex-direction:column;align-items:stretch;}
+  .trip-card__footer .btn{width:100%;}
 }
 
 /* ============ COURSE CATALOG ============ */
@@ -656,7 +654,7 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto;}
   .topbar__right{justify-content:center;}
   .cards--4,.cards--3{grid-template-columns:1fr;}
   .section{padding:64px 20px;}
-  .page-hero{padding:52px 20px 40px;}
+  .page-hero{padding:32px 20px 26px;}
   .form{padding:24px;}
   .hero__cta{flex-direction:column;align-items:stretch;}
   .hero__cta .btn{width:100%;}
@@ -665,7 +663,7 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto;}
 }
 @media (max-width:400px){
   .hero__title-list{font-size:1.5rem;}
-  .page-hero h1{font-size:1.9rem;}
+  .page-hero h1{font-size:1.6rem;}
   .section__title{font-size:1.7rem;}
   .nav__logo{font-size:1.2rem;}
   .badge-card{padding:24px 18px;}

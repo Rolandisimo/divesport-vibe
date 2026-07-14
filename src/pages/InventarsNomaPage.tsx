@@ -11,10 +11,6 @@ export function InventarsNomaPage() {
   return (
     <Layout slug="inventars-noma">
       <PageHero
-        trail={[
-          { label: content.nav[3].label, slug: 'inventars' },
-          { label: page.heroTitle, slug: 'inventars-noma' },
-        ]}
         title={page.heroTitle}
         lede={page.heroLede}
       />

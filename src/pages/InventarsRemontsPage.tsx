@@ -11,10 +11,6 @@ export function InventarsRemontsPage() {
   return (
     <Layout slug="inventars-remonts">
       <PageHero
-        trail={[
-          { label: content.nav[3].label, slug: 'inventars' },
-          { label: page.heroTitle, slug: 'inventars-remonts' },
-        ]}
         title={page.heroTitle}
         lede={page.heroLede}
       />

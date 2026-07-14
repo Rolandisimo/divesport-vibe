@@ -52,7 +52,7 @@ const lv: SiteContent = {
         { label: 'Instruktoru kursi', slug: 'apmaciba-instruktoru-kursi' },
       ],
     },
-    { label: 'Ceļojumi', slug: 'celojumi', children: [{ label: 'Foto', slug: 'celojumi-foto' }] },
+    { label: 'Ceļojumi', slug: 'celojumi' },
     {
       label: 'Inventārs',
       slug: 'inventars',
@@ -93,6 +93,9 @@ const lv: SiteContent = {
     requiredFieldsError: 'Lūdzu, aizpildi visus obligātos laukus.',
     courseTemplate: (course) =>
       `Interesē kurss: ${course}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus.`,
+    tripCategoryValue: 'Ceļojumi',
+    tripTemplate: (tripTitle) =>
+      `Interesē ceļojums: ${tripTitle}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus un rezervāciju.`,
   },
   home: {
     heroEyebrow: 'Niršanas klubs · kopš 2003',
@@ -404,6 +407,11 @@ const lv: SiteContent = {
       'https://www.divesport.lv/wp-content/uploads/2018/04/IMG_1448-1-900x370.jpg',
       'https://www.divesport.lv/wp-content/uploads/2018/04/P1155193-1-900x370.jpg',
     ],
+    tripBookButtonLabel: 'Pieteikties šim ceļojumam',
+    bookingEyebrow: 'Pieteikšanās',
+    bookingTitle: 'Piesakies ceļojumam',
+    bookingText:
+      'Uzklikšķini "Pieteikties šim ceļojumam" pie kāda no braucieniem augstāk — šī forma automātiski sagatavosies. Pēc tam pievieno savu vārdu un e-pastu.',
   },
   celojumiFoto: {
     heroTitle: 'Foto no ceļojumiem',

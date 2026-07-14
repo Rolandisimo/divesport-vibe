@@ -14,10 +14,6 @@ export function CelojumiFotoPage() {
   return (
     <Layout slug="celojumi-foto">
       <PageHero
-        trail={[
-          { label: content.nav[2].label, slug: 'celojumi' },
-          { label: page.heroTitle, slug: 'celojumi-foto' },
-        ]}
         title={page.heroTitle}
         lede={page.heroLede}
       />

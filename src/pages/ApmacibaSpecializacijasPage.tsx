@@ -11,10 +11,6 @@ export function ApmacibaSpecializacijasPage() {
   return (
     <Layout slug="apmaciba-specializacijas">
       <PageHero
-        trail={[
-          { label: content.nav[1].label, slug: 'apmaciba' },
-          { label: page.heroTitle, slug: 'apmaciba-specializacijas' },
-        ]}
         title={page.heroTitle}
         lede={page.heroLede}
       />
