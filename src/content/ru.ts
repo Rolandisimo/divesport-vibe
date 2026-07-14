@@ -331,6 +331,7 @@ const ru: SiteContent = {
         ],
       },
     ],
+    bookButtonLabel: 'Записаться',
     bookingEyebrow: 'Запись на курс',
     bookingTitle: 'Запишись на курс',
     bookingText: 'Нажми «Записаться» у нужного курса выше — эта форма заполнится автоматически. Затем добавь своё имя и email.',

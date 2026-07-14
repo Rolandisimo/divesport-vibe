@@ -7,6 +7,8 @@ import { DepthRail } from '@/components/home/DepthRail';
 import { TeamGrid } from '@/components/shared/TeamCard';
 import { Gallery } from '@/components/shared/Gallery';
 import { ContactForm } from '@/components/shared/ContactForm';
+import { ContactDetails } from '@/components/shared/ContactDetails';
+import { getAllCourseOptions } from '@/content';
 
 export function HomePage() {
   const { content, pathFor } = useLang();
@@ -108,37 +110,10 @@ export function HomePage() {
               <p className="section__eyebrow">{home.contactEyebrow}</p>
               <h2 className="section__title">{home.contactTitle}</h2>
               <p className="section__text">{home.contactText}</p>
-
-              <ul className="contact-info">
-                <li>
-                  <span>{content.lang === 'ru' ? 'Адрес' : 'Adrese'}</span> {content.contactInfo.address}
-                </li>
-                <li>
-                  <span>{content.lang === 'ru' ? 'Телефон' : 'Tālrunis'}</span>{' '}
-                  <a href={`tel:${content.contactInfo.phone.replace(/\s/g, '')}`}>{content.contactInfo.phone}</a>
-                </li>
-                <li>
-                  <span>{content.lang === 'ru' ? 'Эл. почта' : 'E-pasts'}</span>{' '}
-                  <a href={`mailto:${content.contactInfo.email}`}>{content.contactInfo.email}</a>
-                </li>
-                <li>
-                  <span>{content.lang === 'ru' ? 'Инструктор' : 'Instruktors'}</span> {content.contactInfo.instructor}
-                </li>
-              </ul>
-
-              <div className="map">
-                <iframe
-                  src="https://maps.google.com/maps?q=Stiebru%20iela%2015%2C%20Me%C5%BE%C4%81res%2C%20Bab%C4%ABtes%20pagasts%2C%20LV-2101&t=m&z=13&output=embed"
-                  width="100%"
-                  height="260"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  title="Divesport karte"
-                />
-              </div>
+              <ContactDetails />
             </div>
 
-            <ContactForm fromName="Divesport kontaktforma" />
+            <ContactForm fromName="Divesport kontaktforma" courseOptions={getAllCourseOptions(content)} />
           </div>
         </section>
       </main>

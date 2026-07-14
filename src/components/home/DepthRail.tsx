@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useDepthRail, type DepthStop } from '@/hooks/useDepthRail';
+import { scrollToId } from '@/utils/scroll';
 
 const STOPS: DepthStop[] = [
   { id: 'top', depth: 0 },
@@ -47,7 +48,7 @@ export function DepthRail() {
           <li
             key={stop.id}
             style={{ '--stop': `${(i / (STOPS.length - 1)) * 96}%` } as CSSProperties}
-            onClick={() => document.getElementById(stop.id)?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => scrollToId(stop.id)}
           >
             <em>{labels[i].depth}</em> {labels[i].label}
           </li>

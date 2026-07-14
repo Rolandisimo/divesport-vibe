@@ -5,15 +5,12 @@ import { CourseCatalog } from '@/components/shared/CourseCatalog';
 import { SubNav } from '@/components/shared/SubNav';
 import { ContactForm, type BookingRequest } from '@/components/shared/ContactForm';
 import { useLang } from '@/context/LangContext';
-
-const BOOK_LABEL: Record<'lv' | 'ru', string> = { lv: 'Pieteikties', ru: 'Записаться' };
+import { getAllCourseOptions } from '@/content';
 
 export function ApmacibaKursiPage() {
-  const { lang, content } = useLang();
+  const { content } = useLang();
   const { apmacibaKursi } = content;
   const [bookingRequest, setBookingRequest] = useState<BookingRequest | null>(null);
-
-  const allCourseValues = apmacibaKursi.tiers.flatMap((tier) => tier.courses.map((c) => c.bookingValue));
 
   function handleBook(course: string) {
     setBookingRequest((prev) => ({ course, nonce: (prev?.nonce ?? 0) + 1 }));
@@ -32,7 +29,7 @@ export function ApmacibaKursiPage() {
       <main>
         <section className="section">
           <div className="section__inner">
-            <CourseCatalog tiers={apmacibaKursi.tiers} bookLabel={BOOK_LABEL[lang]} onBook={handleBook} />
+            <CourseCatalog tiers={apmacibaKursi.tiers} bookLabel={apmacibaKursi.bookButtonLabel} onBook={handleBook} />
             <SubNav items={apmacibaKursi.subnav} />
           </div>
         </section>
@@ -46,7 +43,7 @@ export function ApmacibaKursiPage() {
             <div style={{ marginTop: 32 }}>
               <ContactForm
                 fromName="Divesport kursu pieteikums"
-                courseOptions={allCourseValues}
+                courseOptions={getAllCourseOptions(content)}
                 bookingRequest={bookingRequest}
                 sectionId="booking"
               />

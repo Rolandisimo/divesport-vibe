@@ -333,6 +333,7 @@ const lv: SiteContent = {
         ],
       },
     ],
+    bookButtonLabel: 'Pieteikties',
     bookingEyebrow: 'Pieteikšanās',
     bookingTitle: 'Piesakies kursam',
     bookingText: 'Uzklikšķini "Pieteikties" pie kursa augstāk — šī forma automātiski sagatavosies. Pēc tam pievieno savu vārdu un e-pastu.',

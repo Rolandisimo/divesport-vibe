@@ -174,6 +174,7 @@ export interface SiteContent {
     heroTitle: string;
     heroLede: string;
     tiers: CourseTier[];
+    bookButtonLabel: string;
     bookingEyebrow: string;
     bookingTitle: string;
     bookingText: string;

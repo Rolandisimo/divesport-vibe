@@ -1,5 +1,6 @@
 import { useLang } from '@/context/LangContext';
 import { useHeroGauge } from '@/hooks/useHeroGauge';
+import { scrollToId } from '@/utils/scroll';
 
 const HERO_BG = 'https://www.divesport.lv/wp-content/uploads/2018/04/akula-2-1300x535.jpg';
 
@@ -20,12 +21,12 @@ export function Hero() {
           ))}
         </h1>
         <div className="hero__cta">
-          <a href="#courses" className="btn btn--solid">
+          <button type="button" className="btn btn--solid" onClick={() => scrollToId('courses')}>
             {home.heroCtaPrimary}
-          </a>
-          <a href="#contact" className="btn btn--ghost">
+          </button>
+          <button type="button" className="btn btn--ghost" onClick={() => scrollToId('contact')}>
             {home.heroCtaSecondary}
-          </a>
+          </button>
         </div>
       </div>
       <div className="hero__gauge">

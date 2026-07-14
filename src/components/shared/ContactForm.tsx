@@ -14,14 +14,23 @@ export interface BookingRequest {
 interface ContactFormProps {
   /** A short, distinct label sent as the Web3Forms "from_name" so submissions are easy to tell apart in the inbox. */
   fromName: string;
-  /** When present, renders the Course + Preferred date fields and the course <select>. */
-  courseOptions?: string[];
+  /** The full list of bookable courses — every ContactForm instance gets the same list, from the same content source. */
+  courseOptions: string[];
   /** Set by a parent page when a course card's booking button is clicked. */
   bookingRequest?: BookingRequest | null;
-  /** Gives the wrapping <section> an id so booking buttons can scroll to it. */
+  /** Gives the wrapping element an id so booking buttons can scroll to it. */
   sectionId?: string;
 }
 
+/**
+ * The one contact form used everywhere on the site — homepage, Kontakti, and the Kursi
+ * booking flow all render this same component with the same props shape. The only things
+ * that differ between call sites are `fromName` (for inbox triage) and whether a page feeds
+ * in a `bookingRequest` (only the Kursi page's course buttons do that).
+ *
+ * The Course + Preferred date fields only appear once the visitor picks the course-request
+ * category — they're not a separate form variant, just a conditional section of this one.
+ */
 export function ContactForm({ fromName, courseOptions, bookingRequest, sectionId }: ContactFormProps) {
   const { content } = useLang();
   const { form: labels } = content;
@@ -39,17 +48,37 @@ export function ContactForm({ fromName, courseOptions, bookingRequest, sectionId
   const nameInputRef = useRef<HTMLInputElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  const isCourseRequest = category === labels.courseCategoryValue;
+
   // Reset the localized default category whenever the language changes.
   useEffect(() => {
     setCategory((prev) => (labels.categoryOptions.includes(prev) ? prev : labels.categoryOptions[0]));
   }, [labels.categoryOptions]);
 
-  // Prefill from a course booking click, then scroll to this form and focus Name.
+  // Single path for "a course got selected" — used both when the visitor picks one
+  // from the dropdown directly, and when a course card's booking button feeds one in.
+  // Keeping this in one function is what makes the description update in both cases
+  // instead of only the booking-button flow.
+  function selectCourse(value: string) {
+    setCourse(value);
+    setMessage(value ? labels.courseTemplate(value) : '');
+  }
+
+  function handleCategoryChange(value: string) {
+    setCategory(value);
+    if (value !== labels.courseCategoryValue) {
+      setCourse('');
+      setStartDate('');
+    }
+  }
+
+  // Prefill from a course booking click: switch to the course category, select the
+  // course (which also fills the message via selectCourse above), then scroll this
+  // form into view and focus Name.
   useEffect(() => {
     if (!bookingRequest) return;
     setCategory(labels.courseCategoryValue);
-    setCourse(bookingRequest.course);
-    setMessage(labels.courseTemplate(bookingRequest.course));
+    selectCourse(bookingRequest.course);
     sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     const timer = setTimeout(() => nameInputRef.current?.focus(), 450);
     return () => clearTimeout(timer);
@@ -66,7 +95,7 @@ export function ContactForm({ fromName, courseOptions, bookingRequest, sectionId
     }
 
     const payload: Record<string, string> = { from_name: fromName, name, email, category, message };
-    if (courseOptions) {
+    if (isCourseRequest) {
       payload.course = course;
       payload.start_date = startDate;
     }
@@ -130,18 +159,18 @@ export function ContactForm({ fromName, courseOptions, bookingRequest, sectionId
 
         <div className="form__row">
           <label htmlFor="category">{labels.category}</label>
-          <select id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+          <select id="category" value={category} onChange={(e) => handleCategoryChange(e.target.value)}>
             {labels.categoryOptions.map((opt) => (
               <option key={opt}>{opt}</option>
             ))}
           </select>
         </div>
 
-        {courseOptions && (
+        {isCourseRequest && (
           <>
             <div className="form__row">
               <label htmlFor="course">{labels.course}</label>
-              <select id="course" value={course} onChange={(e) => setCourse(e.target.value)}>
+              <select id="course" value={course} onChange={(e) => selectCourse(e.target.value)}>
                 <option value="">{labels.coursePlaceholder}</option>
                 {courseOptions.map((opt) => (
                   <option key={opt} value={opt}>
