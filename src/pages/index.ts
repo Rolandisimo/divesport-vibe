@@ -1,0 +1,14 @@
+export { HomePage } from './HomePage';
+export { AboutPage } from './AboutPage';
+export { ApmacibaHubPage } from './ApmacibaHubPage';
+export { ApmacibaKursiPage } from './ApmacibaKursiPage';
+export { ApmacibaSpecializacijasPage } from './ApmacibaSpecializacijasPage';
+export { ApmacibaTehniskaNirsanaPage } from './ApmacibaTehniskaNirsanaPage';
+export { ApmacibaInstruktoruKursiPage } from './ApmacibaInstruktoruKursiPage';
+export { CelojumiHubPage } from './CelojumiHubPage';
+export { CelojumiFotoPage } from './CelojumiFotoPage';
+export { InventarsHubPage } from './InventarsHubPage';
+export { InventarsNomaPage } from './InventarsNomaPage';
+export { InventarsRemontsPage } from './InventarsRemontsPage';
+export { InventarsBalonuUzpildisanaPage } from './InventarsBalonuUzpildisanaPage';
+export { KontaktiPage } from './KontaktiPage';
