@@ -11,7 +11,7 @@ import type { Trip } from '@/types/sheets';
 export function CelojumiHubPage() {
   const { content } = useLang();
   const { celojumiHub: page, form } = content;
-  const { upcoming, pastByYear } = useTrips();
+  const { upcomingByYear, pastByYear } = useTrips();
   const { bookingOptions } = useCourseCatalog();
   const [prefillRequest, setPrefillRequest] = useState<PrefillRequest | null>(null);
 
@@ -23,11 +23,25 @@ export function CelojumiHubPage() {
     }));
   }
 
+  function handleContactUs() {
+    setPrefillRequest((prev) => ({
+      category: form.tripCategoryValue,
+      message: form.tripGeneralInquiryMessage,
+      nonce: (prev?.nonce ?? 0) + 1,
+    }));
+  }
+
   return (
     <Layout slug="celojumi">
       <PageHero title={page.heroTitle} lede={page.heroLede} />
       <main>
-        <TripsList upcoming={upcoming} pastByYear={pastByYear} bookLabel={page.tripBookButtonLabel} onBook={handleBookTrip} />
+        <TripsList
+          upcomingByYear={upcomingByYear}
+          pastByYear={pastByYear}
+          bookLabel={page.tripBookButtonLabel}
+          onBook={handleBookTrip}
+          onContactUs={handleContactUs}
+        />
 
         <section className="section">
           <div className="section__inner" style={{ maxWidth: 640 }}>

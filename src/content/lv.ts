@@ -96,6 +96,8 @@ const lv: SiteContent = {
     tripCategoryValue: 'Ceļojumi',
     tripTemplate: (tripTitle) =>
       `Interesē ceļojums: ${tripTitle}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus un rezervāciju.`,
+    tripGeneralInquiryMessage:
+      'Interesē informācija par turpmākajiem ceļojumiem. Lūdzu, sazinieties ar mani, kad būs zināmi jauni datumi.',
   },
   home: {
     heroEyebrow: 'Niršanas klubs · kopš 2003',

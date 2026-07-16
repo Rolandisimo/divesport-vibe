@@ -108,6 +108,7 @@ export interface FormLabels {
   /** The category option that should be preselected when arriving via a trip booking button. */
   tripCategoryValue: string;
   tripTemplate: (tripTitle: string) => string;
+  tripGeneralInquiryMessage: string;
 }
 
 export interface SiteContent {

@@ -96,6 +96,8 @@ const ru: SiteContent = {
     tripCategoryValue: 'Путешествия',
     tripTemplate: (tripTitle) =>
       `Интересует поездка: ${tripTitle}. Пожалуйста, свяжитесь со мной, чтобы обсудить даты и бронирование.`,
+    tripGeneralInquiryMessage:
+      'Интересует информация о будущих поездках. Пожалуйста, свяжитесь со мной, когда появятся новые даты.',
   },
   home: {
     heroEyebrow: 'Дайвинг-клуб · с 2003 года',
