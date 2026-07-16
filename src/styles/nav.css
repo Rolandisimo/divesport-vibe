@@ -1,0 +1,173 @@
+@layer components {
+  /* ============ TOPBAR ============ */
+  .topbar {
+    @apply bg-abyss border-b border-line font-mono text-[0.72rem] text-mist;
+  }
+  .topbar__inner {
+    @apply max-w-site mx-auto px-6 py-2 flex justify-between items-center
+           max-md:flex-col max-md:gap-2 max-md:py-2.5 max-md:px-5;
+  }
+  .topbar__contact a {
+    @apply text-mist hover:text-amber;
+  }
+  .topbar__contact {
+    @apply max-md:flex-wrap max-md:justify-center max-md:text-center;
+  }
+  .topbar .dot {
+    @apply mx-2 opacity-50;
+  }
+  .topbar__right {
+    @apply max-md:justify-center;
+  }
+  .topbar__social {
+    @apply flex gap-3.5;
+  }
+  .topbar__social a {
+    @apply text-mist tracking-[0.05em] hover:text-teal;
+  }
+
+  .topbar__lang {
+    @apply flex items-center gap-0.5 ml-[18px] p-0.5 border border-line rounded-full
+           font-mono text-[0.66rem] tracking-[0.04em] relative;
+  }
+  .topbar__lang::before {
+    content: '';
+    @apply absolute -left-3 top-1/2 -translate-y-1/2 w-px h-3.5 bg-line;
+  }
+  .topbar__lang a,
+  .topbar__lang-active {
+    @apply px-2.5 py-1 rounded-full leading-tight;
+  }
+  .topbar__lang a {
+    @apply text-mist hover:text-foam;
+  }
+  .topbar__lang-active {
+    @apply bg-teal text-abyss font-bold;
+  }
+
+  /* ============ NAV ============ */
+  .nav {
+    @apply sticky top-0 z-[100] border-b border-line;
+    background: rgba(5, 20, 28, 0.85);
+    backdrop-filter: blur(10px);
+  }
+  .nav__inner {
+    @apply max-w-site mx-auto px-6 py-4 flex items-center justify-between;
+  }
+  .nav__logo {
+    @apply font-display text-[1.4rem] font-bold tracking-[0.04em] flex items-center gap-2 max-sm:text-[1.2rem];
+  }
+  .nav__logo span {
+    @apply text-teal;
+  }
+  .nav__logo-mark {
+    @apply text-amber text-base;
+  }
+  .nav__links {
+    @apply flex items-center gap-7;
+  }
+  .nav__links a {
+    @apply font-mono text-[0.78rem] uppercase tracking-[0.06em] text-mist relative pb-1
+           transition-colors duration-200 hover:text-foam;
+  }
+  .nav__links a.active {
+    @apply text-foam;
+  }
+  .nav__links a::after {
+    content: '';
+    @apply absolute left-0 bottom-0 h-px w-0 bg-amber transition-[width] duration-[250ms];
+  }
+  .nav__links a:hover::after,
+  .nav__links a.active::after {
+    @apply w-full;
+  }
+  .nav__toggle {
+    @apply hidden bg-transparent border-0 flex-col gap-[5px] cursor-pointer p-2.5 -m-2.5;
+  }
+  .nav__toggle span {
+    @apply w-[22px] h-0.5 bg-foam transition-transform duration-[250ms];
+  }
+  .nav__toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav__toggle.active span:nth-child(2) {
+    @apply opacity-0;
+  }
+  .nav__toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ============ NAV DROPDOWNS ============ */
+  .nav__drop {
+    @apply relative flex items-center;
+  }
+  .nav__drop-menu {
+    @apply absolute top-full left-0 mt-3.5 min-w-[220px] bg-deep border border-line rounded-sm
+           py-2 hidden flex-col z-50;
+  }
+  /* Invisible bridge so the cursor never loses :hover while crossing the gap to the dropdown. */
+  .nav__drop-menu::before {
+    content: '';
+    @apply absolute -top-3.5 left-0 right-0 h-3.5;
+  }
+  .nav__drop-menu a {
+    @apply px-[18px] py-2.5 text-[0.76rem] normal-case tracking-[0.02em];
+  }
+  .nav__drop-menu a:hover {
+    @apply bg-foam/5 text-foam;
+  }
+  .nav__drop-menu a::after {
+    @apply hidden;
+  }
+  .nav__drop:hover .nav__drop-menu,
+  .nav__drop:focus-within .nav__drop-menu {
+    @apply flex;
+  }
+  .nav__drop > a::before {
+    content: '▾';
+    @apply inline-block ml-[5px] text-[0.6rem] text-mist;
+  }
+
+  /* ============ MOBILE NAV ============ */
+  .nav-backdrop {
+    @apply fixed inset-0 z-[95] opacity-0 pointer-events-none transition-opacity duration-300;
+    background: rgba(5, 20, 28, 0.65);
+  }
+  body.nav-open {
+    @apply overflow-hidden;
+  }
+  body.nav-open .nav-backdrop {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  @media (max-width: 900px) {
+    .nav__links {
+      @apply fixed top-0 right-0 h-screen flex-col items-start gap-6 border-l border-line
+             overflow-y-auto z-[96];
+      width: min(300px, 82vw);
+      background: theme('colors.deep');
+      padding: 100px 28px 40px;
+      transform: translateX(100%);
+      transition: transform 0.3s;
+    }
+    .nav__links.open {
+      transform: translateX(0);
+    }
+    .nav__toggle {
+      @apply flex;
+    }
+    .nav__drop {
+      @apply flex flex-col gap-2.5 w-full;
+    }
+    .nav__drop-menu {
+      @apply flex static m-0 ml-3.5 mt-1 p-0 border-0 gap-1;
+      background: none;
+    }
+    .nav__drop-menu::before {
+      @apply hidden;
+    }
+    .nav__drop-menu a {
+      @apply py-2 px-0 text-[0.74rem] text-mist;
+    }
+  }
+}

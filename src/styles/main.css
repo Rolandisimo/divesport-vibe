@@ -1,0 +1,15 @@
+@import 'tailwindcss/base';
+@import './base.css';
+
+@import 'tailwindcss/components';
+@import './buttons.css';
+@import './layout.css';
+@import './nav.css';
+@import './hero.css';
+@import './media.css';
+@import './forms.css';
+@import './trips.css';
+@import './courses.css';
+@import './footer.css';
+
+@import 'tailwindcss/utilities';

@@ -1,0 +1,124 @@
+@layer components {
+  /* ============ TABS ============ */
+  .trip-tabs {
+    @apply flex gap-7 my-[22px] mt-[22px] mb-2 border-b border-line;
+  }
+  .trip-tab {
+    @apply font-mono text-[0.78rem] uppercase tracking-[0.05em] text-mist py-2.5 px-0.5 border-none
+           bg-transparent cursor-pointer relative transition-colors duration-200 hover:text-foam;
+  }
+  .trip-tab.active {
+    @apply text-teal;
+  }
+  .trip-tab.active::after {
+    content: '';
+    @apply absolute left-0 right-0 -bottom-px h-0.5 bg-teal;
+  }
+
+  /* ============ EMPTY STATE ============ */
+  .trip-year-list {
+    @apply mt-7;
+  }
+  .trip-empty {
+    @apply mt-7 px-7 py-9 text-center bg-panel border border-line rounded;
+  }
+  .trip-empty p {
+    @apply text-mist mb-5 text-[0.94rem];
+  }
+  .trip-empty__actions {
+    @apply flex gap-3.5 justify-center flex-wrap max-md:flex-col;
+  }
+  .trip-empty__actions .btn {
+    @apply max-md:w-full;
+  }
+
+  /* ============ COLLAPSIBLE YEAR GROUPS ============ */
+  .trip-year-details {
+    @apply border-b border-line;
+  }
+  .trip-year-details summary {
+    @apply cursor-pointer list-none flex items-center gap-3 py-[18px] font-mono text-base font-bold text-amber;
+  }
+  .trip-year-details summary::-webkit-details-marker {
+    display: none;
+  }
+  .trip-year-details summary::before {
+    content: '+';
+    @apply text-mist font-normal w-3.5 flex-shrink-0;
+  }
+  .trip-year-details[open] summary::before {
+    content: '–';
+  }
+  .trip-year-count {
+    @apply text-mist font-normal text-[0.76rem] uppercase tracking-[0.04em];
+  }
+
+  /* ============ PAST TRIP ROWS (compact) ============ */
+  .trip-row-list {
+    @apply pb-4;
+  }
+  .trip-row {
+    @apply flex items-baseline gap-3 py-2.5 pl-[26px] border-t border-line text-[0.88rem] text-foam
+           max-md:flex-wrap;
+  }
+  .trip-row__flag {
+    @apply flex-shrink-0;
+  }
+  .trip-row__title {
+    @apply flex-1;
+  }
+  .trip-row__dates {
+    @apply text-mist font-mono text-[0.74rem] whitespace-nowrap max-md:w-full max-md:pl-0;
+  }
+
+  /* ============ UPCOMING TRIP CARDS (full detail) ============ */
+  .trip-list {
+    @apply flex flex-col gap-5 mt-8;
+  }
+  .trip-card {
+    @apply bg-panel border border-line rounded overflow-hidden flex flex-wrap
+           transition-colors duration-200 hover:border-teal max-md:flex-col;
+  }
+  .trip-card__img {
+    @apply w-[260px] min-h-[220px] bg-cover bg-center flex-shrink-0 max-md:w-full max-md:h-[180px] max-md:min-h-0;
+  }
+  .trip-card__body {
+    @apply px-[30px] py-7 flex-1 min-w-[280px];
+  }
+  .trip-card__body h3 {
+    @apply text-[1.3rem] mb-2.5;
+  }
+  .trip-card__flag {
+    @apply mr-2.5 inline-block;
+  }
+  .trip-card__intro {
+    @apply text-mist text-[0.92rem] mb-[22px] max-w-[640px];
+  }
+  .trip-card__grid {
+    @apply grid gap-x-8 gap-y-5 pt-[18px] border-t border-line max-lg:grid-cols-1;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .trip-card__section p.trip-card__label {
+    @apply font-mono text-[0.72rem] uppercase tracking-[0.05em] text-teal mb-2;
+  }
+  .trip-card__section ul {
+    @apply flex flex-col gap-1;
+  }
+  .trip-card__section li {
+    @apply text-foam text-[0.86rem] pl-3.5 relative;
+  }
+  .trip-card__section li::before {
+    content: '–';
+    @apply absolute left-0 text-mist;
+  }
+  .trip-card__footer {
+    @apply flex items-center justify-between flex-wrap gap-3.5 mt-[22px] pt-[18px] border-t border-line
+           max-md:flex-col max-md:items-stretch;
+  }
+  .trip-card__footer .btn {
+    @apply max-md:w-full;
+  }
+  .trip-card__price {
+    @apply font-mono text-[0.82rem] text-amber;
+  }
+}

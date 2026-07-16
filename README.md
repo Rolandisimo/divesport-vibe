@@ -49,6 +49,46 @@ src/
   App.tsx                   Route table: 14 paths, each auto-registered in both languages
 ```
 
+## Styling
+
+The whole site runs on **Tailwind CSS** — every class is built from Tailwind utilities via
+`@apply`, using design tokens (colors, fonts, custom breakpoints) defined once in
+`tailwind.config.js`, instead of hand-written hex values and `:root` CSS variables.
+
+Component class names in the JSX (`.hero`, `.trip-card`, `.btn--solid`, etc.) **didn't change** —
+what changed is what backs them. This keeps every component file untouched while the actual
+styling underneath is now fully Tailwind-driven.
+
+The stylesheet is split by feature instead of one large file:
+
+```
+src/styles/
+  main.css       Entry point — imports Tailwind's base/components/utilities + every file below
+  base.css       Global resets, grain texture, focus states, reduced-motion (@layer base)
+  buttons.css    .btn and its variants
+  layout.css     .section, the card grid system, .team
+  nav.css        Topbar, language switcher, main nav, dropdowns, mobile flyout menu
+  hero.css       Homepage hero, depth rail, quick-paths, inner-page hero banner
+  media.css      Gallery, lightbox, destination grid, travel image strip
+  forms.css      Contact info, map embed, the shared contact form, price list
+  trips.css      Trip tabs, empty state, collapsible year groups, trip cards
+  courses.css    Course catalog cards, badge cards, subnav
+  footer.css     Site footer
+```
+
+**Custom breakpoints**, since this design is desktop-first (base styles are the desktop layout,
+smaller screens get override variants) rather than Tailwind's default mobile-first convention:
+
+```
+max-sm   ≤400px   max-md   ≤560px   max-lg  ≤700px
+max-xl   ≤900px   max-2xl  ≤1100px
+```
+
+A handful of things stay as plain CSS inside `@layer components` blocks because they're not
+expressible as Tailwind utilities: the SVG noise texture (`.grain`), the nav dropdown's invisible
+hover-bridge pseudo-element, gradient overlays, and `<details>`'s `::-webkit-details-marker`
+(no Tailwind variant covers that specific pseudo-element).
+
 ## Course booking flow
 
 Clicking "Pieteikties"/"Записаться" on a course card doesn't navigate anywhere — it lifts state

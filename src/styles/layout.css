@@ -1,0 +1,84 @@
+@layer components {
+  /* ============ SECTIONS ============ */
+  .section {
+    @apply px-6 py-[110px] relative max-md:px-5 max-md:py-16;
+  }
+  .section--alt {
+    @apply bg-deep;
+  }
+  .section__inner {
+    @apply max-w-site mx-auto;
+  }
+  .section__inner--split {
+    @apply grid gap-16 items-start max-xl:grid-cols-1;
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+  .section__eyebrow {
+    @apply font-mono text-teal uppercase tracking-[0.12em] text-[0.78rem] mb-3;
+  }
+  .section__title {
+    @apply text-[clamp(2rem,3.6vw,2.8rem)] mb-[26px] max-sm:text-[1.7rem];
+  }
+  .section__text {
+    @apply text-mist max-w-[680px] text-[1.02rem];
+  }
+
+  /* ============ CARD GRID ============ */
+  .cards {
+    @apply grid gap-6 mt-[50px] max-xl:grid-cols-2 max-md:grid-cols-1;
+  }
+  .cards--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .cards--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .card {
+    @apply bg-panel border border-line rounded block relative px-[26px] py-[30px]
+           transition-colors transition-transform duration-200 hover:border-teal hover:-translate-y-0.5;
+  }
+  .card__num {
+    @apply font-mono text-teal/50 text-[1.8rem] block mb-3.5;
+  }
+  .card h3 {
+    @apply text-[1.3rem] mb-2.5;
+  }
+  .card p {
+    @apply text-mist text-[0.94rem] m-0;
+  }
+  .card__list {
+    @apply mt-1;
+  }
+  .card__list li {
+    @apply text-mist text-[0.9rem] py-[7px] pl-4 border-t border-line relative first:border-t-0;
+  }
+  .card__list li::before {
+    content: '—';
+    @apply absolute left-0 text-teal;
+  }
+
+  /* ============ TEAM ============ */
+  .team {
+    @apply grid grid-cols-2 gap-8 mt-14 max-xl:grid-cols-1;
+  }
+  .team__card {
+    @apply bg-panel border border-line rounded overflow-hidden flex flex-col;
+  }
+  .team__photo {
+    @apply h-[230px] bg-cover;
+    background-position: center top;
+    filter: saturate(0.9);
+  }
+  .team__body {
+    @apply px-7 pt-[26px] pb-[30px];
+  }
+  .team__body h3 {
+    @apply text-2xl mb-1.5;
+  }
+  .team__cert {
+    @apply font-mono text-[0.72rem] text-amber my-1 tracking-[0.02em];
+  }
+  .team__body blockquote {
+    @apply mt-4 pl-4 border-l-2 border-teal text-mist italic text-[0.94rem];
+  }
+}

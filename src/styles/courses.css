@@ -1,0 +1,71 @@
+@layer components {
+  /* ============ COURSE CATALOG ============ */
+  .course-tier {
+    @apply font-mono uppercase tracking-[0.1em] text-[0.76rem] text-teal mt-12 mb-[18px] first-of-type:mt-2;
+  }
+  .course-catalog {
+    @apply flex flex-col gap-3.5;
+  }
+  .course-card {
+    @apply bg-panel border border-line rounded px-7 py-[26px]
+           transition-colors transition-transform duration-200 hover:border-teal hover:-translate-y-0.5
+           max-md:px-5 max-md:py-[22px];
+  }
+  .course-card__tag {
+    @apply inline-block font-mono text-[0.64rem] uppercase tracking-[0.06em] text-teal
+           bg-teal/10 border border-teal-dim px-2.5 py-1 rounded-full mb-3.5;
+  }
+  .course-card__tag--popular {
+    @apply text-amber bg-amber/10 border-amber/40;
+  }
+  .course-card h3 {
+    @apply text-[1.25rem] mb-2;
+  }
+  .course-card p {
+    @apply text-mist text-[0.9rem] max-w-[660px] mb-5;
+  }
+  .course-card__footer {
+    @apply flex items-center justify-between flex-wrap gap-3.5 pt-4 border-t border-line
+           max-md:flex-col max-md:items-stretch;
+  }
+  .course-card__footer .btn {
+    @apply max-md:w-full;
+  }
+  .course-card__price {
+    @apply font-mono text-[1.3rem] text-amber font-bold max-md:text-[1.15rem];
+  }
+
+  /* ============ BADGE CARDS ============ */
+  .badge-cards {
+    @apply grid gap-6 mt-[50px] max-xl:grid-cols-2 max-md:grid-cols-1;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .badge-card {
+    @apply bg-panel border border-line rounded text-center px-6 py-8 transition-colors duration-200
+           hover:border-teal max-sm:px-[18px] max-sm:py-6;
+  }
+  .badge-card img {
+    @apply w-14 h-14 mx-auto mb-[18px] object-contain;
+  }
+  .badge-card h3 {
+    @apply text-[1.1rem] mb-2;
+  }
+  .badge-card p {
+    @apply text-mist text-[0.86rem] mb-4;
+  }
+  .badge-card .btn {
+    @apply text-[0.72rem] px-[18px] py-2.5;
+  }
+
+  /* ============ SUBPAGE NAV ============ */
+  .subnav {
+    @apply flex flex-wrap gap-2.5 mt-10;
+  }
+  .subnav a {
+    @apply font-mono text-[0.74rem] uppercase tracking-[0.04em] px-4 py-[9px] border border-line rounded-sm text-mist;
+  }
+  .subnav a:hover,
+  .subnav a.active {
+    @apply border-teal text-foam;
+  }
+}

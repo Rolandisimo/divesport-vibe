@@ -3,7 +3,6 @@ import { Layout } from '@/components/layout/Layout';
 import { useLang } from '@/context/LangContext';
 import { Hero } from '@/components/home/Hero';
 import { QuickPaths } from '@/components/home/QuickPaths';
-import { DepthRail } from '@/components/home/DepthRail';
 import { TeamGrid } from '@/components/shared/TeamCard';
 import { Gallery } from '@/components/shared/Gallery';
 import { ContactForm } from '@/components/shared/ContactForm';
@@ -17,7 +16,6 @@ export function HomePage() {
 
   return (
     <Layout slug="home">
-      <DepthRail />
       <Hero />
       <QuickPaths />
 

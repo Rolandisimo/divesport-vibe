@@ -1,0 +1,80 @@
+@layer components {
+  .section--contact {
+    @apply bg-deep;
+  }
+
+  /* ============ CONTACT INFO ============ */
+  .contact-info {
+    @apply mt-[34px];
+  }
+  .contact-info li {
+    @apply py-3.5 border-t border-line text-[0.95rem] text-foam last:border-b last:border-line;
+  }
+  .contact-info span {
+    @apply block font-mono text-[0.68rem] text-teal uppercase tracking-[0.1em] mb-1;
+  }
+  .contact-info a:hover {
+    @apply text-amber;
+  }
+  .map {
+    @apply mt-7 border border-line rounded overflow-hidden;
+    filter: grayscale(0.3) invert(0.92) contrast(0.9);
+  }
+
+  /* ============ CONTACT FORM ============ */
+  .form-wrap {
+    @apply flex flex-col gap-3.5;
+  }
+  .form__banner {
+    @apply hidden px-[18px] py-3.5 rounded-sm text-[0.9rem] bg-teal/10 border border-teal text-teal;
+  }
+  .form__banner:not(:empty) {
+    @apply block;
+  }
+  .form__banner--error {
+    @apply bg-danger/10 border-danger text-danger;
+  }
+  .form {
+    @apply bg-panel border border-line rounded p-9 max-md:p-6;
+  }
+  .form__row {
+    @apply mb-5;
+  }
+  .form__row label {
+    @apply block font-mono text-[0.7rem] uppercase tracking-[0.08em] text-mist mb-2;
+  }
+  .form__row input,
+  .form__row select,
+  .form__row textarea {
+    @apply w-full bg-abyss border border-line text-foam px-[14px] py-3 rounded-sm font-body text-[0.95rem]
+           transition-colors duration-200 focus:outline-none focus:border-teal;
+  }
+  .form__row textarea {
+    @apply resize-y;
+  }
+  .form__optional {
+    @apply normal-case tracking-normal font-normal text-mist text-[0.68rem] ml-1;
+  }
+  .form__row input[aria-invalid='true'],
+  .form__row textarea[aria-invalid='true'] {
+    @apply border-danger;
+  }
+
+  /* ============ PRICE LIST ============ */
+  .price-list {
+    @apply mt-9 border-t border-line;
+  }
+  .price-list__row {
+    @apply flex justify-between gap-5 py-[18px] border-b border-line items-baseline
+           max-md:flex-col max-md:items-start max-md:gap-1;
+  }
+  .price-list__row dt {
+    @apply text-[0.98rem] text-foam;
+  }
+  .price-list__row dd {
+    @apply m-0 font-mono text-amber text-[1.05rem] whitespace-nowrap font-bold;
+  }
+  .price-note {
+    @apply mt-6 px-5 py-4 bg-panel border border-line rounded text-mist text-[0.88rem];
+  }
+}

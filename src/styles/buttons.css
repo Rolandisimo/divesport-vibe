@@ -1,0 +1,21 @@
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center font-mono text-[0.82rem] uppercase tracking-[0.06em]
+           px-7 py-3.5 rounded-sm border border-transparent cursor-pointer transition-all duration-200;
+  }
+  .btn--solid {
+    @apply bg-teal text-abyss font-bold hover:bg-amber;
+  }
+  .btn--ghost {
+    @apply border-line text-foam hover:border-teal hover:text-teal;
+  }
+  .btn--full {
+    @apply w-full;
+  }
+  .btn--sm {
+    @apply px-4 py-[9px] text-[0.7rem];
+  }
+  .btn[disabled] {
+    @apply opacity-60 cursor-wait;
+  }
+}
