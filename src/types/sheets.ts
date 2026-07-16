@@ -7,7 +7,11 @@ export interface SheetCourseRow extends Course {
 
 /** An "upcoming trip" entry — this concept only exists via the sheet, there's no static fallback content for it.
  *  Several fields (dates, highlights, accommodation, gettingThere) hold a LIST of bullet points — in the
- *  sheet these are one cell each, with each bullet on its own line (Alt+Enter in Google Sheets). */
+ *  sheet these are one cell each, with each bullet on its own line (Alt+Enter in Google Sheets).
+ *
+ *  Dates must be written as dd.mm.yyyy (e.g. "15.08.2026") — that format is identical in every
+ *  language, so the same parser handles LV and RU rows without any per-language date logic, and the
+ *  owner doesn't need to figure out how to phrase a date differently per language. */
 export interface Trip {
   flag: string;
   title: string;
@@ -20,6 +24,22 @@ export interface Trip {
   divingPrice: string;
   imageUrl: string;
   cta: string;
+  /** The latest dd.mm.yyyy date found anywhere in the `dates` bullets. Null if none were found
+   *  (parsed as a bare fallback, treated as upcoming so a trip never silently disappears). */
+  lastDate: Date | null;
+  /** The year to file this trip under once it's past — derived from lastDate, defaulting to the
+   *  current year if no date was parseable. */
+  year: number;
+}
+
+export interface PastTripsByYear {
+  year: number;
+  trips: Trip[];
+}
+
+export interface SplitTrips {
+  upcoming: Trip[];
+  pastByYear: PastTripsByYear[];
 }
 
 function requireField(row: Record<string, string>, key: string): string | null {
@@ -89,15 +109,38 @@ export function mapTankPriceRow(row: Record<string, string>): PriceRow | null {
   return { label, price };
 }
 
+/** Matches dd.mm.yyyy (e.g. "15.08.2026"), the one date format used everywhere in the sheet —
+ *  identical regardless of language, so this is the only date parser the whole app needs. */
+const DATE_PATTERN = /\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b/g;
+
+/** Finds every dd.mm.yyyy date across a trip's `dates` bullets and returns the latest one.
+ *  Using the latest (not the first) means a trip with several date options only counts as
+ *  "past" once every option has actually passed. */
+function findLastDate(lines: string[]): Date | null {
+  let latest: Date | null = null;
+  for (const line of lines) {
+    for (const match of line.matchAll(DATE_PATTERN)) {
+      const [, dd, mm, yyyy] = match;
+      const candidate = new Date(Number(yyyy), Number(mm) - 1, Number(dd));
+      if (!latest || candidate > latest) latest = candidate;
+    }
+  }
+  return latest;
+}
+
 export function mapTripRow(row: Record<string, string>): Trip | null {
   const title = requireField(row, 'title');
   if (!title) return null;
+
+  const dates = splitLines(row.dates);
+  const lastDate = findLastDate(dates);
+  const year = lastDate ? lastDate.getFullYear() : new Date().getFullYear();
 
   return {
     flag: row.flag?.trim() ?? '',
     title,
     intro: row.intro?.trim() ?? '',
-    dates: splitLines(row.dates),
+    dates,
     highlights: splitLines(row.highlights),
     accommodation: splitLines(row.accommodation),
     gettingThere: splitLines(row.gettingThere),
@@ -105,7 +148,33 @@ export function mapTripRow(row: Record<string, string>): Trip | null {
     divingPrice: row.divingPrice?.trim() ?? '',
     imageUrl: row.imageUrl?.trim() ?? '',
     cta: row.cta?.trim() ?? '',
+    lastDate,
+    year,
   };
+}
+
+/** Buckets trips into "upcoming" (today or later) and "past", the latter grouped by year with
+ *  the most recent past year first. Trips with no parseable date are always treated as upcoming,
+ *  so a malformed dates cell never makes a trip silently vanish instead of just miscategorizing it. */
+export function splitTrips(trips: Trip[]): SplitTrips {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming = trips.filter((t) => !t.lastDate || t.lastDate >= today);
+  const past = trips.filter((t) => t.lastDate && t.lastDate < today);
+
+  const byYear = new Map<number, Trip[]>();
+  for (const trip of past) {
+    const list = byYear.get(trip.year) ?? [];
+    list.push(trip);
+    byYear.set(trip.year, list);
+  }
+
+  const pastByYear = Array.from(byYear.entries())
+    .sort(([a], [b]) => b - a)
+    .map(([year, yearTrips]) => ({ year, trips: yearTrips }));
+
+  return { upcoming, pastByYear };
 }
 
 /** Flattens the static CourseTier[] (from content/lv.ts, content/ru.ts) into the same

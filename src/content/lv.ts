@@ -395,18 +395,8 @@ const lv: SiteContent = {
   },
   celojumiHub: {
     heroTitle: 'Ceļojumi',
-    heroLede: 'Šajā sadaļā jūs varat iepazīties ar plānotiem ceļojumiem, kurus organizē mūsu klubs.',
-    paragraphs: [
-      'Organizējam niršanas ceļojumus un ar daivingu saistītus pasākumus visā pasaulē. Mēs neapstājamies pie pazīstamākajām vietām — ar vietējo iedzīvotāju palīdzību meklējam maršrutus, kas atklāj gan neskartu dabu, gan vietējo kultūru un sadzīvi.',
-      'Aktuālie galamērķi un datumi mainās sezonāli — sazinies ar mums, lai uzzinātu, kas ir ieplānots tuvākajā laikā.',
-    ],
-    ctaPrimary: 'Uzzināt par tuvākajiem ceļojumiem',
-    ctaSecondary: 'Skatīt foto',
-    images: [
-      'https://www.divesport.lv/wp-content/uploads/2018/04/IMG_9549-1-900x370.jpg',
-      'https://www.divesport.lv/wp-content/uploads/2018/04/IMG_1448-1-900x370.jpg',
-      'https://www.divesport.lv/wp-content/uploads/2018/04/P1155193-1-900x370.jpg',
-    ],
+    heroLede:
+      'Niršanas ceļojumi visā pasaulē — ar vietējo palīdzību atklājam vietas ārpus ierastajām tūristu takām.',
     tripBookButtonLabel: 'Pieteikties šim ceļojumam',
     bookingEyebrow: 'Pieteikšanās',
     bookingTitle: 'Piesakies ceļojumam',

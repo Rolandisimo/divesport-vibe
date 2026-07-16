@@ -530,6 +530,24 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,
 }
 
 /* ============ TRIPS (CMS-driven upcoming trips) ============ */
+.trip-tabs{display:flex;gap:28px;margin:22px 0 8px;border-bottom:1px solid var(--line);}
+.trip-tab{
+  font-family:var(--font-mono);font-size:0.78rem;text-transform:uppercase;letter-spacing:0.05em;
+  color:var(--mist);padding:10px 2px;border:none;background:none;cursor:pointer;
+  position:relative;transition:color 0.2s;
+}
+.trip-tab:hover{color:var(--foam);}
+.trip-tab.active{color:var(--teal);}
+.trip-tab.active::after{
+  content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--teal);
+}
+.trip-year-group{margin-top:36px;}
+.trip-year-group:first-of-type{margin-top:28px;}
+.trip-year-heading{
+  font-family:var(--font-mono);font-size:0.82rem;font-weight:700;color:var(--amber);
+  letter-spacing:0.04em;margin:0 0 14px;
+}
+.trip-card--past{opacity:0.82;}
 .trip-list{display:flex;flex-direction:column;gap:20px;margin-top:32px;}
 .trip-card{
   background:var(--panel);border:1px solid var(--line);border-radius:6px;
@@ -648,6 +666,9 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto;}
   .cards--4,.cards--3{grid-template-columns:1fr 1fr;}
   .gallery{grid-template-columns:repeat(2,1fr);}
 }
+@media (max-width:700px){
+  .hero{min-height:auto;padding:110px 0 60px;}
+}
 @media (max-width:560px){
   .topbar__inner{flex-direction:column;gap:8px;padding:10px 20px;}
   .topbar__contact{flex-wrap:wrap;justify-content:center;text-align:center;}
@@ -656,6 +677,7 @@ body.nav-open .nav-backdrop{opacity:1;pointer-events:auto;}
   .section{padding:64px 20px;}
   .page-hero{padding:32px 20px 26px;}
   .form{padding:24px;}
+  .hero{padding:96px 0 48px;}
   .hero__cta{flex-direction:column;align-items:stretch;}
   .hero__cta .btn{width:100%;}
   .price-list__row{flex-direction:column;align-items:flex-start;gap:4px;}

@@ -96,9 +96,10 @@ Replaces the pricing table on the Balonu uzpildīšana (tank fill) page.
 
 ## Tab: Trips
 
-A new "Upcoming trips" section that appears on the Ceļojumi page — **only shows up at
-all once this tab has rows**, so it's fine to leave empty until there's an actual trip
-to announce.
+Appears on the Ceļojumi page as two sections: **upcoming trips** and, once any trip's
+dates are in the past, an automatically-appearing **past trips archive**, grouped by
+year. Both sections only show up once there's at least one row for them — it's fine to
+leave this tab mostly empty until there's an actual trip to announce.
 
 This is modeled directly on how trip announcements already get written for Facebook/
 Instagram — flag emoji, a short intro, a few bullet-point sections, and pricing lines.
@@ -109,7 +110,7 @@ Instagram — flag emoji, a short intro, a few bullet-point sections, and pricin
 | `flag` | no | `🇳🇴` |
 | `title` | yes | `Niršanas ceļojums uz Averøy salu — vasara 2026` |
 | `intro` | no | `Aicinām jūs uz aizraujošu niršanas piedzīvojumu Norvēģijā...` |
-| `dates` | no | see "multi-line cells" below — one date range per line |
+| `dates` | no | see **date format** below — one date range per line |
 | `highlights` | no | "what awaits you" bullets, one per line |
 | `accommodation` | no | accommodation details, one bullet per line |
 | `gettingThere` | no | travel/logistics bullets, one per line |
@@ -117,6 +118,22 @@ Instagram — flag emoji, a short intro, a few bullet-point sections, and pricin
 | `divingPrice` | no | `450 € / 10 niršanām` |
 | `imageUrl` | no | same as Destinations tab above |
 | `cta` | no | `Rakstiet privāti, lai saņemtu sīkāku informāciju...` — leave blank to use a generic default |
+
+**Date format — always `dd.mm.yyyy`, e.g. `15.08.2026`.** This is what the site reads to
+automatically decide whether a trip is upcoming or already past, and which year to file
+it under in the archive. Use this exact numeric format in the `dates` cell **regardless
+of language** — write it the same way in both the `lv` row and the `ru` row. Numbers
+don't need translating, so there's no need to spell out month names differently per
+language (no `augusts` vs `августа`) — just the date itself, e.g.:
+```
+15.08.2026 – 22.08.2026
+22.08.2026 – 29.08.2026
+```
+If a trip offers more than one date option (like above), list each on its own line —
+the site uses the *latest* date it finds to decide if the trip has fully passed, so a
+trip with one date option still upcoming won't get archived early. If `dates` is left
+blank or has no recognizable `dd.mm.yyyy` value, the trip is just always treated as
+upcoming rather than disappearing.
 
 **Multi-line cells (`dates`, `highlights`, `accommodation`, `gettingThere`):** these
 render as bullet lists, one bullet per line within the cell. To put more than one line

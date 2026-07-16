@@ -211,10 +211,6 @@ export interface SiteContent {
   celojumiHub: {
     heroTitle: string;
     heroLede: string;
-    paragraphs: string[];
-    ctaPrimary: string;
-    ctaSecondary: string;
-    images: string[];
     tripBookButtonLabel: string;
     bookingEyebrow: string;
     bookingTitle: string;
