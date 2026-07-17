@@ -17,6 +17,8 @@ const CALENDAR_ID = process.env.CALENDAR_ID;
 const API_KEY = process.env.GOOGLE_CALENDAR_API_KEY;
 const OUTPUT_PATH = path.resolve(process.cwd(), 'public/course-sessions.json');
 
+// Fallback keyword-based parsing from the event DESCRIPTION, used only if the title
+// doesn't have the "X/Y" pattern below.
 const CAPACITY_KEYWORDS = ['vietas', 'kopā vietas', 'места', 'мест'];
 const REGISTERED_KEYWORDS = ['pieteikušies', 'записалось', 'записались'];
 
@@ -25,6 +27,22 @@ function parseCount(description, keywords) {
   const pattern = new RegExp(`(?:${keywords.join('|')})\\s*[:\\-]?\\s*(\\d+)`, 'i');
   const match = description.match(pattern);
   return match ? parseInt(match[1], 10) : null;
+}
+
+// Primary source: a trailing "X/Y <word>" in the event TITLE itself, e.g.
+// "OWD - Final Dive - 2/2 students" -> registered 2, capacity 2, title cleaned to
+// "OWD - Final Dive". This is the format course organizers actually type when creating
+// the event, so it's the first thing checked before falling back to the description.
+const SLOTS_IN_TITLE_PATTERN =
+  /[\s\-\u2013\u2014]*(\d+)\s*\/\s*(\d+)\s*[a-zA-Z\u0100-\u017F\u0400-\u04FF]*\s*$/u;
+
+function parseSlotsFromTitle(title) {
+  const match = title.match(SLOTS_IN_TITLE_PATTERN);
+  if (!match) return null;
+  const registered = parseInt(match[1], 10);
+  const capacity = parseInt(match[2], 10);
+  const cleanedTitle = title.slice(0, match.index).trim();
+  return { registered, capacity, cleanedTitle: cleanedTitle || title };
 }
 
 async function main() {
@@ -62,15 +80,22 @@ async function main() {
 
   const sessions = items
     .filter((event) => event.summary)
-    .map((event) => ({
-      title: event.summary,
-      startDate: event.start?.dateTime ?? event.start?.date ?? null,
-      endDate: event.end?.dateTime ?? event.end?.date ?? null,
-      allDay: Boolean(event.start?.date),
-      capacity: parseCount(event.description, CAPACITY_KEYWORDS),
-      registered: parseCount(event.description, REGISTERED_KEYWORDS),
-      location: event.location ?? '',
-    }))
+    .map((event) => {
+      const titleSlots = parseSlotsFromTitle(event.summary);
+      const capacity = titleSlots ? titleSlots.capacity : parseCount(event.description, CAPACITY_KEYWORDS);
+      const registered = titleSlots ? titleSlots.registered : parseCount(event.description, REGISTERED_KEYWORDS);
+      const title = titleSlots ? titleSlots.cleanedTitle : event.summary;
+
+      return {
+        title,
+        startDate: event.start?.dateTime ?? event.start?.date ?? null,
+        endDate: event.end?.dateTime ?? event.end?.date ?? null,
+        allDay: Boolean(event.start?.date),
+        capacity,
+        registered,
+        location: event.location ?? '',
+      };
+    })
     .filter((s) => s.startDate && s.endDate);
 
   await writeFile(OUTPUT_PATH, JSON.stringify(sessions, null, 2) + '\n');

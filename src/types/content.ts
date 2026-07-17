@@ -94,6 +94,10 @@ export interface FormLabels {
   courseCategoryValue: string;
   course: string;
   coursePlaceholder: string;
+  /** Appended as the last option in every ContactForm's course <select> — the single source
+   *  of truth for "my course isn't listed" across the whole site. */
+  otherCourseOption: string;
+  otherCourseFieldLabel: string;
   startDate: string;
   startDateHint: string;
   message: string;
@@ -161,6 +165,8 @@ export interface SiteContent {
   apmacibaKursi: {
     heroTitle: string;
     heroLede: string;
+    catalogEyebrow: string;
+    catalogTitle: string;
     tiers: CourseTier[];
     bookButtonLabel: string;
     bookingEyebrow: string;

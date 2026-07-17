@@ -81,6 +81,8 @@ const ru: SiteContent = {
     courseCategoryValue: 'Курсы',
     course: 'Курс',
     coursePlaceholder: '— Выбери курс —',
+    otherCourseOption: 'Другой курс',
+    otherCourseFieldLabel: 'Какой именно курс вас интересует?',
     startDate: 'Желаемая дата начала',
     startDateHint: '(необязательно, но желательно)',
     message: 'Сообщение',
@@ -182,6 +184,8 @@ const ru: SiteContent = {
   apmacibaKursi: {
     heroTitle: 'Курсы',
     heroLede: 'Выбери курс — и запишись сразу же, с уже заполненной заявкой.',
+    catalogEyebrow: 'Предложение',
+    catalogTitle: 'Доступные курсы',
     tiers: [
       {
         title: 'Начни здесь',

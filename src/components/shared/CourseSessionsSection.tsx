@@ -65,6 +65,7 @@ function UpcomingSessionCard({ session, lang, onBook }: UpcomingSessionCardProps
   const labels = LABELS[lang];
   const hasCounts = session.capacity !== null && session.registered !== null;
   const free = hasCounts ? session.capacity! - session.registered! : null;
+  const isFull = free !== null && free <= 0;
   const metaParts = [dateRangeLabel(session, lang), session.location].filter(Boolean);
 
   return (
@@ -75,9 +76,11 @@ function UpcomingSessionCard({ session, lang, onBook }: UpcomingSessionCardProps
         {free !== null && (
           <span className="course-card__price">{free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}</span>
         )}
-        <button type="button" className="btn btn--solid btn--sm" onClick={() => onBook(session)}>
-          {labels.bookCta}
-        </button>
+        {!isFull && (
+          <button type="button" className="btn btn--solid btn--sm" onClick={() => onBook(session)}>
+            {labels.bookCta}
+          </button>
+        )}
       </div>
     </div>
   );

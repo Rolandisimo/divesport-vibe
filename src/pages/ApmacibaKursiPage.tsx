@@ -58,6 +58,8 @@ export function ApmacibaKursiPage() {
 
         <section className="section">
           <div className="section__inner">
+            <p className="section__eyebrow">{apmacibaKursi.catalogEyebrow}</p>
+            <h2 className="section__title">{apmacibaKursi.catalogTitle}</h2>
             <CourseCatalog tiers={tiers} bookLabel={apmacibaKursi.bookButtonLabel} onBook={handleBookCourse} />
             <SubNav items={apmacibaKursi.subnav} />
           </div>

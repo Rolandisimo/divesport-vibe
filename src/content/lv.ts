@@ -81,6 +81,8 @@ const lv: SiteContent = {
     courseCategoryValue: 'Kursi',
     course: 'Kurss',
     coursePlaceholder: '— Izvēlies kursu —',
+    otherCourseOption: 'Cits kurss',
+    otherCourseFieldLabel: 'Kāds tieši kurss tevi interesē?',
     startDate: 'Vēlamais sākuma datums',
     startDateHint: '(nav obligāts, bet ieteicams)',
     message: 'Ziņa',
@@ -182,6 +184,8 @@ const lv: SiteContent = {
   apmacibaKursi: {
     heroTitle: 'Kursi',
     heroLede: 'Izvēlies kursu — un piesakies uzreiz, ar jau aizpildītu pieprasījumu.',
+    catalogEyebrow: 'Piedāvājums',
+    catalogTitle: 'Pieejamie kursi',
     tiers: [
       {
         title: 'Sāc šeit',

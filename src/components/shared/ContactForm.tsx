@@ -50,6 +50,7 @@ export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId
   const [email, setEmail] = useState('');
   const [category, setCategory] = useState(labels.categoryOptions[0]);
   const [course, setCourse] = useState('');
+  const [otherCourseText, setOtherCourseText] = useState('');
   const [startDate, setStartDate] = useState('');
   const [message, setMessage] = useState('');
   const [botcheck, setBotcheck] = useState(false);
@@ -59,6 +60,7 @@ export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const isCourseRequest = category === labels.courseCategoryValue;
+  const isOtherCourse = course === labels.otherCourseOption;
 
   // Reset the localized default category whenever the language changes.
   useEffect(() => {
@@ -71,13 +73,17 @@ export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId
   // instead of only the booking-button flow.
   function selectCourse(value: string) {
     setCourse(value);
-    setMessage(value ? labels.courseTemplate(value) : '');
+    if (value !== labels.otherCourseOption) setOtherCourseText('');
+    // "Other" isn't a real course name to template a message against — leave it blank
+    // so the visitor describes what they're after in their own words.
+    setMessage(value && value !== labels.otherCourseOption ? labels.courseTemplate(value) : '');
   }
 
   function handleCategoryChange(value: string) {
     setCategory(value);
     if (value !== labels.courseCategoryValue) {
       setCourse('');
+      setOtherCourseText('');
       setStartDate('');
     }
   }
@@ -107,7 +113,7 @@ export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId
 
     const payload: Record<string, string> = { from_name: fromName, name, email, category, message };
     if (isCourseRequest) {
-      payload.course = course;
+      payload.course = isOtherCourse && otherCourseText ? otherCourseText : course;
       payload.start_date = startDate;
     }
 
@@ -116,6 +122,7 @@ export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId
       setName('');
       setEmail('');
       setCourse('');
+      setOtherCourseText('');
       setStartDate('');
       setMessage('');
       setErrorText('');
@@ -188,8 +195,21 @@ export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId
                     {opt}
                   </option>
                 ))}
+                <option value={labels.otherCourseOption}>{labels.otherCourseOption}</option>
               </select>
             </div>
+
+            {isOtherCourse && (
+              <div className="form__row">
+                <label htmlFor="other_course">{labels.otherCourseFieldLabel}</label>
+                <input
+                  type="text"
+                  id="other_course"
+                  value={otherCourseText}
+                  onChange={(e) => setOtherCourseText(e.target.value)}
+                />
+              </div>
+            )}
 
             <div className="form__row">
               <label htmlFor="start_date">
