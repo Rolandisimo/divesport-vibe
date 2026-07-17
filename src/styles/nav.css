@@ -72,7 +72,7 @@
     @apply text-amber text-base;
   }
   .nav__links {
-    @apply flex items-center gap-7;
+    @apply flex items-center gap-7 max-md:hidden;
   }
   .nav__links a {
     @apply font-mono text-[0.78rem] uppercase tracking-[0.06em] text-mist relative pb-1
@@ -90,7 +90,7 @@
     @apply w-full;
   }
   .nav__toggle {
-    @apply hidden bg-transparent border-0 flex-col gap-[5px] cursor-pointer p-2.5 -m-2.5;
+    @apply hidden bg-transparent border-0 flex-col gap-[5px] cursor-pointer p-2.5 -m-2.5 relative z-[170];
   }
   .nav__toggle span {
     @apply w-[22px] h-0.5 bg-foam transition-transform duration-[250ms];
@@ -138,44 +138,54 @@
 
   /* ============ MOBILE NAV ============ */
   .nav-backdrop {
-    @apply fixed inset-0 z-[95] opacity-0 pointer-events-none transition-opacity duration-300;
+    @apply fixed inset-0 z-[150] opacity-0 pointer-events-none transition-opacity duration-300;
     background: rgba(5, 20, 28, 0.65);
+  }
+  .nav-backdrop.open {
+    @apply opacity-100 pointer-events-auto;
   }
   body.nav-open {
     @apply overflow-hidden;
   }
-  body.nav-open .nav-backdrop {
-    @apply opacity-100 pointer-events-auto;
-  }
 
   @media (max-width: 900px) {
-    .nav__links {
-      @apply fixed top-0 right-0 h-screen flex-col items-start gap-6 border-l border-line
-             overflow-y-auto z-[96];
-      width: min(300px, 82vw);
-      background: theme('colors.deep');
-      padding: 100px 28px 40px;
-      transform: translateX(100%);
-      transition: transform 0.3s;
-    }
-    .nav__links.open {
-      transform: translateX(0);
-    }
     .nav__toggle {
       @apply flex;
     }
-    .nav__drop {
-      @apply flex flex-col gap-2.5 w-full;
-    }
-    .nav__drop-menu {
-      @apply flex static m-0 ml-3.5 mt-1 p-0 border-0 gap-1;
-      background: none;
-    }
-    .nav__drop-menu::before {
-      @apply hidden;
-    }
-    .nav__drop-menu a {
-      @apply py-2 px-0 text-[0.74rem] text-mist;
-    }
+  }
+
+  /* ============ MOBILE NAV DRAWER (portal-rendered, see Nav.tsx) ============ */
+  /* z-index is well above the sticky header's (100) — being a sibling of <header> now
+     (not nested inside it), it's compared directly against it, not just against itself. */
+  .mobile-nav-drawer {
+    @apply fixed top-0 right-0 h-screen flex flex-col items-start gap-6 border-l border-line
+           overflow-y-auto z-[160];
+    width: min(300px, 82vw);
+    background: theme('colors.deep');
+    padding: 100px 28px 40px;
+    transform: translateX(100%);
+    transition: transform 0.3s;
+  }
+  .mobile-nav-drawer.open {
+    transform: translateX(0);
+  }
+  .mobile-nav-drawer .nav__drop {
+    @apply flex flex-col items-start gap-2.5 w-full;
+  }
+  .mobile-nav-drawer .nav__drop-menu {
+    @apply flex static m-0 ml-3.5 mt-1 p-0 border-0 gap-1;
+    background: none;
+  }
+  .mobile-nav-drawer .nav__drop-menu::before {
+    @apply hidden;
+  }
+  .mobile-nav-drawer .nav__drop-menu a {
+    @apply py-2 px-0 text-[0.74rem] text-mist;
+  }
+  /* The dropdown caret is a desktop-only affordance (dropdowns are always expanded here
+     anyway) — showing it would push the trigger's text start to the right compared to
+     plain links above/below it, breaking the left-edge alignment of the whole list. */
+  .mobile-nav-drawer .nav__drop > a::before {
+    @apply hidden;
   }
 }
