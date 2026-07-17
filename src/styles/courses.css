@@ -1,4 +1,24 @@
 @layer components {
+  /* ============ COURSE SCHEDULE (Google Calendar sync) ============ */
+  .session-list {
+    @apply flex flex-col mt-8 border-t border-line;
+  }
+  .session-row {
+    @apply flex items-center gap-5 py-4 border-b border-line flex-wrap;
+  }
+  .session-row__date {
+    @apply font-mono text-[0.8rem] text-amber whitespace-nowrap w-[170px] flex-shrink-0 max-md:w-full;
+  }
+  .session-row__title {
+    @apply flex-1 text-foam text-[0.95rem];
+  }
+  .session-row__spots {
+    @apply font-mono text-[0.76rem] text-teal whitespace-nowrap;
+  }
+  .session-row__spots--full {
+    @apply text-mist;
+  }
+
   /* ============ COURSE CATALOG ============ */
   .course-tier {
     @apply font-mono uppercase tracking-[0.1em] text-[0.76rem] text-teal mt-12 mb-[18px] first-of-type:mt-2;

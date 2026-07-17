@@ -41,49 +41,37 @@
   .hero__cta .btn {
     @apply max-md:w-full;
   }
-  .hero__gauge {
-    @apply absolute right-10 bottom-10 text-right font-mono text-amber opacity-85 flex flex-col items-end max-lg:hidden;
-  }
-  .hero__gauge-num {
-    @apply text-[2.4rem] font-bold leading-none tracking-[0.02em];
-  }
-  .hero__gauge-label {
-    @apply text-[0.62rem] text-mist tracking-[0.15em];
-  }
 
   /* ============ QUICK PATHS ============ */
   .quick-paths {
-    @apply px-6 py-16 bg-deep border-b border-line max-md:py-12 max-md:px-5;
+    @apply px-6 py-[90px] bg-deep border-b border-line max-md:py-14 max-md:px-5;
   }
   .quick-paths__inner {
     @apply max-w-site mx-auto;
   }
   .quick-paths__title {
-    @apply font-mono uppercase tracking-[0.1em] text-[0.78rem] text-teal mb-1.5;
-  }
-  .quick-paths__subtitle {
-    @apply font-mono text-[0.72rem] text-mist mb-6;
+    @apply font-display font-bold text-foam mb-9 text-[clamp(1.8rem,3.2vw,2.4rem)];
   }
   .quick-grid {
-    @apply grid gap-[18px] max-xl:grid-cols-2 max-md:grid-cols-1;
-    grid-template-columns: repeat(4, 1fr);
+    @apply grid gap-6 max-md:grid-cols-1;
+    grid-template-columns: repeat(3, 1fr);
   }
   .quick-card {
-    @apply bg-panel border border-line rounded block relative px-[22px] py-[26px]
+    @apply bg-panel border border-line rounded-md block relative px-7 py-9
            transition-colors transition-transform duration-200 hover:border-teal hover:-translate-y-1
            focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber focus-visible:outline-offset-2;
   }
   .quick-card__icon {
-    @apply text-[1.7rem] mb-3.5 block;
+    @apply text-[2.4rem] mb-5 block;
   }
   .quick-card h3 {
-    @apply text-[1.1rem] mb-1.5 pr-5;
+    @apply text-[1.4rem] mb-2 pr-6;
   }
   .quick-card p {
-    @apply text-mist text-[0.85rem] m-0;
+    @apply text-mist text-[0.95rem] m-0;
   }
   .quick-card__arrow {
-    @apply absolute top-[26px] right-5 text-mist text-[0.9rem] transition-transform transition-colors duration-200;
+    @apply absolute top-9 right-7 text-mist text-[1.1rem] transition-transform transition-colors duration-200;
   }
   .quick-card:hover .quick-card__arrow {
     @apply translate-x-1 text-amber;

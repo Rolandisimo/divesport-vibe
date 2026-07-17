@@ -8,8 +8,7 @@ export function QuickPaths() {
   return (
     <section className="quick-paths">
       <div className="quick-paths__inner">
-        <p className="quick-paths__title">{home.quickPathsTitle}</p>
-        <p className="quick-paths__subtitle">{home.quickPathsSubtitle}</p>
+        <h2 className="quick-paths__title">{home.quickPathsTitle}</h2>
         <div className="quick-grid">
           {home.quickPaths.map((path) => (
             <Link to={pathFor(path.slug)} className="quick-card" key={path.slug}>

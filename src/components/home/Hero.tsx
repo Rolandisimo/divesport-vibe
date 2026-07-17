@@ -1,13 +1,12 @@
+import { Link } from 'react-router-dom';
 import { useLang } from '@/context/LangContext';
-import { useHeroGauge } from '@/hooks/useHeroGauge';
 import { scrollToId } from '@/utils/scroll';
 
 const HERO_BG = 'https://www.divesport.lv/wp-content/uploads/2018/04/akula-2-1300x535.jpg';
 
 export function Hero() {
-  const { content } = useLang();
+  const { content, pathFor } = useLang();
   const { home } = content;
-  const gauge = useHeroGauge();
 
   return (
     <section className="hero" id="top">
@@ -21,18 +20,13 @@ export function Hero() {
           ))}
         </h1>
         <div className="hero__cta">
-          <button type="button" className="btn btn--solid" onClick={() => scrollToId('courses')}>
+          <Link to={pathFor('apmaciba-kursi')} className="btn btn--solid">
             {home.heroCtaPrimary}
-          </button>
+          </Link>
           <button type="button" className="btn btn--ghost" onClick={() => scrollToId('contact')}>
             {home.heroCtaSecondary}
           </button>
         </div>
-      </div>
-      <div className="hero__gauge">
-        <span className="hero__gauge-label">DEPTH</span>
-        <span className="hero__gauge-num">{gauge}</span>
-        <span className="hero__gauge-label">M</span>
       </div>
     </section>
   );

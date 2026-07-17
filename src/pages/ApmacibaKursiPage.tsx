@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Layout } from '@/components/layout/Layout';
 import { PageHero } from '@/components/shared/PageHero';
 import { CourseCatalog } from '@/components/shared/CourseCatalog';
+import { CourseSessionsSection } from '@/components/shared/CourseSessionsSection';
 import { SubNav } from '@/components/shared/SubNav';
 import { ContactForm, type PrefillRequest } from '@/components/shared/ContactForm';
 import { useLang } from '@/context/LangContext';
@@ -36,7 +37,9 @@ export function ApmacibaKursiPage() {
           </div>
         </section>
 
-        <section className="section section--alt">
+        <CourseSessionsSection />
+
+        <section className="section">
           <div className="section__inner" style={{ maxWidth: 640 }}>
             <p className="section__eyebrow">{apmacibaKursi.bookingEyebrow}</p>
             <h2 className="section__title">{apmacibaKursi.bookingTitle}</h2>

@@ -1,13 +1,4 @@
 @layer components {
-  /* ============ TRAVEL STRIP ============ */
-  .travel__strip {
-    @apply flex flex-col gap-3.5;
-  }
-  .travel__img {
-    @apply h-[150px] rounded bg-cover bg-center;
-    filter: saturate(0.9);
-  }
-
   /* ============ GALLERY ============ */
   .gallery {
     @apply grid gap-3 mt-11 max-xl:grid-cols-2;
