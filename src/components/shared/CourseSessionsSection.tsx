@@ -1,20 +1,42 @@
 import { useLang } from '@/context/LangContext';
 import { useCourseSessions } from '@/hooks/useCourseSessions';
+import { ScheduleSection } from '@/components/shared/ScheduleSection';
+import { YearGroup } from '@/components/shared/YearGroup';
 import type { Lang } from '@/types/content';
 import type { CourseSession } from '@/types/calendar';
+import type { ByYear } from '@/utils/dateBuckets';
+
+const HEADING = {
+  lv: {
+    upcoming: { eyebrow: 'Grafiks', title: 'Tuvākās kursu dienas', tab: 'Tuvākās' },
+    past: { eyebrow: 'Arhīvs', title: 'Iepriekšējās kursu dienas', tab: 'Iepriekšējās' },
+  },
+  ru: {
+    upcoming: { eyebrow: 'Расписание', title: 'Ближайшие даты курсов', tab: 'Ближайшие' },
+    past: { eyebrow: 'Архив', title: 'Прошедшие даты курсов', tab: 'Прошедшие' },
+  },
+} as const;
 
 const LABELS = {
   lv: {
-    eyebrow: 'Grafiks',
-    title: 'Tuvākās kursu dienas',
     full: 'Vietu nav',
     spotsLeft: (free: number, capacity: number) => `${free} no ${capacity} vietām brīvas`,
+    sessionsCount: (n: number) => `${n} ${n === 1 ? 'norise' : 'norises'}`,
+    emptyUpcoming: 'Šobrīd nav ieplānotu kursu dienu.',
+    contactCta: 'Sazināties par kursiem',
+    pastCta: 'Skatīt iepriekšējās norises',
+    emptyPast: 'Arhīvā vēl nav ierakstu.',
+    bookCta: 'Pieteikties',
   },
   ru: {
-    eyebrow: 'Расписание',
-    title: 'Ближайшие даты курсов',
     full: 'Мест нет',
     spotsLeft: (free: number, capacity: number) => `Свободно ${free} из ${capacity} мест`,
+    sessionsCount: (n: number) => `${n} ${n === 1 ? 'дата' : 'даты'}`,
+    emptyUpcoming: 'Сейчас нет запланированных дат курсов.',
+    contactCta: 'Связаться по курсам',
+    pastCta: 'Смотреть прошедшие даты',
+    emptyPast: 'В архиве пока нет записей.',
+    bookCta: 'Записаться',
   },
 } as const;
 
@@ -26,47 +48,98 @@ function formatDate(date: Date, lang: Lang): string {
   });
 }
 
-function SessionRow({ session, lang }: { session: CourseSession; lang: Lang }) {
-  const labels = LABELS[lang];
+function dateRangeLabel(session: CourseSession, lang: Lang): string {
   const sameDay = session.startDate.toDateString() === session.endDate.toDateString();
-  const dateLabel = sameDay
+  return sameDay
     ? formatDate(session.startDate, lang)
     : `${formatDate(session.startDate, lang)} – ${formatDate(session.endDate, lang)}`;
+}
 
+interface UpcomingSessionCardProps {
+  session: CourseSession;
+  lang: Lang;
+  onBook: (session: CourseSession) => void;
+}
+
+function UpcomingSessionCard({ session, lang, onBook }: UpcomingSessionCardProps) {
+  const labels = LABELS[lang];
   const hasCounts = session.capacity !== null && session.registered !== null;
   const free = hasCounts ? session.capacity! - session.registered! : null;
+  const metaParts = [dateRangeLabel(session, lang), session.location].filter(Boolean);
 
   return (
-    <div className="session-row">
-      <span className="session-row__date">{dateLabel}</span>
-      <span className="session-row__title">{session.title}</span>
-      {free !== null && (
-        <span className={`session-row__spots${free <= 0 ? ' session-row__spots--full' : ''}`}>
-          {free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}
-        </span>
-      )}
+    <div className="course-card">
+      <h3>{session.title}</h3>
+      <p>{metaParts.join(' · ')}</p>
+      <div className="course-card__footer">
+        {free !== null && (
+          <span className="course-card__price">{free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}</span>
+        )}
+        <button type="button" className="btn btn--solid btn--sm" onClick={() => onBook(session)}>
+          {labels.bookCta}
+        </button>
+      </div>
     </div>
   );
 }
 
-export function CourseSessionsSection() {
-  const { lang } = useLang();
-  const sessions = useCourseSessions();
-  if (sessions.length === 0) return null;
+function PastSessionRow({ session, lang }: { session: CourseSession; lang: Lang }) {
+  const metaParts = [dateRangeLabel(session, lang), session.location].filter(Boolean);
+  return (
+    <div className="compact-row">
+      <span className="compact-row__title">{session.title}</span>
+      <span className="compact-row__meta">{metaParts.join(' · ')}</span>
+    </div>
+  );
+}
 
+interface CourseSessionsSectionProps {
+  onBook: (session: CourseSession) => void;
+  onContactUs: () => void;
+}
+
+export function CourseSessionsSection({ onBook, onContactUs }: CourseSessionsSectionProps) {
+  const { lang } = useLang();
+  const { upcomingByYear, pastByYear } = useCourseSessions();
   const labels = LABELS[lang];
+  const heading = HEADING[lang];
 
   return (
-    <section className="section section--alt">
-      <div className="section__inner">
-        <p className="section__eyebrow">{labels.eyebrow}</p>
-        <h2 className="section__title">{labels.title}</h2>
-        <div className="session-list">
-          {sessions.map((session, i) => (
-            <SessionRow session={session} lang={lang} key={`${session.title}-${i}`} />
+    <ScheduleSection
+      hasUpcoming={upcomingByYear.length > 0}
+      hasPast={pastByYear.length > 0}
+      upcomingLabels={heading.upcoming}
+      pastLabels={heading.past}
+      emptyUpcomingMessage={labels.emptyUpcoming}
+      emptyPastMessage={labels.emptyPast}
+      contactCta={{ label: labels.contactCta, onClick: onContactUs }}
+      pastCtaLabel={labels.pastCta}
+      renderUpcoming={() => (
+        <div className="year-group-list">
+          {upcomingByYear.map((group: ByYear<CourseSession>) => (
+            <YearGroup year={group.year} countLabel={labels.sessionsCount(group.items.length)} defaultOpen key={group.year}>
+              <div className="course-catalog" style={{ marginTop: 20 }}>
+                {group.items.map((session, i) => (
+                  <UpcomingSessionCard session={session} lang={lang} onBook={onBook} key={`${session.title}-${i}`} />
+                ))}
+              </div>
+            </YearGroup>
           ))}
         </div>
-      </div>
-    </section>
+      )}
+      renderPast={() => (
+        <div className="year-group-list">
+          {pastByYear.map((group: ByYear<CourseSession>, i) => (
+            <YearGroup year={group.year} countLabel={labels.sessionsCount(group.items.length)} defaultOpen={i === 0} key={group.year}>
+              <div className="compact-row-list">
+                {group.items.map((session, j) => (
+                  <PastSessionRow session={session} lang={lang} key={`${session.title}-${j}`} />
+                ))}
+              </div>
+            </YearGroup>
+          ))}
+        </div>
+      )}
+    />
   );
 }

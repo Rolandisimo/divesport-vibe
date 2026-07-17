@@ -32,16 +32,6 @@ export interface Trip {
   year: number;
 }
 
-export interface TripsByYear {
-  year: number;
-  trips: Trip[];
-}
-
-export interface SplitTrips {
-  upcomingByYear: TripsByYear[];
-  pastByYear: TripsByYear[];
-}
-
 function requireField(row: Record<string, string>, key: string): string | null {
   const value = row[key]?.trim();
   return value ? value : null;
@@ -150,37 +140,6 @@ export function mapTripRow(row: Record<string, string>): Trip | null {
     cta: row.cta?.trim() ?? '',
     lastDate,
     year,
-  };
-}
-
-/** Groups trips by year. `descending` controls sort order — past trips want the most
- *  recent past year first, upcoming trips want the soonest year first. */
-function groupByYear(trips: Trip[], descending: boolean): TripsByYear[] {
-  const byYear = new Map<number, Trip[]>();
-  for (const trip of trips) {
-    const list = byYear.get(trip.year) ?? [];
-    list.push(trip);
-    byYear.set(trip.year, list);
-  }
-  return Array.from(byYear.entries())
-    .sort(([a], [b]) => (descending ? b - a : a - b))
-    .map(([year, yearTrips]) => ({ year, trips: yearTrips }));
-}
-
-/** Buckets trips into "upcoming" (today or later) and "past", each grouped by year —
- *  past with the most recent year first, upcoming with the soonest year first. Trips
- *  with no parseable date are always treated as upcoming, so a malformed dates cell
- *  never makes a trip silently vanish instead of just miscategorizing it. */
-export function splitTrips(trips: Trip[]): SplitTrips {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const upcoming = trips.filter((t) => !t.lastDate || t.lastDate >= today);
-  const past = trips.filter((t) => t.lastDate && t.lastDate < today);
-
-  return {
-    upcomingByYear: groupByYear(upcoming, false),
-    pastByYear: groupByYear(past, true),
   };
 }
 

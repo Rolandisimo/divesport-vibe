@@ -49,7 +49,8 @@ async function main() {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Calendar API responded with ${response.status}`);
+      const body = await response.text();
+      throw new Error(`Calendar API responded with ${response.status}: ${body}`);
     }
     const data = await response.json();
     items = data.items ?? [];

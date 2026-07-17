@@ -105,10 +105,12 @@ export interface FormLabels {
   missingKeyError: string;
   requiredFieldsError: string;
   courseTemplate: (course: string) => string;
+  courseSessionTemplate: (course: string, dateLabel: string, location: string) => string;
   /** The category option that should be preselected when arriving via a trip booking button. */
   tripCategoryValue: string;
   tripTemplate: (tripTitle: string) => string;
   tripGeneralInquiryMessage: string;
+  courseGeneralInquiryMessage: string;
 }
 
 export interface SiteContent {

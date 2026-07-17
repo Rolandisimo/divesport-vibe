@@ -14,6 +14,9 @@ export interface PrefillRequest {
   category: string;
   message: string;
   course?: string;
+  /** Only set when booking a specific scheduled session (not a course type in general) —
+   *  prefills the Preferred start date field with that session's actual date. */
+  startDate?: string;
   /** Increments on every click so clicking the same button twice in a row still re-triggers the effect. */
   nonce: number;
 }
@@ -85,6 +88,7 @@ export function ContactForm({ fromName, courseOptions, prefillRequest, sectionId
     if (!prefillRequest) return;
     setCategory(prefillRequest.category);
     setCourse(prefillRequest.course ?? '');
+    setStartDate(prefillRequest.startDate ?? '');
     setMessage(prefillRequest.message);
     sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     const timer = setTimeout(() => nameInputRef.current?.focus(), 450);

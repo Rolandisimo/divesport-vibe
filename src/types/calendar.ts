@@ -9,4 +9,8 @@ export interface CourseSession {
   /** How many are already registered, from a "pieteikušies: N" / "записалось: N" line. Null if not specified. */
   registered: number | null;
   location: string;
+  /** Equal to endDate — used by the shared upcoming/past date-bucketing utility. */
+  lastDate: Date | null;
+  /** Derived from startDate's year — which year to file this session under once it's past. */
+  year: number;
 }

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { CourseSession } from '@/types/calendar';
+import { splitByDate, type SplitByDate } from '@/utils/dateBuckets';
 
 interface RawSession {
   title: string;
@@ -12,15 +13,16 @@ interface RawSession {
 }
 
 /**
- * Loads upcoming course sessions from the static /course-sessions.json file generated at
- * build time (see scripts/fetch-calendar.mjs). The browser never talks to the Google
+ * Loads course sessions from the static /course-sessions.json file generated at build time
+ * (see scripts/fetch-calendar.mjs) and splits them into upcoming/past, grouped by year —
+ * same shared bucketing as the Trips schedule. The browser never talks to the Google
  * Calendar API directly and never sees an API key — that fetch happens once, in CI, using
  * a key that only ever lives in GitHub Actions secrets.
  *
- * Returns an empty array (and the schedule section just doesn't render) if the file is
+ * Returns empty buckets (and the schedule section just doesn't render) if the file is
  * missing or empty — same graceful-degradation pattern as the Sheets integration.
  */
-export function useCourseSessions(): CourseSession[] {
+export function useCourseSessions(): SplitByDate<CourseSession> {
   const [sessions, setSessions] = useState<CourseSession[]>([]);
 
   useEffect(() => {
@@ -31,11 +33,17 @@ export function useCourseSessions(): CourseSession[] {
       .then((raw: RawSession[]) => {
         if (cancelled) return;
         setSessions(
-          raw.map((s) => ({
-            ...s,
-            startDate: new Date(s.startDate),
-            endDate: new Date(s.endDate),
-          }))
+          raw.map((s) => {
+            const startDate = new Date(s.startDate);
+            const endDate = new Date(s.endDate);
+            return {
+              ...s,
+              startDate,
+              endDate,
+              lastDate: endDate,
+              year: startDate.getFullYear(),
+            };
+          })
         );
       })
       .catch(() => {
@@ -47,5 +55,5 @@ export function useCourseSessions(): CourseSession[] {
     };
   }, []);
 
-  return sessions;
+  return useMemo(() => splitByDate(sessions), [sessions]);
 }

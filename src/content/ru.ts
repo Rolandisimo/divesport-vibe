@@ -93,11 +93,15 @@ const ru: SiteContent = {
     requiredFieldsError: 'Пожалуйста, заполните все обязательные поля.',
     courseTemplate: (course) =>
       `Интересует курс: ${course}. Пожалуйста, свяжитесь со мной, чтобы обсудить доступные даты.`,
+    courseSessionTemplate: (course, dateLabel, location) =>
+      `Интересует курс: ${course}, дата проведения: ${dateLabel}${location ? ` (${location})` : ''}. Пожалуйста, свяжитесь со мной, чтобы подтвердить место.`,
     tripCategoryValue: 'Путешествия',
     tripTemplate: (tripTitle) =>
       `Интересует поездка: ${tripTitle}. Пожалуйста, свяжитесь со мной, чтобы обсудить даты и бронирование.`,
     tripGeneralInquiryMessage:
       'Интересует информация о будущих поездках. Пожалуйста, свяжитесь со мной, когда появятся новые даты.',
+    courseGeneralInquiryMessage:
+      'Интересует информация о будущих датах курсов. Пожалуйста, свяжитесь со мной, когда появится расписание.',
   },
   home: {
     heroEyebrow: 'Дайвинг-клуб · с 2003 года',
