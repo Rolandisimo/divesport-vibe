@@ -53,8 +53,13 @@
     @apply font-display font-bold text-foam mb-9 text-[clamp(1.8rem,3.2vw,2.4rem)];
   }
   .quick-grid {
-    @apply grid gap-6 max-md:grid-cols-1;
+    @apply grid gap-6;
     grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 560px) {
+    .quick-grid {
+      grid-template-columns: 1fr;
+    }
   }
   .quick-card {
     @apply bg-panel border border-line rounded-md block relative px-7 py-9

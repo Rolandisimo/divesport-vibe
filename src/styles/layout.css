@@ -17,8 +17,13 @@
     @apply max-w-site mx-auto;
   }
   .section__inner--split {
-    @apply grid gap-16 items-start max-xl:grid-cols-1;
+    @apply grid gap-16 items-start;
     grid-template-columns: 1.1fr 0.9fr;
+  }
+  @media (max-width: 900px) {
+    .section__inner--split {
+      grid-template-columns: 1fr;
+    }
   }
   .section__eyebrow {
     @apply font-mono text-teal uppercase tracking-[0.12em] text-[0.78rem] mb-3;
@@ -32,13 +37,25 @@
 
   /* ============ CARD GRID ============ */
   .cards {
-    @apply grid gap-6 mt-[50px] max-xl:grid-cols-2 max-md:grid-cols-1;
+    @apply grid gap-6 mt-[50px];
   }
   .cards--4 {
     grid-template-columns: repeat(4, 1fr);
   }
   .cards--3 {
     grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 900px) {
+    .cards--4,
+    .cards--3 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .cards--4,
+    .cards--3 {
+      grid-template-columns: 1fr;
+    }
   }
   .card {
     @apply bg-panel border border-line rounded block relative px-[26px] py-[30px]

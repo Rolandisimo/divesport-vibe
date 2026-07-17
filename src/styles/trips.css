@@ -23,8 +23,13 @@
     @apply text-mist text-[0.92rem] mb-[22px] max-w-[640px];
   }
   .trip-card__grid {
-    @apply grid gap-x-8 gap-y-5 pt-[18px] border-t border-line max-lg:grid-cols-1;
+    @apply grid gap-x-8 gap-y-5 pt-[18px] border-t border-line;
     grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 700px) {
+    .trip-card__grid {
+      grid-template-columns: 1fr;
+    }
   }
   .trip-card__section p.trip-card__label {
     @apply font-mono text-[0.72rem] uppercase tracking-[0.05em] text-teal mb-2;

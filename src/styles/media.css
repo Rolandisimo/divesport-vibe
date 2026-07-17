@@ -1,8 +1,13 @@
 @layer components {
   /* ============ GALLERY ============ */
   .gallery {
-    @apply grid gap-3 mt-11 max-xl:grid-cols-2;
+    @apply grid gap-3 mt-11;
     grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 900px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   .gallery__item {
     @apply aspect-square bg-cover bg-center rounded-sm cursor-pointer relative
@@ -34,8 +39,18 @@
 
   /* ============ DESTINATION GRID (Foto page) ============ */
   .dest-grid {
-    @apply grid gap-6 mt-[50px] max-xl:grid-cols-2 max-md:grid-cols-1;
+    @apply grid gap-6 mt-[50px];
     grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 900px) {
+    .dest-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .dest-grid {
+      grid-template-columns: 1fr;
+    }
   }
   .dest-card {
     @apply relative aspect-[4/3] rounded overflow-hidden bg-cover bg-center cursor-pointer

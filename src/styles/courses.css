@@ -57,8 +57,18 @@
 
   /* ============ BADGE CARDS ============ */
   .badge-cards {
-    @apply grid gap-6 mt-[50px] max-xl:grid-cols-2 max-md:grid-cols-1;
+    @apply grid gap-6 mt-[50px];
     grid-template-columns: repeat(4, 1fr);
+  }
+  @media (max-width: 900px) {
+    .badge-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    .badge-cards {
+      grid-template-columns: 1fr;
+    }
   }
   .badge-card {
     @apply bg-panel border border-line rounded text-center px-6 py-8 transition-colors duration-200
