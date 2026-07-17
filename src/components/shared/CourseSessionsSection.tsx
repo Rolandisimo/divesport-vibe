@@ -97,11 +97,12 @@ function PastSessionRow({ session, lang }: { session: CourseSession; lang: Lang 
 }
 
 interface CourseSessionsSectionProps {
+  id?: string;
   onBook: (session: CourseSession) => void;
   onContactUs: () => void;
 }
 
-export function CourseSessionsSection({ onBook, onContactUs }: CourseSessionsSectionProps) {
+export function CourseSessionsSection({ id, onBook, onContactUs }: CourseSessionsSectionProps) {
   const { lang } = useLang();
   const { upcomingByYear, pastByYear } = useCourseSessions();
   const labels = LABELS[lang];
@@ -109,6 +110,7 @@ export function CourseSessionsSection({ onBook, onContactUs }: CourseSessionsSec
 
   return (
     <ScheduleSection
+      id={id}
       hasUpcoming={upcomingByYear.length > 0}
       hasPast={pastByYear.length > 0}
       upcomingLabels={heading.upcoming}

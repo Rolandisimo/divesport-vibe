@@ -7,17 +7,24 @@ import { SubNav } from '@/components/shared/SubNav';
 import { ContactForm, type PrefillRequest } from '@/components/shared/ContactForm';
 import { useLang } from '@/context/LangContext';
 import { useCourseCatalog } from '@/hooks/useCourseCatalog';
+import { scrollToId } from '@/utils/scroll';
 import type { CourseSession } from '@/types/calendar';
 
 function toDateInputValue(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
+const JUMP_NAV_LABELS = {
+  lv: { schedule: 'Grafiks', catalog: 'Kursi', booking: 'Pieteikšanās' },
+  ru: { schedule: 'Расписание', catalog: 'Курсы', booking: 'Запись' },
+} as const;
+
 export function ApmacibaKursiPage() {
   const { lang, content } = useLang();
   const { apmacibaKursi, form } = content;
   const { tiers, bookingOptions } = useCourseCatalog();
   const [prefillRequest, setPrefillRequest] = useState<PrefillRequest | null>(null);
+  const jumpLabels = JUMP_NAV_LABELS[lang];
 
   function handleBookCourse(course: string) {
     setPrefillRequest((prev) => ({
@@ -52,11 +59,25 @@ export function ApmacibaKursiPage() {
 
   return (
     <Layout slug="apmaciba-kursi">
-      <PageHero title={apmacibaKursi.heroTitle} lede={apmacibaKursi.heroLede} />
+      <PageHero title={apmacibaKursi.heroTitle} lede={apmacibaKursi.heroLede}>
+        {/* Lets a visitor see the whole page's structure up front, so the schedule section
+            below doesn't read as "the whole page" and the catalog gets missed by scrolling. */}
+        <div className="subnav" style={{ marginTop: 24 }}>
+          <button type="button" onClick={() => scrollToId('course-schedule')}>
+            {jumpLabels.schedule}
+          </button>
+          <button type="button" onClick={() => scrollToId('course-catalog')}>
+            {jumpLabels.catalog}
+          </button>
+          <button type="button" onClick={() => scrollToId('booking')}>
+            {jumpLabels.booking}
+          </button>
+        </div>
+      </PageHero>
       <main>
-        <CourseSessionsSection onBook={handleBookSession} onContactUs={handleContactUs} />
+        <CourseSessionsSection id="course-schedule" onBook={handleBookSession} onContactUs={handleContactUs} />
 
-        <section className="section">
+        <section className="section" id="course-catalog">
           <div className="section__inner">
             <p className="section__eyebrow">{apmacibaKursi.catalogEyebrow}</p>
             <h2 className="section__title">{apmacibaKursi.catalogTitle}</h2>

@@ -12,6 +12,7 @@ interface CtaConfig {
 }
 
 interface ScheduleSectionProps {
+  id?: string;
   hasUpcoming: boolean;
   hasPast: boolean;
   upcomingLabels: TabLabels;
@@ -34,6 +35,7 @@ interface ScheduleSectionProps {
  * a contact CTA and, if there's a past archive, a shortcut to it — rather than disappearing.
  */
 export function ScheduleSection({
+  id,
   hasUpcoming,
   hasPast,
   upcomingLabels,
@@ -51,7 +53,7 @@ export function ScheduleSection({
   const labels = activeTab === 'upcoming' ? upcomingLabels : pastLabels;
 
   return (
-    <section className="section" style={{ paddingTop: 48 }}>
+    <section className="section" id={id} style={{ paddingTop: 48 }}>
       <div className="section__inner">
         <p className="section__eyebrow">{labels.eyebrow}</p>
         <h2 className="section__title">{labels.title}</h2>

@@ -81,11 +81,13 @@
   .subnav {
     @apply flex flex-wrap gap-2.5 mt-10;
   }
-  .subnav a {
+  .subnav a,
+  .subnav button {
     @apply font-mono text-[0.74rem] uppercase tracking-[0.04em] px-4 py-[9px] border border-line rounded-sm text-mist;
   }
   .subnav a:hover,
-  .subnav a.active {
+  .subnav a.active,
+  .subnav button:hover {
     @apply border-teal text-foam;
   }
 }
