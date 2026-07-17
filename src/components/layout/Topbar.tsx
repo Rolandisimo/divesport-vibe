@@ -1,5 +1,6 @@
 import { useLang } from '@/context/LangContext';
 import { LangSwitcher } from './LangSwitcher';
+import { SocialLinks } from '@/components/shared/SocialLinks';
 import type { Slug } from '@/types/content';
 
 export function Topbar({ currentSlug }: { currentSlug: Slug }) {
@@ -15,20 +16,7 @@ export function Topbar({ currentSlug }: { currentSlug: Slug }) {
         </div>
         <div className="topbar__right" style={{ display: 'flex', alignItems: 'center' }}>
           <div className="topbar__social">
-            <a href="https://www.facebook.com/divinglatvia/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              FB
-            </a>
-            <a href="https://www.instagram.com/divesport/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              IG
-            </a>
-            <a
-              href="https://www.youtube.com/channel/UCBKWVcXiG8IjdEr9qEJiuAQ"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-            >
-              YT
-            </a>
+            <SocialLinks variant="compact" />
           </div>
           <LangSwitcher currentSlug={currentSlug} />
         </div>

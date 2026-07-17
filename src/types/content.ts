@@ -123,7 +123,6 @@ export interface SiteContent {
   nav: NavItem[];
   langSwitcherOtherLabel: string;
   footer: {
-    blogLabel: string;
     copyright: string;
   };
   breadcrumbHome: string;

@@ -94,6 +94,29 @@ Replaces the pricing table on the Balonu uzpildīšana (tank fill) page.
 
 ---
 
+## Tab: SocialLinks
+
+Replaces the social icons in the top bar and the footer — add, remove, or reorder accounts
+here without touching any code.
+
+| Column | Required | Example |
+|---|---|---|
+| `lang` | yes | `lv` |
+| `title` | yes | `Facebook` |
+| `url` | yes | `https://www.facebook.com/divinglatvia/` |
+
+**Logos are automatic.** The site recognizes these platforms by the link's domain and shows
+the matching icon: Facebook, Instagram, YouTube, TikTok, X (Twitter), LinkedIn, WhatsApp,
+Telegram, Pinterest. Anything else (a blog, a personal website, a platform not in that list)
+just shows as a plain text link with no icon — exactly like the current "Blog" link does.
+There's nothing to configure here; it's based purely on the URL you enter.
+
+Order in the sheet is the order they appear on the site. Since this list feeds both the
+compact topbar (icon-only when recognized) and the full footer (icon + title always shown),
+one row updates both places at once.
+
+---
+
 ## Tab: Trips
 
 Appears on the Ceļojumi page as two sections: **upcoming trips** and, once any trip's
@@ -150,6 +173,7 @@ content, so you can start from real data instead of a blank sheet:
 - `cms-templates/courses.csv`
 - `cms-templates/destinations.csv`
 - `cms-templates/tank-prices.csv`
+- `cms-templates/social-links.csv` (the site's current Facebook/Instagram/YouTube/Blog links)
 - `cms-templates/trips.csv` (a couple of example rows — replace with real trips, or
   delete them and leave the tab empty until there's something to announce)
 

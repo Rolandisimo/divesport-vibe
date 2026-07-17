@@ -12,7 +12,7 @@
     @apply text-teal;
   }
   .footer__social {
-    @apply flex gap-5 font-mono text-[0.75rem] text-mist;
+    @apply flex items-center gap-5 font-mono text-[0.75rem] text-mist;
   }
   .footer__social a:hover {
     @apply text-amber;

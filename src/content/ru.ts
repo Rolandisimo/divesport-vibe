@@ -65,7 +65,7 @@ const ru: SiteContent = {
     { label: 'Контакты', slug: 'kontakti' },
   ],
   langSwitcherOtherLabel: 'LV',
-  footer: { blogLabel: 'Блог', copyright: 'Divesport. Все права защищены.' },
+  footer: { copyright: 'Divesport. Все права защищены.' },
   breadcrumbHome: 'Divesport',
   contactInfo: {
     address: 'Stiebru iela 15, Mežāres, Babītes pagasts, LV-2101',

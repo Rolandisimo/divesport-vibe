@@ -24,3 +24,5 @@ export const TANK_PRICES_SHEET_URL: string | null =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSt5nuMsDPx3nBca4r4a4QwnjjV89nP1Cw661hNmzccQJL14dvqUSwXFxA7wc4SBk6KoNIqOgXz1gab/pub?gid=1928242247&single=true&output=csv";
 export const TRIPS_SHEET_URL: string | null =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSt5nuMsDPx3nBca4r4a4QwnjjV89nP1Cw661hNmzccQJL14dvqUSwXFxA7wc4SBk6KoNIqOgXz1gab/pub?gid=23365677&single=true&output=csv";
+export const SOCIAL_LINKS_SHEET_URL: string | null =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSt5nuMsDPx3nBca4r4a4QwnjjV89nP1Cw661hNmzccQJL14dvqUSwXFxA7wc4SBk6KoNIqOgXz1gab/pub?gid=55393030&single=true&output=csv";

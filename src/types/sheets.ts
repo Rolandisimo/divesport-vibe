@@ -149,3 +149,15 @@ export function mapTripRow(row: Record<string, string>): Trip | null {
 export function flattenTiersToRows(tiers: CourseTier[]): SheetCourseRow[] {
   return tiers.flatMap((tier) => tier.courses.map((course) => ({ ...course, tier: tier.title })));
 }
+
+export interface SocialLink {
+  title: string;
+  url: string;
+}
+
+export function mapSocialLinkRow(row: Record<string, string>): SocialLink | null {
+  const title = requireField(row, 'title');
+  const url = requireField(row, 'url');
+  if (!title || !url) return null;
+  return { title, url };
+}
