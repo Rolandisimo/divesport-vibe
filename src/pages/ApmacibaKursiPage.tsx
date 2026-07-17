@@ -62,14 +62,14 @@ export function ApmacibaKursiPage() {
       <PageHero title={apmacibaKursi.heroTitle} lede={apmacibaKursi.heroLede}>
         {/* Lets a visitor see the whole page's structure up front, so the schedule section
             below doesn't read as "the whole page" and the catalog gets missed by scrolling. */}
-        <div className="subnav" style={{ marginTop: 24 }}>
-          <button type="button" onClick={() => scrollToId('course-schedule')}>
+        <div className="jump-nav" style={{ marginTop: 24 }}>
+          <button type="button" className="jump-nav__btn" onClick={() => scrollToId('course-schedule')}>
             {jumpLabels.schedule}
           </button>
-          <button type="button" onClick={() => scrollToId('course-catalog')}>
+          <button type="button" className="jump-nav__btn" onClick={() => scrollToId('course-catalog')}>
             {jumpLabels.catalog}
           </button>
-          <button type="button" onClick={() => scrollToId('booking')}>
+          <button type="button" className="jump-nav__btn" onClick={() => scrollToId('booking')}>
             {jumpLabels.booking}
           </button>
         </div>

@@ -77,17 +77,25 @@
     @apply text-[0.72rem] px-[18px] py-2.5;
   }
 
-  /* ============ SUBPAGE NAV ============ */
+  /* ============ SUBPAGE NAV (related-page links, bottom of page) ============ */
   .subnav {
     @apply flex flex-wrap gap-2.5 mt-10;
   }
-  .subnav a,
-  .subnav button {
+  .subnav a {
     @apply font-mono text-[0.74rem] uppercase tracking-[0.04em] px-4 py-[9px] border border-line rounded-sm text-mist;
   }
   .subnav a:hover,
-  .subnav a.active,
-  .subnav button:hover {
+  .subnav a.active {
     @apply border-teal text-foam;
+  }
+
+  /* ============ IN-PAGE JUMP NAV (top of page, e.g. Kursi's Grafiks/Kursi/Pieteikšanās) ============ */
+  .jump-nav {
+    @apply flex flex-wrap gap-2.5;
+  }
+  .jump-nav__btn {
+    @apply font-mono text-[0.74rem] uppercase tracking-[0.04em] px-4 py-[9px]
+           bg-panel border border-teal rounded-sm text-foam
+           transition-colors duration-200 hover:border-amber hover:text-amber;
   }
 }

@@ -3,6 +3,13 @@
   .section {
     @apply px-6 py-[110px] relative max-md:px-5 max-md:py-16;
   }
+  /* Two stacked sections would otherwise add up (bottom padding of the first + top
+     padding of the second) into a much bigger gap than either was designed for.
+     The higher specificity here (two classes) beats the max-md variant above at
+     every breakpoint, so this collapses consistently on mobile too. */
+  .section + .section {
+    @apply pt-0;
+  }
   .section--alt {
     @apply bg-deep;
   }

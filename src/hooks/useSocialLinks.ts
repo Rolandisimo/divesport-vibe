@@ -7,13 +7,13 @@ import type { Lang } from '@/types/content';
 const FALLBACK: Record<Lang, SocialLink[]> = {
   lv: [
     { title: 'Facebook', url: 'https://www.facebook.com/divinglatvia/' },
-    { title: 'Instagram', url: 'https://www.instagram.com/divesport/' },
+    { title: 'Instagram', url: 'https://www.instagram.com/divesport.diving/' },
     { title: 'YouTube', url: 'https://www.youtube.com/channel/UCBKWVcXiG8IjdEr9qEJiuAQ' },
     { title: 'Blogs', url: 'http://divesport.blogspot.com' },
   ],
   ru: [
     { title: 'Facebook', url: 'https://www.facebook.com/divinglatvia/' },
-    { title: 'Instagram', url: 'https://www.instagram.com/divesport/' },
+    { title: 'Instagram', url: 'https://www.instagram.com/divesport.diving/' },
     { title: 'YouTube', url: 'https://www.youtube.com/channel/UCBKWVcXiG8IjdEr9qEJiuAQ' },
     { title: 'Блог', url: 'http://divesport.blogspot.com' },
   ],

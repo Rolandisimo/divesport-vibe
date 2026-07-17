@@ -55,5 +55,15 @@ export function useCourseSessions(): SplitByDate<CourseSession> {
     };
   }, []);
 
-  return useMemo(() => splitByDate(sessions), [sessions]);
+  return useMemo(() => {
+    const split = splitByDate(sessions);
+    // Upcoming course sessions specifically show latest-first — reversing both the year
+    // groups and the sessions within each year. This only affects course sessions; Trips
+    // keeps the shared soonest-first ordering from splitByDate untouched.
+    const upcomingByYear = [...split.upcomingByYear].reverse().map((group) => ({
+      ...group,
+      items: [...group.items].sort((a, b) => b.startDate.getTime() - a.startDate.getTime()),
+    }));
+    return { ...split, upcomingByYear };
+  }, [sessions]);
 }
