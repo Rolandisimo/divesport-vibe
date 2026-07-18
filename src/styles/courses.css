@@ -7,17 +7,17 @@
     @apply bg-panel border border-line rounded-md transition-colors duration-200 hover:border-teal;
   }
   .session-row__main {
-    @apply flex items-center gap-3 px-4 py-3;
+    @apply flex items-center gap-3;
   }
   .session-row__toggle {
-    @apply flex items-start gap-2.5 flex-1 min-w-0 text-left;
+    @apply flex items-center gap-2.5 flex-1 min-w-0 text-left;
   }
   .session-row__indicator {
     @apply text-mist text-sm w-3 flex-shrink-0 pt-0.5;
   }
   .session-row__grid {
-    @apply grid gap-4 items-start flex-1 min-w-0;
-    grid-template-columns: 2fr 1fr;
+    @apply grid gap-4 items-center flex-1 min-w-0;
+    grid-template-columns: 1fr 4fr;
   }
   @media (max-width: 700px) {
     .session-row__grid {
@@ -26,7 +26,7 @@
     }
   }
   .session-row__type {
-    @apply flex items-baseline flex-wrap gap-x-2;
+    @apply flex items-baseline flex-wrap gap-x-2 text-xl;
   }
   .session-row__type-main {
     @apply text-base text-foam font-bold;
@@ -59,7 +59,7 @@
     @apply flex flex-col mt-8 border-t border-line;
   }
   .session-row {
-    @apply flex items-center gap-5 py-4 border-b border-line flex-wrap;
+    @apply py-4 px-3 border-b border-line;
   }
   .session-row__date {
     @apply font-mono text-xs text-amber whitespace-nowrap w-[170px] flex-shrink-0 max-md:w-full;
