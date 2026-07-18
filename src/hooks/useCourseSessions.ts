@@ -4,6 +4,7 @@ import { splitByDate, type SplitByDate } from '@/utils/dateBuckets';
 
 interface RawSession {
   title: string;
+  instructor: string;
   startDate: string;
   endDate: string;
   allDay: boolean;

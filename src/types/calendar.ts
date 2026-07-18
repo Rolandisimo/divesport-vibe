@@ -1,6 +1,8 @@
 export interface CourseSession {
   /** The event title from the calendar — used as the course name (e.g. "PADI Open Water Diver"). */
   title: string;
+  /** Parsed from the title's trailing "- Instructor Name" segment, if present. */
+  instructor: string;
   startDate: Date;
   endDate: Date;
   allDay: boolean;

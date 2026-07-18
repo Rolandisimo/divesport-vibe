@@ -33,16 +33,33 @@ function parseCount(description, keywords) {
 // "OWD - Final Dive - 2/2 students" -> registered 2, capacity 2, title cleaned to
 // "OWD - Final Dive". This is the format course organizers actually type when creating
 // the event, so it's the first thing checked before falling back to the description.
-const SLOTS_IN_TITLE_PATTERN =
-  /[\s\-\u2013\u2014]*(\d+)\s*\/\s*(\d+)\s*[a-zA-Z\u0100-\u017F\u0400-\u04FF]*\s*$/u;
+// Matches "X/Y <word>" anywhere in the title — not anchored to the end anymore, since the
+// new title format is "TYPE - DETAIL - X/Y students - INSTRUCTOR", with the instructor name
+// trailing after the capacity segment rather than being the last thing in the string.
+const SLOTS_PATTERN = /(\d+)\s*\/\s*(\d+)\s*[a-zA-Z\u0100-\u017F\u0400-\u04FF]*/u;
 
-function parseSlotsFromTitle(title) {
-  const match = title.match(SLOTS_IN_TITLE_PATTERN);
-  if (!match) return null;
+function stripSeparators(text, side) {
+  const pattern = side === 'end' ? /[\s\-\u2013\u2014]+$/ : /^[\s\-\u2013\u2014]+/;
+  return text.replace(pattern, '').trim();
+}
+
+function parseTitle(title) {
+  const match = title.match(SLOTS_PATTERN);
+  if (!match) {
+    return { cleanedTitle: title, capacity: null, registered: null, instructor: '' };
+  }
+
   const registered = parseInt(match[1], 10);
   const capacity = parseInt(match[2], 10);
-  const cleanedTitle = title.slice(0, match.index).trim();
-  return { registered, capacity, cleanedTitle: cleanedTitle || title };
+  const before = stripSeparators(title.slice(0, match.index), 'end');
+  const after = stripSeparators(title.slice(match.index + match[0].length), 'start');
+
+  return {
+    cleanedTitle: before || title,
+    capacity,
+    registered,
+    instructor: after,
+  };
 }
 
 async function main() {
@@ -54,12 +71,18 @@ async function main() {
     return;
   }
 
+  const fiveYearsAgo = new Date();
+  fiveYearsAgo.setFullYear(fiveYearsAgo.getFullYear() - 5);
+
   const params = new URLSearchParams({
     key: API_KEY,
-    timeMin: new Date().toISOString(),
+    // Deliberately NOT "now" — that would exclude past events at the query level entirely,
+    // which is exactly what caused the archive to stay empty. Bucketing into upcoming/past
+    // happens client-side (see splitByDate); this fetch just needs a reasonably wide window.
+    timeMin: fiveYearsAgo.toISOString(),
     singleEvents: 'true',
     orderBy: 'startTime',
-    maxResults: '50',
+    maxResults: '250',
   });
   const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events?${params}`;
 
@@ -81,13 +104,13 @@ async function main() {
   const sessions = items
     .filter((event) => event.summary)
     .map((event) => {
-      const titleSlots = parseSlotsFromTitle(event.summary);
-      const capacity = titleSlots ? titleSlots.capacity : parseCount(event.description, CAPACITY_KEYWORDS);
-      const registered = titleSlots ? titleSlots.registered : parseCount(event.description, REGISTERED_KEYWORDS);
-      const title = titleSlots ? titleSlots.cleanedTitle : event.summary;
+      const parsed = parseTitle(event.summary);
+      const capacity = parsed.capacity ?? parseCount(event.description, CAPACITY_KEYWORDS);
+      const registered = parsed.registered ?? parseCount(event.description, REGISTERED_KEYWORDS);
 
       return {
-        title,
+        title: parsed.cleanedTitle,
+        instructor: parsed.instructor,
         startDate: event.start?.dateTime ?? event.start?.date ?? null,
         endDate: event.end?.dateTime ?? event.end?.date ?? null,
         allDay: Boolean(event.start?.date),

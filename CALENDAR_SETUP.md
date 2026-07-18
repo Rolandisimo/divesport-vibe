@@ -95,13 +95,16 @@ Just create an event on that calendar, same as any other Google Calendar event:
 ### Showing available spots (optional)
 
 The easiest way is right in the event **Title** — end it with `X/Y` and a word, where `X` is
-how many are already registered and `Y` is the total capacity:
+how many are already registered and `Y` is the total capacity. Optionally add the
+instructor's name right after that, also separated by ` - `:
 ```
-OWD - Final Dive - 2/2 students
+OWD - Final Dive - 2/2 students - Aleksejs Kravčuks
 ```
-The site strips that part back off for display (shown as just "OWD - Final Dive") and uses
-the numbers to show "X of Y spots free" — and once `X` reaches `Y`, the booking button
-disappears automatically instead of letting someone sign up for a full session.
+The site strips the capacity and instructor parts back off for display (shown as just
+"OWD - Final Dive", with the instructor shown separately alongside the date/location) and
+uses the numbers to show "X of Y spots free" — once `X` reaches `Y`, the booking button
+disappears automatically instead of letting someone sign up for a full session. The
+instructor part is optional — leave it off and everything else still works the same.
 
 Alternatively, add two lines to the event's **Description** instead:
 ```

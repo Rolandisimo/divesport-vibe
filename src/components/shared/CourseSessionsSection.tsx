@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCourseSessions } from '@/hooks/useCourseSessions';
 import { ScheduleSection } from '@/components/shared/ScheduleSection';
@@ -82,37 +83,48 @@ function UpcomingSessionCard({ session, lang, onBook }: UpcomingSessionCardProps
   const isFull = free !== null && free <= 0;
   const time = timeRangeLabel(session, lang);
 
+  function handleBookClick(e: MouseEvent) {
+    // Without this, clicking the button would also toggle the <details> open/closed,
+    // since the button lives inside <summary> to keep the whole thing on one compact row.
+    e.preventDefault();
+    e.stopPropagation();
+    onBook(session);
+  }
+
   return (
-    <div className="session-card">
-      <div className="session-card__details">
-        <h3>{session.title}</h3>
-        <div className="session-card__meta">
+    <details className="session-row">
+      <summary>
+        <div className="session-row__top">
+          <span className="session-row__title">{session.title}</span>
+          {!isFull && (
+            <button type="button" className="btn btn--solid btn--sm" onClick={handleBookClick}>
+              {labels.bookCta}
+            </button>
+          )}
+        </div>
+        <div className="session-row__meta">
           <span>📅 {dateRangeLabel(session, lang)}</span>
           {time && <span>🕐 {time}</span>}
           {session.location && <span>📍 {session.location}</span>}
+          {session.instructor && <span>👤 {session.instructor}</span>}
+          {free !== null && (
+            <span className={`session-row__spots${isFull ? ' session-row__spots--full' : ''}`}>
+              {free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}
+            </span>
+          )}
         </div>
-        {free !== null && (
-          <p className={`session-card__spots${isFull ? ' session-card__spots--full' : ''}`}>
-            {free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}
-          </p>
-        )}
-        {!isFull && (
-          <button type="button" className="btn btn--solid btn--sm" onClick={() => onBook(session)}>
-            {labels.bookCta}
-          </button>
-        )}
-      </div>
+      </summary>
       {session.description && (
-        <div className="session-card__description">
+        <div className="session-row__body">
           <p>{session.description}</p>
         </div>
       )}
-    </div>
+    </details>
   );
 }
 
 function PastSessionRow({ session, lang }: { session: CourseSession; lang: Lang }) {
-  const metaParts = [dateRangeLabel(session, lang), session.location].filter(Boolean);
+  const metaParts = [dateRangeLabel(session, lang), session.location, session.instructor].filter(Boolean);
   return (
     <div className="compact-row">
       <span className="compact-row__title">{session.title}</span>

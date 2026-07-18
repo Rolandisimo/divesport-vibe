@@ -1,37 +1,50 @@
 @layer components {
-  /* ============ UPCOMING SESSION CARDS (Google Calendar sync) ============ */
-  .session-card {
-    @apply bg-panel border border-line rounded-md grid gap-8 px-7 py-7
-           transition-colors duration-200 hover:border-teal;
-    grid-template-columns: 1.1fr 0.9fr;
+  /* ============ UPCOMING SESSION ROWS (Google Calendar sync) ============ */
+  /* Compact by default — expands (native <details>) to reveal the description, so the
+     schedule reads as a scannable list instead of a wall of large cards. */
+  .session-row {
+    @apply bg-panel border border-line rounded-md px-5 transition-colors duration-200 hover:border-teal;
   }
-  @media (max-width: 560px) {
-    .session-card {
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
+  .session-row summary {
+    @apply cursor-pointer list-none py-4;
   }
-  .session-card__details h3 {
-    @apply text-[1.2rem] mb-3;
+  .session-row summary::-webkit-details-marker {
+    display: none;
   }
-  .session-card__meta {
-    @apply flex flex-col gap-1.5 mb-4 text-mist text-[0.88rem];
+  .session-row__top {
+    @apply flex items-center justify-between gap-4 flex-wrap;
   }
-  .session-card__spots {
-    @apply font-mono text-[0.8rem] text-teal mb-4;
+  .session-row__title {
+    @apply text-[1.05rem] text-foam font-bold flex items-center gap-2.5;
   }
-  .session-card__spots--full {
+  .session-row__title::before {
+    content: '+';
+    @apply text-mist font-normal text-base w-3 flex-shrink-0;
+  }
+  .session-row[open] .session-row__title::before {
+    content: '–';
+  }
+  .session-row__meta {
+    @apply flex flex-wrap gap-x-4 gap-y-1 mt-2.5 text-mist text-[0.82rem];
+  }
+  .session-row__spots {
+    @apply text-teal;
+  }
+  .session-row__spots--full {
     @apply text-mist;
   }
-  .session-card__description {
-    @apply border-l border-line pl-8;
+  .session-row__body {
+    @apply pb-5 pt-1 border-t border-line mt-1;
   }
-  .session-card__description p {
+  .session-row__body p {
     @apply text-mist text-[0.9rem] leading-relaxed whitespace-pre-line;
   }
   @media (max-width: 560px) {
-    .session-card__description {
-      @apply border-l-0 pl-0 pt-5 border-t border-line;
+    .session-row__top {
+      @apply flex-col items-start gap-3;
+    }
+    .session-row__top .btn {
+      @apply w-full;
     }
   }
 
