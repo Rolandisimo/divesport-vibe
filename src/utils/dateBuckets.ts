@@ -29,16 +29,19 @@ function groupByYear<T extends DateBucketable>(items: T[], descending: boolean):
 }
 
 /**
- * Buckets any date-bucketable list into "upcoming" (today or later) and "past", each
- * grouped by year — past with the most recent year first, upcoming with the soonest year
- * first. Shared by Trips and Course Sessions so both use the exact same rules.
+ * Buckets any date-bucketable list into "upcoming" (has not finished yet) and "past" (already
+ * over), each grouped by year — past with the most recent year first, upcoming with the
+ * soonest year first. Shared by Trips and Course Sessions so both use the exact same rules.
+ *
+ * Compares against the exact current moment, not just today's date — an event that already
+ * ended earlier today (e.g. a dive that finished this morning) needs to count as past right
+ * away, not stay "upcoming" until the calendar day rolls over.
  */
 export function splitByDate<T extends DateBucketable>(items: T[]): SplitByDate<T> {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const now = new Date();
 
-  const upcoming = items.filter((t) => !t.lastDate || t.lastDate >= today);
-  const past = items.filter((t) => t.lastDate && t.lastDate < today);
+  const upcoming = items.filter((t) => !t.lastDate || t.lastDate >= now);
+  const past = items.filter((t) => t.lastDate && t.lastDate < now);
 
   return {
     upcomingByYear: groupByYear(upcoming, false),
