@@ -6,18 +6,18 @@
     @apply max-w-site mx-auto flex items-center justify-between flex-wrap gap-4;
   }
   .footer__brand {
-    @apply font-display text-[1.1rem] font-bold;
+    @apply font-display text-lg font-bold;
   }
   .footer__brand span {
     @apply text-teal;
   }
   .footer__social {
-    @apply flex items-center gap-5 font-mono text-[0.75rem] text-mist;
+    @apply flex items-center gap-5 font-mono text-xs text-mist;
   }
   .footer__social a:hover {
     @apply text-amber;
   }
   .footer__copy {
-    @apply font-mono text-[0.72rem] text-mist w-full text-center mt-2;
+    @apply font-mono text-xs text-mist w-full text-center mt-2;
   }
 }

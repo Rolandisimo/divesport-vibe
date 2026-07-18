@@ -1,51 +1,57 @@
 @layer components {
   /* ============ UPCOMING SESSION ROWS (Google Calendar sync) ============ */
-  /* Compact by default — expands (native <details>) to reveal the description, so the
-     schedule reads as a scannable list instead of a wall of large cards. */
+  /* Compact by default — the description only shows once expanded, via a plain controlled
+     button (not native <details>/<summary>, which was drawing its own disclosure marker
+     alongside the custom one on some browsers). */
   .session-row {
-    @apply bg-panel border border-line rounded-md px-5 transition-colors duration-200 hover:border-teal;
+    @apply bg-panel border border-line rounded-md transition-colors duration-200 hover:border-teal;
   }
-  .session-row summary {
-    @apply cursor-pointer list-none py-4;
+  .session-row__main {
+    @apply flex items-center gap-3 px-4 py-3;
   }
-  .session-row summary::-webkit-details-marker {
-    display: none;
+  .session-row__toggle {
+    @apply flex items-start gap-2.5 flex-1 min-w-0 text-left;
   }
-  .session-row__top {
-    @apply flex items-center justify-between gap-4 flex-wrap;
+  .session-row__indicator {
+    @apply text-mist text-sm w-3 flex-shrink-0 pt-0.5;
   }
-  .session-row__title {
-    @apply text-[1.05rem] text-foam font-bold flex items-center gap-2.5;
+  .session-row__grid {
+    @apply grid gap-4 items-start flex-1 min-w-0;
+    grid-template-columns: 2fr 1fr;
   }
-  .session-row__title::before {
-    content: '+';
-    @apply text-mist font-normal text-base w-3 flex-shrink-0;
+  @media (max-width: 700px) {
+    .session-row__grid {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
   }
-  .session-row[open] .session-row__title::before {
-    content: '–';
+  .session-row__type {
+    @apply flex items-baseline flex-wrap gap-x-2;
   }
-  .session-row__meta {
-    @apply flex flex-wrap gap-x-4 gap-y-1 mt-2.5 text-mist text-[0.82rem];
+  .session-row__type-main {
+    @apply text-base text-foam font-bold;
   }
-  .session-row__spots {
-    @apply text-teal;
+  .session-row__type-detail {
+    @apply text-sm text-mist;
   }
-  .session-row__spots--full {
-    @apply text-mist;
+  .session-row__info {
+    @apply flex flex-col gap-0.5 text-xs text-mist;
   }
   .session-row__body {
-    @apply pb-5 pt-1 border-t border-line mt-1;
+    @apply px-4 pb-4 pt-3 mt-1 border-t border-line text-sm text-mist leading-relaxed;
   }
-  .session-row__body p {
-    @apply text-mist text-[0.9rem] leading-relaxed whitespace-pre-line;
+  .session-row__body ol {
+    @apply list-decimal pl-5 mt-2 mb-2 flex flex-col gap-1;
   }
-  @media (max-width: 560px) {
-    .session-row__top {
-      @apply flex-col items-start gap-3;
-    }
-    .session-row__top .btn {
-      @apply w-full;
-    }
+  .session-row__body ul {
+    @apply list-disc pl-5 mt-2 mb-2 flex flex-col gap-1;
+  }
+  .session-row__body a {
+    @apply text-teal underline;
+  }
+  .session-row__body strong,
+  .session-row__body b {
+    @apply text-foam font-bold;
   }
 
   /* ============ COURSE SCHEDULE (Google Calendar sync) ============ */
@@ -56,13 +62,13 @@
     @apply flex items-center gap-5 py-4 border-b border-line flex-wrap;
   }
   .session-row__date {
-    @apply font-mono text-[0.8rem] text-amber whitespace-nowrap w-[170px] flex-shrink-0 max-md:w-full;
+    @apply font-mono text-xs text-amber whitespace-nowrap w-[170px] flex-shrink-0 max-md:w-full;
   }
   .session-row__title {
-    @apply flex-1 text-foam text-[0.95rem];
+    @apply flex-1 text-foam text-base;
   }
   .session-row__spots {
-    @apply font-mono text-[0.76rem] text-teal whitespace-nowrap;
+    @apply font-mono text-xs text-teal whitespace-nowrap;
   }
   .session-row__spots--full {
     @apply text-mist;
@@ -70,7 +76,7 @@
 
   /* ============ COURSE CATALOG ============ */
   .course-tier {
-    @apply font-mono uppercase tracking-[0.1em] text-[0.76rem] text-teal mt-12 mb-[18px] first-of-type:mt-2;
+    @apply font-mono uppercase tracking-[0.1em] text-xs text-teal mt-12 mb-[18px] first-of-type:mt-2;
   }
   .course-catalog {
     @apply flex flex-col gap-3.5;
@@ -81,17 +87,17 @@
            max-md:px-5 max-md:py-[22px];
   }
   .course-card__tag {
-    @apply inline-block font-mono text-[0.64rem] uppercase tracking-[0.06em] text-teal
+    @apply inline-block font-mono text-xs uppercase tracking-[0.06em] text-teal
            bg-teal/10 border border-teal-dim px-2.5 py-1 rounded-full mb-3.5;
   }
   .course-card__tag--popular {
     @apply text-amber bg-amber/10 border-amber/40;
   }
   .course-card h3 {
-    @apply text-[1.25rem] mb-2;
+    @apply text-xl mb-2;
   }
   .course-card p {
-    @apply text-mist text-[0.9rem] max-w-[660px] mb-5;
+    @apply text-mist text-sm max-w-[660px] mb-5;
   }
   .course-card__footer {
     @apply flex items-center justify-between flex-wrap gap-3.5 pt-4 border-t border-line
@@ -101,7 +107,7 @@
     @apply max-md:w-full;
   }
   .course-card__price {
-    @apply font-mono text-[1.3rem] text-amber font-bold max-md:text-[1.15rem];
+    @apply font-mono text-xl text-amber font-bold max-md:text-lg;
   }
 
   /* ============ BADGE CARDS ============ */
@@ -127,13 +133,13 @@
     @apply w-14 h-14 mx-auto mb-[18px] object-contain;
   }
   .badge-card h3 {
-    @apply text-[1.1rem] mb-2;
+    @apply text-lg mb-2;
   }
   .badge-card p {
-    @apply text-mist text-[0.86rem] mb-4;
+    @apply text-mist text-sm mb-4;
   }
   .badge-card .btn {
-    @apply text-[0.72rem] px-[18px] py-2.5;
+    @apply text-xs px-[18px] py-2.5;
   }
 
   /* ============ SUBPAGE NAV (related-page links, bottom of page) ============ */
@@ -141,7 +147,7 @@
     @apply flex flex-wrap gap-2.5 mt-10;
   }
   .subnav a {
-    @apply font-mono text-[0.74rem] uppercase tracking-[0.04em] px-4 py-[9px] border border-line rounded-sm text-mist;
+    @apply font-mono text-xs uppercase tracking-[0.04em] px-4 py-[9px] border border-line rounded-sm text-mist;
   }
   .subnav a:hover,
   .subnav a.active {
@@ -153,7 +159,7 @@
     @apply flex flex-wrap gap-2.5;
   }
   .jump-nav__btn {
-    @apply font-mono text-[0.74rem] uppercase tracking-[0.04em] px-4 py-[9px]
+    @apply font-mono text-xs uppercase tracking-[0.04em] px-4 py-[9px]
            bg-panel border border-teal rounded-sm text-foam
            transition-colors duration-200 hover:border-amber hover:text-amber;
   }

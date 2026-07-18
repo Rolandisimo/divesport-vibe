@@ -83,38 +83,52 @@ never committed.
 
 ## Adding a course date
 
-Just create an event on that calendar, same as any other Google Calendar event:
+Just create an event on that calendar, same as any other Google Calendar event.
 
-| Field | What to put |
-|---|---|
-| **Title** | The course name, e.g. `PADI Open Water Diver` |
-| **Date/time** | The actual course date(s) — a single day or a multi-day range both work. If you set an actual time of day (not just a date), the site shows the start–end time too — leave it as an all-day event if there's no specific time to show. |
-| **Description** | Shown on the site next to the session's details — a good place for notes like what's included, prerequisites, or meeting point instructions |
-| **Location** | Shown on the site under the session's details (e.g. `Rīga, peldbaseins`) |
+### Title format
 
-### Showing available spots (optional)
+The site reads structured information straight out of the event **Title**. Use this
+format, each part separated by ` - `:
 
-The easiest way is right in the event **Title** — end it with `X/Y` and a word, where `X` is
-how many are already registered and `Y` is the total capacity. Optionally add the
-instructor's name right after that, also separated by ` - `:
+```
+DIVE TYPE - DIVE TYPE DETAIL - X/Y students - INSTRUCTOR
+```
+
+Example:
 ```
 OWD - Final Dive - 2/2 students - Aleksejs Kravčuks
 ```
-The site strips the capacity and instructor parts back off for display (shown as just
-"OWD - Final Dive", with the instructor shown separately alongside the date/location) and
-uses the numbers to show "X of Y spots free" — once `X` reaches `Y`, the booking button
-disappears automatically instead of letting someone sign up for a full session. The
-instructor part is optional — leave it off and everything else still works the same.
 
-Alternatively, add two lines to the event's **Description** instead:
+| Part | What it does |
+|---|---|
+| `DIVE TYPE` | Shown as the main label on the left side of the session row, e.g. `OWD` |
+| `DIVE TYPE DETAIL` | Shown underneath it, e.g. `Final Dive` — optional, leave it out if there's nothing to add |
+| `X/Y students` | `X` = how many are already joined, `Y` = total capacity. The word after the numbers doesn't matter (`students`, `studenti`, whatever) — only the numbers are read. Once `X` reaches `Y`, the "join" button disappears automatically. This whole segment is optional — leave it out and the site just won't show a student count |
+| `INSTRUCTOR` | Shown alongside the date/location. Optional — leave it off and nothing shows |
+
+Only the `DIVE TYPE` is required. Everything else can be left out and the site adapts —
+e.g. `OWD` alone, or `OWD - Final Dive` with no student count or instructor, both work fine.
+
+### Other fields
+
+| Field | What it does |
+|---|---|
+| **Date/time** | The actual course date(s) — a single day or a multi-day range both work. If you set an actual time of day (not just a date), the site shows the start–end time too — leave it as an all-day event if there's no specific time to show. |
+| **Description** | Shown when someone expands the session row. **Rich text works** — bold, bullet/numbered lists, line breaks, links all render properly, not as plain text, so it's fine to format it the same way you would in Google Docs. |
+| **Location** | Shown alongside the session's other details (e.g. `Rīga, peldbaseins`) |
+
+### Showing available spots — the alternative way
+
+If you'd rather not put student counts in the title, add two lines to the event's
+**Description** instead:
 ```
 vietas: 8
 pieteikušies: 3
 ```
-(`vietas` = total spots, `pieteikušies` = already registered — Russian `места` /
-`записалось` also work.) The title format takes priority if both are present. Leave both
-out entirely and the site just shows the date and course name with no spots count, and the
-booking button always shows.
+(`vietas` = total spots, `pieteikušies` = already joined — Russian `места` / `записалось`
+also work.) The title format takes priority if both are present. Leave both out entirely
+and the site just shows the date and dive type with no student count, and the
+join button always shows.
 
 **One thing to know:** unlike the Sheet (which updates live), calendar changes only show up
 on the site after the **next deploy**, since the fetch happens at build time — merge

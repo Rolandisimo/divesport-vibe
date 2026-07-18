@@ -19,7 +19,7 @@
     @apply relative max-w-site mx-auto px-6 w-full;
   }
   .eyebrow {
-    @apply font-mono text-teal uppercase tracking-[0.12em] text-[0.78rem] mb-[18px];
+    @apply font-mono text-teal uppercase tracking-[0.12em] text-xs mb-[18px];
   }
   .hero__title-list {
     @apply flex flex-col gap-0.5 font-display font-bold text-foam mb-[34px] max-sm:text-2xl;
@@ -67,16 +67,16 @@
            focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber focus-visible:outline-offset-2;
   }
   .quick-card__icon {
-    @apply text-[2.4rem] mb-5 block;
+    @apply text-4xl mb-5 block;
   }
   .quick-card h3 {
-    @apply text-[1.4rem] mb-2 pr-6;
+    @apply text-2xl mb-2 pr-6;
   }
   .quick-card p {
-    @apply text-mist text-[0.95rem] m-0;
+    @apply text-mist text-base m-0;
   }
   .quick-card__arrow {
-    @apply absolute top-9 right-7 text-mist text-[1.1rem] transition-transform transition-colors duration-200;
+    @apply absolute top-9 right-7 text-mist text-lg transition-transform transition-colors duration-200;
   }
   .quick-card:hover .quick-card__arrow {
     @apply translate-x-1 text-amber;
@@ -93,10 +93,10 @@
     @apply max-w-site mx-auto relative;
   }
   .page-hero h1 {
-    @apply text-foam max-sm:text-[1.6rem];
+    @apply text-foam max-sm:text-2xl;
     font-size: clamp(1.9rem, 3.6vw, 2.6rem);
   }
   .page-hero__lede {
-    @apply text-mist max-w-[600px] mt-2.5 text-[0.96rem];
+    @apply text-mist max-w-[600px] mt-2.5 text-base;
   }
 }

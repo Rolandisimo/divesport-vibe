@@ -29,13 +29,9 @@ function parseCount(description, keywords) {
   return match ? parseInt(match[1], 10) : null;
 }
 
-// Primary source: a trailing "X/Y <word>" in the event TITLE itself, e.g.
-// "OWD - Final Dive - 2/2 students" -> registered 2, capacity 2, title cleaned to
-// "OWD - Final Dive". This is the format course organizers actually type when creating
-// the event, so it's the first thing checked before falling back to the description.
-// Matches "X/Y <word>" anywhere in the title — not anchored to the end anymore, since the
-// new title format is "TYPE - DETAIL - X/Y students - INSTRUCTOR", with the instructor name
-// trailing after the capacity segment rather than being the last thing in the string.
+// Matches "X/Y <word>" anywhere in the title — the event title format is
+// "TYPE - DETAIL - X/Y students - INSTRUCTOR", e.g.
+// "OWD - Final Dive - 2/2 students - Aleksejs Kravčuks".
 const SLOTS_PATTERN = /(\d+)\s*\/\s*(\d+)\s*[a-zA-Z\u0100-\u017F\u0400-\u04FF]*/u;
 
 function stripSeparators(text, side) {
@@ -43,23 +39,37 @@ function stripSeparators(text, side) {
   return text.replace(pattern, '').trim();
 }
 
+/** Splits the raw event title into: dive type, dive type detail, capacity, registered
+ *  count, and instructor — for the two-column display (type+detail on one side, the rest
+ *  of the details on the other). */
 function parseTitle(title) {
   const match = title.match(SLOTS_PATTERN);
-  if (!match) {
-    return { cleanedTitle: title, capacity: null, registered: null, instructor: '' };
-  }
+  const capacity = match ? parseInt(match[2], 10) : null;
+  const registered = match ? parseInt(match[1], 10) : null;
+  const before = match ? stripSeparators(title.slice(0, match.index), 'end') : title;
+  const instructor = match ? stripSeparators(title.slice(match.index + match[0].length), 'start') : '';
 
-  const registered = parseInt(match[1], 10);
-  const capacity = parseInt(match[2], 10);
-  const before = stripSeparators(title.slice(0, match.index), 'end');
-  const after = stripSeparators(title.slice(match.index + match[0].length), 'start');
+  // "TYPE - DETAIL" -> two separate fields, so there's never a stray leading/trailing
+  // separator left over when they're displayed independently.
+  const sepIndex = before.indexOf(' - ');
+  const diveType = (sepIndex === -1 ? before : before.slice(0, sepIndex)).trim() || title;
+  const diveTypeDetail = sepIndex === -1 ? '' : before.slice(sepIndex + 3).trim();
 
-  return {
-    cleanedTitle: before || title,
-    capacity,
-    registered,
-    instructor: after,
-  };
+  return { diveType, diveTypeDetail, capacity, registered, instructor };
+}
+
+/** Google Calendar's rich-text editor stores descriptions as HTML (<br>, <ol><li>, bold,
+ *  links, etc.) — this is shown on the site as real HTML, not escaped plaintext, so a
+ *  lightweight strip of anything actively dangerous is worth doing even though the source
+ *  is the site owner's own calendar, not public input. */
+function sanitizeHtml(html) {
+  if (!html) return '';
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/\son\w+\s*=\s*"[^"]*"/gi, '')
+    .replace(/\son\w+\s*=\s*'[^']*'/gi, '')
+    .replace(/javascript:/gi, '');
 }
 
 async function main() {
@@ -109,7 +119,8 @@ async function main() {
       const registered = parsed.registered ?? parseCount(event.description, REGISTERED_KEYWORDS);
 
       return {
-        title: parsed.cleanedTitle,
+        diveType: parsed.diveType,
+        diveTypeDetail: parsed.diveTypeDetail,
         instructor: parsed.instructor,
         startDate: event.start?.dateTime ?? event.start?.date ?? null,
         endDate: event.end?.dateTime ?? event.end?.date ?? null,
@@ -117,7 +128,7 @@ async function main() {
         capacity,
         registered,
         location: event.location ?? '',
-        description: event.description?.trim() ?? '',
+        description: sanitizeHtml(event.description?.trim() ?? ''),
       };
     })
     .filter((s) => s.startDate && s.endDate);

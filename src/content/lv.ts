@@ -96,7 +96,7 @@ const lv: SiteContent = {
     courseTemplate: (course) =>
       `Interesē kurss: ${course}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus.`,
     courseSessionTemplate: (course, dateLabel, location) =>
-      `Interesē kurss: ${course}, norises datums: ${dateLabel}${location ? ` (${location})` : ''}. Lūdzu, sazinieties ar mani, lai apstiprinātu vietu.`,
+      `Vēlos pievienoties nodarbībai: ${course}, datums: ${dateLabel}${location ? ` (${location})` : ''}. Lūdzu, sazinieties ar mani, lai apstiprinātu.`,
     tripCategoryValue: 'Ceļojumi',
     tripTemplate: (tripTitle) =>
       `Interesē ceļojums: ${tripTitle}. Lūdzu, sazinieties ar mani, lai pārrunātu pieejamos datumus un rezervāciju.`,

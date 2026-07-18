@@ -21,7 +21,7 @@
   .gallery__item::after {
     content: '⤢';
     @apply absolute top-1/2 left-1/2 w-9 h-9 leading-9 text-center rounded-full
-           bg-abyss/60 text-foam text-[1.1rem] opacity-0 pointer-events-none
+           bg-abyss/60 text-foam text-lg opacity-0 pointer-events-none
            transition-opacity transition-transform duration-200;
     transform: translate(-50%, -50%) scale(0.8);
   }
@@ -31,7 +31,7 @@
     transform: translate(-50%, -50%) scale(1);
   }
   .gallery__note {
-    @apply mt-5 text-mist text-[0.82rem];
+    @apply mt-5 text-mist text-sm;
   }
   .gallery__note code {
     @apply text-teal;
@@ -76,7 +76,7 @@
     @apply opacity-100;
   }
   .dest-card span {
-    @apply absolute left-[18px] bottom-4 z-[1] font-display text-[1.3rem] text-foam;
+    @apply absolute left-[18px] bottom-4 z-[1] font-display text-xl text-foam;
   }
 
   /* ============ LIGHTBOX ============ */
@@ -105,11 +105,11 @@
   }
   .lightbox__close {
     @apply absolute top-5 right-5 z-[1] w-11 h-11 rounded-full bg-panel border border-line
-           text-foam text-[1.1rem] cursor-pointer leading-none hover:border-teal hover:text-teal
+           text-foam text-lg cursor-pointer leading-none hover:border-teal hover:text-teal
            max-md:top-3 max-md:right-3;
   }
   .lightbox__caption {
-    @apply font-mono text-[0.78rem] text-mist text-center min-h-[1em];
+    @apply font-mono text-xs text-mist text-center min-h-[1em];
   }
   body.lightbox-open {
     @apply overflow-hidden;

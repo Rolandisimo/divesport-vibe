@@ -35,15 +35,16 @@ export function ApmacibaKursiPage() {
     }));
   }
 
-  function handleBookSession(session: CourseSession) {
+  function handleJoinSession(session: CourseSession) {
     const sameDay = session.startDate.toDateString() === session.endDate.toDateString();
     const dateLabel = sameDay
       ? session.startDate.toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'lv-LV')
       : `${session.startDate.toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'lv-LV')} – ${session.endDate.toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'lv-LV')}`;
+    const sessionTitle = [session.diveType, session.diveTypeDetail].filter(Boolean).join(' — ');
 
     setPrefillRequest((prev) => ({
       category: form.courseCategoryValue,
-      message: form.courseSessionTemplate(session.title, dateLabel, session.location),
+      message: form.courseSessionTemplate(sessionTitle, dateLabel, session.location),
       startDate: toDateInputValue(session.startDate),
       nonce: (prev?.nonce ?? 0) + 1,
     }));
@@ -75,7 +76,7 @@ export function ApmacibaKursiPage() {
         </div>
       </PageHero>
       <main>
-        <CourseSessionsSection id="course-schedule" onBook={handleBookSession} onContactUs={handleContactUs} />
+        <CourseSessionsSection id="course-schedule" onJoin={handleJoinSession} onContactUs={handleContactUs} />
 
         <section className="section" id="course-catalog">
           <div className="section__inner">

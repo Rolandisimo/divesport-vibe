@@ -1,18 +1,21 @@
 export interface CourseSession {
-  /** The event title from the calendar — used as the course name (e.g. "PADI Open Water Diver"). */
-  title: string;
+  /** e.g. "OWD" — the left column's main label. */
+  diveType: string;
+  /** e.g. "Final Dive" — shown under diveType, left column. */
+  diveTypeDetail: string;
   /** Parsed from the title's trailing "- Instructor Name" segment, if present. */
   instructor: string;
   startDate: Date;
   endDate: Date;
   allDay: boolean;
-  /** Total spots, if the event description includes a "vietas: N" / "места: N" line. Null if not specified. */
+  /** Total spots, if the event title/description specifies capacity. Null if not specified. */
   capacity: number | null;
-  /** How many are already registered, from a "pieteikušies: N" / "записалось: N" line. Null if not specified. */
+  /** How many are already registered/joined. Null if not specified. */
   registered: number | null;
   location: string;
-  /** Free-text notes from the calendar event's description — shown alongside the session
-   *  details on the Kursi page. */
+  /** The calendar event's description, as sanitized HTML (Google Calendar's rich-text editor
+   *  stores formatting — line breaks, lists, bold — as real HTML, not plaintext). Rendered
+   *  via dangerouslySetInnerHTML, not shown as raw text. */
   description: string;
   /** Equal to endDate — used by the shared upcoming/past date-bucketing utility. */
   lastDate: Date | null;

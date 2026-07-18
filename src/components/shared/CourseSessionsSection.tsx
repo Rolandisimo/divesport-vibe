@@ -1,4 +1,4 @@
-import type { MouseEvent } from 'react';
+import { useState } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCourseSessions } from '@/hooks/useCourseSessions';
 import { ScheduleSection } from '@/components/shared/ScheduleSection';
@@ -21,23 +21,23 @@ const HEADING = {
 const LABELS = {
   lv: {
     full: 'Vietu nav',
-    spotsLeft: (free: number, capacity: number) => `${free} no ${capacity} vietām brīvas`,
+    students: (registered: number, capacity: number) => `${registered}/${capacity} studenti`,
     sessionsCount: (n: number) => `${n} ${n === 1 ? 'norise' : 'norises'}`,
     emptyUpcoming: 'Šobrīd nav ieplānotu kursu dienu.',
     contactCta: 'Sazināties par kursiem',
     pastCta: 'Skatīt iepriekšējās norises',
     emptyPast: 'Arhīvā vēl nav ierakstu.',
-    bookCta: 'Pieteikties',
+    joinCta: 'Pievienoties',
   },
   ru: {
     full: 'Мест нет',
-    spotsLeft: (free: number, capacity: number) => `Свободно ${free} из ${capacity} мест`,
+    students: (registered: number, capacity: number) => `${registered}/${capacity} студентов`,
     sessionsCount: (n: number) => `${n} ${n === 1 ? 'дата' : 'даты'}`,
     emptyUpcoming: 'Сейчас нет запланированных дат курсов.',
     contactCta: 'Связаться по курсам',
     pastCta: 'Смотреть прошедшие даты',
     emptyPast: 'В архиве пока нет записей.',
-    bookCta: 'Записаться',
+    joinCta: 'Присоединиться',
   },
 } as const;
 
@@ -73,61 +73,67 @@ function timeRangeLabel(session: CourseSession, lang: Lang): string | null {
 interface UpcomingSessionCardProps {
   session: CourseSession;
   lang: Lang;
-  onBook: (session: CourseSession) => void;
+  onJoin: (session: CourseSession) => void;
 }
 
-function UpcomingSessionCard({ session, lang, onBook }: UpcomingSessionCardProps) {
+function UpcomingSessionCard({ session, lang, onJoin }: UpcomingSessionCardProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const labels = LABELS[lang];
   const hasCounts = session.capacity !== null && session.registered !== null;
-  const free = hasCounts ? session.capacity! - session.registered! : null;
-  const isFull = free !== null && free <= 0;
+  const isFull = hasCounts && session.registered! >= session.capacity!;
   const time = timeRangeLabel(session, lang);
 
-  function handleBookClick(e: MouseEvent) {
-    // Without this, clicking the button would also toggle the <details> open/closed,
-    // since the button lives inside <summary> to keep the whole thing on one compact row.
-    e.preventDefault();
-    e.stopPropagation();
-    onBook(session);
-  }
+  const dateLine = time ? `${dateRangeLabel(session, lang)} · ${time}` : dateRangeLabel(session, lang);
+  const statusText = hasCounts ? (isFull ? labels.full : labels.students(session.registered!, session.capacity!)) : '';
+  const secondLine = [session.instructor, statusText].filter(Boolean).join(' · ');
 
   return (
-    <details className="session-row">
-      <summary>
-        <div className="session-row__top">
-          <span className="session-row__title">{session.title}</span>
-          {!isFull && (
-            <button type="button" className="btn btn--solid btn--sm" onClick={handleBookClick}>
-              {labels.bookCta}
-            </button>
-          )}
-        </div>
-        <div className="session-row__meta">
-          <span>📅 {dateRangeLabel(session, lang)}</span>
-          {time && <span>🕐 {time}</span>}
-          {session.location && <span>📍 {session.location}</span>}
-          {session.instructor && <span>👤 {session.instructor}</span>}
-          {free !== null && (
-            <span className={`session-row__spots${isFull ? ' session-row__spots--full' : ''}`}>
-              {free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}
-            </span>
-          )}
-        </div>
-      </summary>
-      {session.description && (
-        <div className="session-row__body">
-          <p>{session.description}</p>
-        </div>
+    <div className="session-row">
+      <div className="session-row__main">
+        {/* A plain controlled button — not the native <details>/<summary> disclosure — so
+            there's exactly one expand indicator on screen, not a custom one plus whatever
+            marker the browser decides to draw on its own for a <summary>. */}
+        <button
+          type="button"
+          className="session-row__toggle"
+          onClick={() => setIsOpen((v) => !v)}
+          aria-expanded={isOpen}
+        >
+          <span className="session-row__indicator">{isOpen ? '–' : '+'}</span>
+          <div className="session-row__grid">
+            <div className="session-row__type">
+              <span className="session-row__type-main">{session.diveType}</span>
+              {session.diveTypeDetail && <span className="session-row__type-detail">{session.diveTypeDetail}</span>}
+            </div>
+            <div className="session-row__info">
+              <span>{dateLine}</span>
+              {session.location && <span>{session.location}</span>}
+              {secondLine && <span>{secondLine}</span>}
+            </div>
+          </div>
+        </button>
+        {!isFull && (
+          <button type="button" className="btn btn--solid btn--sm" onClick={() => onJoin(session)}>
+            {labels.joinCta}
+          </button>
+        )}
+      </div>
+      {isOpen && session.description && (
+        // The calendar event's description comes through as sanitized HTML (Google
+        // Calendar's rich-text editor stores line breaks/lists/bold as real markup, not
+        // plaintext) — rendering it as text would show the raw <br>/<ol> tags literally.
+        <div className="session-row__body" dangerouslySetInnerHTML={{ __html: session.description }} />
       )}
-    </details>
+    </div>
   );
 }
 
 function PastSessionRow({ session, lang }: { session: CourseSession; lang: Lang }) {
+  const title = [session.diveType, session.diveTypeDetail].filter(Boolean).join(' — ');
   const metaParts = [dateRangeLabel(session, lang), session.location, session.instructor].filter(Boolean);
   return (
     <div className="compact-row">
-      <span className="compact-row__title">{session.title}</span>
+      <span className="compact-row__title">{title}</span>
       <span className="compact-row__meta">{metaParts.join(' · ')}</span>
     </div>
   );
@@ -135,11 +141,11 @@ function PastSessionRow({ session, lang }: { session: CourseSession; lang: Lang 
 
 interface CourseSessionsSectionProps {
   id?: string;
-  onBook: (session: CourseSession) => void;
+  onJoin: (session: CourseSession) => void;
   onContactUs: () => void;
 }
 
-export function CourseSessionsSection({ id, onBook, onContactUs }: CourseSessionsSectionProps) {
+export function CourseSessionsSection({ id, onJoin, onContactUs }: CourseSessionsSectionProps) {
   const { lang } = useLang();
   const { upcomingByYear, pastByYear } = useCourseSessions();
   const labels = LABELS[lang];
@@ -162,7 +168,7 @@ export function CourseSessionsSection({ id, onBook, onContactUs }: CourseSession
             <YearGroup year={group.year} countLabel={labels.sessionsCount(group.items.length)} defaultOpen key={group.year}>
               <div className="course-catalog" style={{ marginTop: 20 }}>
                 {group.items.map((session, i) => (
-                  <UpcomingSessionCard session={session} lang={lang} onBook={onBook} key={`${session.title}-${i}`} />
+                  <UpcomingSessionCard session={session} lang={lang} onJoin={onJoin} key={`${session.diveType}-${i}`} />
                 ))}
               </div>
             </YearGroup>
@@ -175,7 +181,7 @@ export function CourseSessionsSection({ id, onBook, onContactUs }: CourseSession
             <YearGroup year={group.year} countLabel={labels.sessionsCount(group.items.length)} defaultOpen={i === 0} key={group.year}>
               <div className="compact-row-list">
                 {group.items.map((session, j) => (
-                  <PastSessionRow session={session} lang={lang} key={`${session.title}-${j}`} />
+                  <PastSessionRow session={session} lang={lang} key={`${session.diveType}-${j}`} />
                 ))}
               </div>
             </YearGroup>

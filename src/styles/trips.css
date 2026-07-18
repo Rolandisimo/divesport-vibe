@@ -14,13 +14,13 @@
     @apply px-[30px] py-7 flex-1 min-w-[280px];
   }
   .trip-card__body h3 {
-    @apply text-[1.3rem] mb-2.5;
+    @apply text-xl mb-2.5;
   }
   .trip-card__flag {
     @apply mr-2.5 inline-block;
   }
   .trip-card__intro {
-    @apply text-mist text-[0.92rem] mb-[22px] max-w-[640px];
+    @apply text-mist text-sm mb-[22px] max-w-[640px];
   }
   .trip-card__grid {
     @apply grid gap-x-8 gap-y-5 pt-[18px] border-t border-line;
@@ -32,13 +32,13 @@
     }
   }
   .trip-card__section p.trip-card__label {
-    @apply font-mono text-[0.72rem] uppercase tracking-[0.05em] text-teal mb-2;
+    @apply font-mono text-xs uppercase tracking-[0.05em] text-teal mb-2;
   }
   .trip-card__section ul {
     @apply flex flex-col gap-1;
   }
   .trip-card__section li {
-    @apply text-foam text-[0.86rem] pl-3.5 relative;
+    @apply text-foam text-sm pl-3.5 relative;
   }
   .trip-card__section li::before {
     content: '–';
@@ -52,6 +52,6 @@
     @apply max-md:w-full;
   }
   .trip-card__price {
-    @apply font-mono text-[0.82rem] text-amber;
+    @apply font-mono text-sm text-amber;
   }
 }

@@ -3,7 +3,8 @@ import type { CourseSession } from '@/types/calendar';
 import { splitByDate, type SplitByDate } from '@/utils/dateBuckets';
 
 interface RawSession {
-  title: string;
+  diveType: string;
+  diveTypeDetail: string;
   instructor: string;
   startDate: string;
   endDate: string;

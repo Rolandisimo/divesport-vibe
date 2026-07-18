@@ -96,7 +96,7 @@ const ru: SiteContent = {
     courseTemplate: (course) =>
       `Интересует курс: ${course}. Пожалуйста, свяжитесь со мной, чтобы обсудить доступные даты.`,
     courseSessionTemplate: (course, dateLabel, location) =>
-      `Интересует курс: ${course}, дата проведения: ${dateLabel}${location ? ` (${location})` : ''}. Пожалуйста, свяжитесь со мной, чтобы подтвердить место.`,
+      `Хочу присоединиться к занятию: ${course}, дата: ${dateLabel}${location ? ` (${location})` : ''}. Пожалуйста, свяжитесь со мной, чтобы подтвердить.`,
     tripCategoryValue: 'Путешествия',
     tripTemplate: (tripTitle) =>
       `Интересует поездка: ${tripTitle}. Пожалуйста, свяжитесь со мной, чтобы обсудить даты и бронирование.`,
