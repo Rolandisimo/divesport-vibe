@@ -48,11 +48,25 @@ function formatDate(date: Date, lang: Lang): string {
   });
 }
 
+function formatTime(date: Date, lang: Lang): string {
+  return date.toLocaleTimeString(lang === 'ru' ? 'ru-RU' : 'lv-LV', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
 function dateRangeLabel(session: CourseSession, lang: Lang): string {
   const sameDay = session.startDate.toDateString() === session.endDate.toDateString();
   return sameDay
     ? formatDate(session.startDate, lang)
     : `${formatDate(session.startDate, lang)} – ${formatDate(session.endDate, lang)}`;
+}
+
+/** Adds the start–end time to the date range, but only for timed events — an all-day
+ *  calendar entry has no meaningful time-of-day to show. */
+function timeRangeLabel(session: CourseSession, lang: Lang): string | null {
+  if (session.allDay) return null;
+  return `${formatTime(session.startDate, lang)}–${formatTime(session.endDate, lang)}`;
 }
 
 interface UpcomingSessionCardProps {
@@ -66,15 +80,21 @@ function UpcomingSessionCard({ session, lang, onBook }: UpcomingSessionCardProps
   const hasCounts = session.capacity !== null && session.registered !== null;
   const free = hasCounts ? session.capacity! - session.registered! : null;
   const isFull = free !== null && free <= 0;
-  const metaParts = [dateRangeLabel(session, lang), session.location].filter(Boolean);
+  const time = timeRangeLabel(session, lang);
 
   return (
-    <div className="course-card">
-      <h3>{session.title}</h3>
-      <p>{metaParts.join(' · ')}</p>
-      <div className="course-card__footer">
+    <div className="session-card">
+      <div className="session-card__details">
+        <h3>{session.title}</h3>
+        <div className="session-card__meta">
+          <span>📅 {dateRangeLabel(session, lang)}</span>
+          {time && <span>🕐 {time}</span>}
+          {session.location && <span>📍 {session.location}</span>}
+        </div>
         {free !== null && (
-          <span className="course-card__price">{free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}</span>
+          <p className={`session-card__spots${isFull ? ' session-card__spots--full' : ''}`}>
+            {free > 0 ? labels.spotsLeft(free, session.capacity!) : labels.full}
+          </p>
         )}
         {!isFull && (
           <button type="button" className="btn btn--solid btn--sm" onClick={() => onBook(session)}>
@@ -82,6 +102,11 @@ function UpcomingSessionCard({ session, lang, onBook }: UpcomingSessionCardProps
           </button>
         )}
       </div>
+      {session.description && (
+        <div className="session-card__description">
+          <p>{session.description}</p>
+        </div>
+      )}
     </div>
   );
 }

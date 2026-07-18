@@ -10,6 +10,7 @@ interface RawSession {
   capacity: number | null;
   registered: number | null;
   location: string;
+  description: string;
 }
 
 /**

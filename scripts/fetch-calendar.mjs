@@ -94,6 +94,7 @@ async function main() {
         capacity,
         registered,
         location: event.location ?? '',
+        description: event.description?.trim() ?? '',
       };
     })
     .filter((s) => s.startDate && s.endDate);

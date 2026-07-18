@@ -88,20 +88,30 @@ Just create an event on that calendar, same as any other Google Calendar event:
 | Field | What to put |
 |---|---|
 | **Title** | The course name, e.g. `PADI Open Water Diver` |
-| **Date/time** | The actual course date(s) — a single day or a multi-day range both work |
-| **Description** | Optional — see below for adding headcount |
-| **Location** | Optional, not currently shown on the site |
+| **Date/time** | The actual course date(s) — a single day or a multi-day range both work. If you set an actual time of day (not just a date), the site shows the start–end time too — leave it as an all-day event if there's no specific time to show. |
+| **Description** | Shown on the site next to the session's details — a good place for notes like what's included, prerequisites, or meeting point instructions |
+| **Location** | Shown on the site under the session's details (e.g. `Rīga, peldbaseins`) |
 
 ### Showing available spots (optional)
 
-To show "X of Y spots free" on the site, add two lines to the event's **Description**:
+The easiest way is right in the event **Title** — end it with `X/Y` and a word, where `X` is
+how many are already registered and `Y` is the total capacity:
+```
+OWD - Final Dive - 2/2 students
+```
+The site strips that part back off for display (shown as just "OWD - Final Dive") and uses
+the numbers to show "X of Y spots free" — and once `X` reaches `Y`, the booking button
+disappears automatically instead of letting someone sign up for a full session.
+
+Alternatively, add two lines to the event's **Description** instead:
 ```
 vietas: 8
 pieteikušies: 3
 ```
 (`vietas` = total spots, `pieteikušies` = already registered — Russian `места` /
-`записалось` also work.) Leave both out and the site just shows the date and course name
-with no spots count.
+`записалось` also work.) The title format takes priority if both are present. Leave both
+out entirely and the site just shows the date and course name with no spots count, and the
+booking button always shows.
 
 **One thing to know:** unlike the Sheet (which updates live), calendar changes only show up
 on the site after the **next deploy**, since the fetch happens at build time — merge

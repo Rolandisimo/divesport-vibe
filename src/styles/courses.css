@@ -1,4 +1,40 @@
 @layer components {
+  /* ============ UPCOMING SESSION CARDS (Google Calendar sync) ============ */
+  .session-card {
+    @apply bg-panel border border-line rounded-md grid gap-8 px-7 py-7
+           transition-colors duration-200 hover:border-teal;
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+  @media (max-width: 560px) {
+    .session-card {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+  .session-card__details h3 {
+    @apply text-[1.2rem] mb-3;
+  }
+  .session-card__meta {
+    @apply flex flex-col gap-1.5 mb-4 text-mist text-[0.88rem];
+  }
+  .session-card__spots {
+    @apply font-mono text-[0.8rem] text-teal mb-4;
+  }
+  .session-card__spots--full {
+    @apply text-mist;
+  }
+  .session-card__description {
+    @apply border-l border-line pl-8;
+  }
+  .session-card__description p {
+    @apply text-mist text-[0.9rem] leading-relaxed whitespace-pre-line;
+  }
+  @media (max-width: 560px) {
+    .session-card__description {
+      @apply border-l-0 pl-0 pt-5 border-t border-line;
+    }
+  }
+
   /* ============ COURSE SCHEDULE (Google Calendar sync) ============ */
   .session-list {
     @apply flex flex-col mt-8 border-t border-line;

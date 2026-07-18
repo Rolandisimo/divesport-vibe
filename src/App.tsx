@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import type { ComponentType } from 'react';
 import { LangProvider } from '@/context/LangContext';
 import { LightboxProvider } from '@/context/LightboxContext';
@@ -52,6 +52,14 @@ function withLang(lang: Lang, Component: ComponentType) {
   );
 }
 
+function NotFound() {
+  // Preserve the visitor's language when the unmatched path was clearly an RU one,
+  // rather than always bouncing to the LV homepage regardless of context.
+  const location = useLocation();
+  const isRuPath = location.pathname === '/ru' || location.pathname.startsWith('/ru/');
+  return <Navigate to={isRuPath ? '/ru' : '/'} replace />;
+}
+
 export function App() {
   return (
     <HashRouter>
@@ -66,6 +74,7 @@ export function App() {
             element={withLang('ru', Component)}
           />
         ))}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
   );
