@@ -11,7 +11,7 @@ import type { Trip } from '@/types/sheets';
 export function CelojumiHubPage() {
   const { content } = useLang();
   const { celojumiHub: page, form } = content;
-  const { upcomingByYear, pastByYear } = useTrips();
+  const { upcomingByYear, pastByYear, isLoading, isError } = useTrips();
   const { bookingOptions } = useCourseCatalog();
   const [prefillRequest, setPrefillRequest] = useState<PrefillRequest | null>(null);
 
@@ -38,6 +38,8 @@ export function CelojumiHubPage() {
         <TripsList
           upcomingByYear={upcomingByYear}
           pastByYear={pastByYear}
+          isLoading={isLoading}
+          isError={isError}
           bookLabel={page.tripBookButtonLabel}
           onBook={handleBookTrip}
           onContactUs={handleContactUs}

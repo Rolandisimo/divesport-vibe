@@ -1,29 +1,16 @@
 @layer components {
-  /* ============ UPCOMING TRIP CARDS (full detail) ============ */
+  /* ============ UPCOMING TRIP DETAIL (shown inside the expandable row's body) ============ */
   .trip-list {
     @apply flex flex-col gap-5 mt-8;
   }
-  .trip-card {
-    @apply bg-panel border border-line rounded overflow-hidden flex flex-wrap
-           transition-colors duration-200 hover:border-teal max-md:flex-col;
-  }
-  .trip-card__img {
-    @apply w-[260px] min-h-[220px] bg-cover bg-center flex-shrink-0 max-md:w-full max-md:h-[180px] max-md:min-h-0;
-  }
-  .trip-card__body {
-    @apply px-[30px] py-7 flex-1 min-w-[280px];
-  }
-  .trip-card__body h3 {
-    @apply text-xl mb-2.5;
-  }
   .trip-card__flag {
-    @apply mr-2.5 inline-block;
+    @apply mr-1.5 inline-block;
   }
   .trip-card__intro {
-    @apply text-mist text-sm mb-[22px] max-w-[640px];
+    @apply text-mist text-sm mb-4 max-w-[640px];
   }
   .trip-card__grid {
-    @apply grid gap-x-8 gap-y-5 pt-[18px] border-t border-line;
+    @apply grid gap-x-8 gap-y-5;
     grid-template-columns: repeat(2, 1fr);
   }
   @media (max-width: 700px) {
@@ -43,15 +30,5 @@
   .trip-card__section li::before {
     content: '–';
     @apply absolute left-0 text-mist;
-  }
-  .trip-card__footer {
-    @apply flex items-center justify-between flex-wrap gap-3.5 mt-[22px] pt-[18px] border-t border-line
-           max-md:flex-col max-md:items-stretch;
-  }
-  .trip-card__footer .btn {
-    @apply max-md:w-full;
-  }
-  .trip-card__price {
-    @apply font-mono text-sm text-amber;
   }
 }

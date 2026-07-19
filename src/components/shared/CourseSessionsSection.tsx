@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCourseSessions } from '@/hooks/useCourseSessions';
+import { useAccordion } from '@/hooks/useAccordion';
 import { ScheduleSection } from '@/components/shared/ScheduleSection';
 import { YearGroup } from '@/components/shared/YearGroup';
+import { ExpandableRow } from '@/components/shared/ExpandableRow';
 import type { Lang } from '@/types/content';
 import type { CourseSession } from '@/types/calendar';
 import type { ByYear } from '@/utils/dateBuckets';
@@ -21,7 +22,7 @@ const HEADING = {
 const LABELS = {
   lv: {
     full: 'Vietu nav',
-    students: (registered: number, capacity: number) => `${registered}/${capacity} studenti`,
+    people: (registered: number, capacity: number) => `${registered}/${capacity} cilvēki`,
     sessionsCount: (n: number) => `${n} ${n === 1 ? 'norise' : 'norises'}`,
     emptyUpcoming: 'Šobrīd nav ieplānotu kursu dienu.',
     contactCta: 'Sazināties par kursiem',
@@ -31,7 +32,7 @@ const LABELS = {
   },
   ru: {
     full: 'Мест нет',
-    students: (registered: number, capacity: number) => `${registered}/${capacity} студентов`,
+    people: (registered: number, capacity: number) => `${registered}/${capacity} человек`,
     sessionsCount: (n: number) => `${n} ${n === 1 ? 'дата' : 'даты'}`,
     emptyUpcoming: 'Сейчас нет запланированных дат курсов.',
     contactCta: 'Связаться по курсам',
@@ -73,58 +74,58 @@ function timeRangeLabel(session: CourseSession, lang: Lang): string | null {
 interface UpcomingSessionCardProps {
   session: CourseSession;
   lang: Lang;
+  isOpen: boolean;
+  onToggle: () => void;
   onJoin: (session: CourseSession) => void;
 }
 
-function UpcomingSessionCard({ session, lang, onJoin }: UpcomingSessionCardProps) {
-  const [isOpen, setIsOpen] = useState(false);
+function UpcomingSessionCard({ session, lang, isOpen, onToggle, onJoin }: UpcomingSessionCardProps) {
   const labels = LABELS[lang];
   const hasCounts = session.capacity !== null && session.registered !== null;
   const isFull = hasCounts && session.registered! >= session.capacity!;
   const time = timeRangeLabel(session, lang);
 
   const dateLine = time ? `${dateRangeLabel(session, lang)} · ${time}` : dateRangeLabel(session, lang);
-  const statusText = hasCounts ? (isFull ? labels.full : labels.students(session.registered!, session.capacity!)) : '';
-  const secondLine = [session.instructor, statusText].filter(Boolean).join(' · ');
+  const peopleText = hasCounts && !isFull ? labels.people(session.registered!, session.capacity!) : '';
 
   return (
-    <div className="session-row">
-      <div className="session-row__main">
-        {/* A plain controlled button — not the native <details>/<summary> disclosure — so
-            there's exactly one expand indicator on screen, not a custom one plus whatever
-            marker the browser decides to draw on its own for a <summary>. */}
-        <button
-          type="button"
-          className="session-row__toggle"
-          onClick={() => setIsOpen((v) => !v)}
-          aria-expanded={isOpen}
-        >
-          <span className="session-row__indicator">{isOpen ? '–' : '+'}</span>
-          <div className="session-row__grid">
-            <div className="session-row__type">
-              <span className="session-row__type-main">{session.diveType}</span>
-              {session.diveTypeDetail && <span className="session-row__type-detail">{session.diveTypeDetail}</span>}
-            </div>
-            <div className="session-row__info">
-              <span>{dateLine}</span>
-              {session.location && <span>{session.location}</span>}
-              {secondLine && <span>{secondLine}</span>}
-            </div>
+    <ExpandableRow
+      isOpen={isOpen}
+      onToggle={onToggle}
+      typeContent={
+        <>
+          <span className="expandable-row__type-main">{session.diveType}</span>
+          {session.diveTypeDetail && <span className="expandable-row__type-detail">{session.diveTypeDetail}</span>}
+        </>
+      }
+      infoContent={
+        <>
+          <span>📅 {dateLine}</span>
+          {session.location && <span>📍 {session.location}</span>}
+          {session.instructor && <span>👤 {session.instructor}</span>}
+        </>
+      }
+      actionContent={
+        isFull ? (
+          <span className="expandable-row__full">{labels.full}</span>
+        ) : (
+          <div className="expandable-row__action-inner">
+            {peopleText && <span className="expandable-row__people">👥 {peopleText}</span>}
+            <button type="button" className="btn btn--solid btn--sm" onClick={() => onJoin(session)}>
+              {labels.joinCta}
+            </button>
           </div>
-        </button>
-        {!isFull && (
-          <button type="button" className="btn btn--solid btn--sm" onClick={() => onJoin(session)}>
-            {labels.joinCta}
-          </button>
-        )}
-      </div>
-      {isOpen && session.description && (
-        // The calendar event's description comes through as sanitized HTML (Google
-        // Calendar's rich-text editor stores line breaks/lists/bold as real markup, not
-        // plaintext) — rendering it as text would show the raw <br>/<ol> tags literally.
-        <div className="session-row__body" dangerouslySetInnerHTML={{ __html: session.description }} />
-      )}
-    </div>
+        )
+      }
+      bodyContent={
+        session.description && (
+          // The calendar event's description comes through as sanitized HTML (Google
+          // Calendar's rich-text editor stores line breaks/lists/bold as real markup, not
+          // plaintext) — rendering it as text would show the raw <br>/<ol> tags literally.
+          <div dangerouslySetInnerHTML={{ __html: session.description }} />
+        )
+      }
+    />
   );
 }
 
@@ -148,6 +149,7 @@ interface CourseSessionsSectionProps {
 export function CourseSessionsSection({ id, onJoin, onContactUs }: CourseSessionsSectionProps) {
   const { lang } = useLang();
   const { upcomingByYear, pastByYear } = useCourseSessions();
+  const accordion = useAccordion();
   const labels = LABELS[lang];
   const heading = HEADING[lang];
 
@@ -167,9 +169,19 @@ export function CourseSessionsSection({ id, onJoin, onContactUs }: CourseSession
           {upcomingByYear.map((group: ByYear<CourseSession>) => (
             <YearGroup year={group.year} countLabel={labels.sessionsCount(group.items.length)} defaultOpen key={group.year}>
               <div className="course-catalog" style={{ marginTop: 20 }}>
-                {group.items.map((session, i) => (
-                  <UpcomingSessionCard session={session} lang={lang} onJoin={onJoin} key={`${session.diveType}-${i}`} />
-                ))}
+                {group.items.map((session, i) => {
+                  const itemId = `${group.year}-${i}`;
+                  return (
+                    <UpcomingSessionCard
+                      session={session}
+                      lang={lang}
+                      isOpen={accordion.isOpen(itemId)}
+                      onToggle={() => accordion.toggle(itemId)}
+                      onJoin={onJoin}
+                      key={itemId}
+                    />
+                  );
+                })}
               </div>
             </YearGroup>
           ))}

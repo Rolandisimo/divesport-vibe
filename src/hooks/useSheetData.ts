@@ -14,18 +14,24 @@ export function useSheetData<T>(
   lang: Lang,
   mapRow: (row: Record<string, string>) => T | null,
   fallback: T[]
-): { data: T[]; isLive: boolean } {
+): { data: T[]; isLive: boolean; isLoading: boolean; isError: boolean } {
   const [data, setData] = useState<T[]>(fallback);
   const [isLive, setIsLive] = useState(false);
+  const [isLoading, setIsLoading] = useState(Boolean(url));
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     if (!url) {
       setData(fallback);
       setIsLive(false);
+      setIsLoading(false);
+      setIsError(false);
       return;
     }
 
     let cancelled = false;
+    setIsLoading(true);
+    setIsError(false);
 
     fetchSheetRows(url, lang, mapRow)
       .then((rows) => {
@@ -36,11 +42,14 @@ export function useSheetData<T>(
         }
         // An empty result (e.g. the tab has no rows for this language yet)
         // just keeps showing the fallback rather than an empty page.
+        setIsLoading(false);
       })
       .catch(() => {
-        // Sheet unreachable/misconfigured — silently keep the fallback content.
-        // (Logged to the console so a developer can spot it during setup.)
-        if (!cancelled) console.warn(`[CMS] Could not load sheet data from ${url}, using static fallback.`);
+        if (cancelled) return;
+        // Logged to the console so a developer can spot it during setup.
+        console.warn(`[CMS] Could not load sheet data from ${url}, using static fallback.`);
+        setIsError(true);
+        setIsLoading(false);
       });
 
     return () => {
@@ -49,5 +58,5 @@ export function useSheetData<T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, lang]);
 
-  return { data, isLive };
+  return { data, isLive, isLoading, isError };
 }

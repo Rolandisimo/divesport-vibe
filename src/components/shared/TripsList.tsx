@@ -1,6 +1,8 @@
 import { useLang } from '@/context/LangContext';
+import { useAccordion } from '@/hooks/useAccordion';
 import { ScheduleSection } from '@/components/shared/ScheduleSection';
 import { YearGroup } from '@/components/shared/YearGroup';
+import { ExpandableRow } from '@/components/shared/ExpandableRow';
 import type { ByYear } from '@/utils/dateBuckets';
 import type { Trip } from '@/types/sheets';
 
@@ -23,8 +25,11 @@ const LABELS = {
     gettingThere: 'Kā nokļūt',
     accommodationPrice: 'Dzīvošana',
     divingPrice: 'Niršana',
+    moreDates: (n: number) => `+${n} citi datumi`,
     tripsCount: (n: number) => `${n} ${n === 1 ? 'ceļojums' : 'ceļojumi'}`,
     emptyUpcoming: 'Šobrīd nav ieplānotu ceļojumu.',
+    loading: 'Ielādē ceļojumus...',
+    errorMessage: 'Mēs ceļojam regulāri, taču šobrīd neizdevās ielādēt tuvāko ceļojumu sarakstu. Sazinies ar mums zemāk, lai uzzinātu par tuvākajiem braucieniem.',
     contactCta: 'Sazināties par ceļojumiem',
     pastCta: 'Skatīt pagājušos ceļojumus',
     emptyPast: 'Arhīvā vēl nav ceļojumu.',
@@ -36,8 +41,11 @@ const LABELS = {
     gettingThere: 'Как добраться',
     accommodationPrice: 'Проживание',
     divingPrice: 'Дайвинг',
+    moreDates: (n: number) => `+${n} другие даты`,
     tripsCount: (n: number) => `${n} ${n === 1 ? 'поездка' : 'поездок'}`,
     emptyUpcoming: 'Сейчас нет запланированных поездок.',
+    loading: 'Загружаем поездки...',
+    errorMessage: 'Мы путешествуем регулярно, но сейчас не удалось загрузить список ближайших поездок. Свяжитесь с нами ниже, чтобы узнать о ближайших маршрутах.',
     contactCta: 'Связаться насчёт поездок',
     pastCta: 'Смотреть прошедшие поездки',
     emptyPast: 'В архиве пока нет поездок.',
@@ -60,7 +68,15 @@ function TripSection({ label, icon, items }: { label: string; icon: string; item
   );
 }
 
-function UpcomingTripCard({ trip, bookLabel, onBook }: { trip: Trip; bookLabel: string; onBook: (trip: Trip) => void }) {
+interface UpcomingTripCardProps {
+  trip: Trip;
+  isOpen: boolean;
+  onToggle: () => void;
+  bookLabel: string;
+  onBook: (trip: Trip) => void;
+}
+
+function UpcomingTripCard({ trip, isOpen, onToggle, bookLabel, onBook }: UpcomingTripCardProps) {
   const { lang } = useLang();
   const labels = LABELS[lang];
 
@@ -68,32 +84,46 @@ function UpcomingTripCard({ trip, bookLabel, onBook }: { trip: Trip; bookLabel: 
     trip.accommodationPrice && `${labels.accommodationPrice} — ${trip.accommodationPrice}`,
     trip.divingPrice && `${labels.divingPrice} — ${trip.divingPrice}`,
   ].filter(Boolean);
+  const extraDates = trip.dates.length - 1;
 
   return (
-    <article className="trip-card">
-      {trip.imageUrl && <div className="trip-card__img" style={{ backgroundImage: `url('${trip.imageUrl}')` }} />}
-      <div className="trip-card__body">
-        <h3>
+    <ExpandableRow
+      isOpen={isOpen}
+      onToggle={onToggle}
+      typeContent={
+        <span className="expandable-row__type-main">
           {trip.flag && <span className="trip-card__flag">{trip.flag}</span>}
           {trip.title}
-        </h3>
-        {trip.intro && <p className="trip-card__intro">{trip.intro}</p>}
-
-        <div className="trip-card__grid">
-          <TripSection label={labels.dates} icon="📅" items={trip.dates} />
-          <TripSection label={labels.highlights} icon="🤿" items={trip.highlights} />
-          <TripSection label={labels.accommodation} icon="🏡" items={trip.accommodation} />
-          <TripSection label={labels.gettingThere} icon="✈️" items={trip.gettingThere} />
-        </div>
-
-        <div className="trip-card__footer">
-          {priceParts.length > 0 && <span className="trip-card__price">{priceParts.join(' · ')}</span>}
-          <button type="button" className="btn btn--solid btn--sm" onClick={() => onBook(trip)}>
-            {bookLabel}
-          </button>
-        </div>
-      </div>
-    </article>
+        </span>
+      }
+      infoContent={
+        <>
+          {trip.dates.length > 0 && (
+            <span>
+              📅 {trip.dates[0]}
+              {extraDates > 0 && ` (${labels.moreDates(extraDates)})`}
+            </span>
+          )}
+          {priceParts.length > 0 && <span>💶 {priceParts.join(' · ')}</span>}
+        </>
+      }
+      actionContent={
+        <button type="button" className="btn btn--solid btn--sm" onClick={() => onBook(trip)}>
+          {bookLabel}
+        </button>
+      }
+      bodyContent={
+        <>
+          {trip.intro && <p className="trip-card__intro">{trip.intro}</p>}
+          <div className="trip-card__grid">
+            <TripSection label={labels.dates} icon="📅" items={trip.dates} />
+            <TripSection label={labels.highlights} icon="🤿" items={trip.highlights} />
+            <TripSection label={labels.accommodation} icon="🏡" items={trip.accommodation} />
+            <TripSection label={labels.gettingThere} icon="✈️" items={trip.gettingThere} />
+          </div>
+        </>
+      }
+    />
   );
 }
 
@@ -110,34 +140,62 @@ function PastTripRow({ trip }: { trip: Trip }) {
 interface TripsListProps {
   upcomingByYear: ByYear<Trip>[];
   pastByYear: ByYear<Trip>[];
+  isLoading: boolean;
+  isError: boolean;
   bookLabel: string;
   onBook: (trip: Trip) => void;
   onContactUs: () => void;
 }
 
-export function TripsList({ upcomingByYear, pastByYear, bookLabel, onBook, onContactUs }: TripsListProps) {
+export function TripsList({ upcomingByYear, pastByYear, isLoading, isError, bookLabel, onBook, onContactUs }: TripsListProps) {
   const { lang } = useLang();
   const labels = LABELS[lang];
   const heading = HEADING[lang];
+  const accordion = useAccordion();
+
+  if (isLoading) {
+    return (
+      <section className="section" style={{ paddingTop: 48 }}>
+        <div className="section__inner">
+          <div className="schedule-loading">{labels.loading}</div>
+        </div>
+      </section>
+    );
+  }
+
+  // On a fetch error, replace the upcoming list with a friendly pointer to the contact form
+  // below instead of showing (possibly stale) fallback trips as if nothing went wrong.
+  const effectiveUpcoming = isError ? [] : upcomingByYear;
+  const emptyUpcomingMessage = isError ? labels.errorMessage : labels.emptyUpcoming;
 
   return (
     <ScheduleSection
-      hasUpcoming={upcomingByYear.length > 0}
+      hasUpcoming={effectiveUpcoming.length > 0}
       hasPast={pastByYear.length > 0}
       upcomingLabels={heading.upcoming}
       pastLabels={heading.past}
-      emptyUpcomingMessage={labels.emptyUpcoming}
+      emptyUpcomingMessage={emptyUpcomingMessage}
       emptyPastMessage={labels.emptyPast}
       contactCta={{ label: labels.contactCta, onClick: onContactUs }}
       pastCtaLabel={labels.pastCta}
       renderUpcoming={() => (
         <div className="year-group-list">
-          {upcomingByYear.map((group) => (
+          {effectiveUpcoming.map((group) => (
             <YearGroup year={group.year} countLabel={labels.tripsCount(group.items.length)} defaultOpen key={group.year}>
               <div className="trip-list">
-                {group.items.map((trip) => (
-                  <UpcomingTripCard trip={trip} bookLabel={bookLabel} onBook={onBook} key={trip.title} />
-                ))}
+                {group.items.map((trip, i) => {
+                  const itemId = `${group.year}-${i}`;
+                  return (
+                    <UpcomingTripCard
+                      trip={trip}
+                      isOpen={accordion.isOpen(itemId)}
+                      onToggle={() => accordion.toggle(itemId)}
+                      bookLabel={bookLabel}
+                      onBook={onBook}
+                      key={itemId}
+                    />
+                  );
+                })}
               </div>
             </YearGroup>
           ))}

@@ -1,4 +1,5 @@
 import { createPortal } from 'react-dom';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLang } from '@/context/LangContext';
 import { useMobileNav } from '@/hooks/useMobileNav';
@@ -11,19 +12,62 @@ interface NavLinkListProps {
 }
 
 /** The actual list of links + dropdowns — rendered twice (once inline for desktop, once
- *  inside the portalled mobile drawer) so both stay in sync from one source. */
+ *  inside the portalled mobile drawer) so both stay in sync from one source.
+ *
+ *  Dropdown open/close is JS-controlled (not pure CSS :hover) with a short close delay —
+ *  a pure-CSS :hover approach closes the instant the cursor leaves the trigger link even
+ *  for a moment while moving down toward the submenu, which can eat the click before it
+ *  registers. The delay gives that movement room without needing pixel-perfect hover paths. */
 function NavLinkList({ items, pathFor, onLinkClick }: NavLinkListProps) {
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const closeTimeoutRef = useRef<number | null>(null);
+
+  function clearCloseTimeout() {
+    if (closeTimeoutRef.current !== null) {
+      window.clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  }
+
+  function openDropdown(slug: string) {
+    clearCloseTimeout();
+    setOpenSlug(slug);
+  }
+
+  function closeDropdownSoon() {
+    clearCloseTimeout();
+    closeTimeoutRef.current = window.setTimeout(() => setOpenSlug(null), 250);
+  }
+
+  function closeDropdownNow() {
+    clearCloseTimeout();
+    setOpenSlug(null);
+  }
+
   return (
     <>
       {items.map((item) =>
         item.children ? (
-          <div className="nav__drop" key={item.slug}>
-            <Link to={pathFor(item.slug)} onClick={onLinkClick}>
+          <div
+            className="nav__drop"
+            key={item.slug}
+            onMouseEnter={() => openDropdown(item.slug)}
+            onMouseLeave={closeDropdownSoon}
+          >
+            <Link to={pathFor(item.slug)} onClick={onLinkClick} onFocus={() => openDropdown(item.slug)}>
               {item.label}
             </Link>
-            <div className="nav__drop-menu">
+            <div className={`nav__drop-menu${openSlug === item.slug ? ' nav__drop-menu--open' : ''}`}>
               {item.children.map((child) => (
-                <Link to={pathFor(child.slug)} key={child.slug} onClick={onLinkClick}>
+                <Link
+                  to={pathFor(child.slug)}
+                  key={child.slug}
+                  onClick={() => {
+                    closeDropdownNow();
+                    onLinkClick();
+                  }}
+                  onFocus={() => openDropdown(item.slug)}
+                >
                   {child.label}
                 </Link>
               ))}

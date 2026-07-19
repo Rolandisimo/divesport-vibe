@@ -1,5 +1,8 @@
 @layer components {
   /* ============ TABS ============ */
+  .schedule-loading {
+    @apply mt-7 px-7 py-9 text-center bg-panel border border-line rounded text-mist text-sm animate-pulse;
+  }
   .schedule-tabs {
     @apply flex gap-7 mt-[22px] mb-2 border-b border-line;
   }
@@ -14,6 +17,81 @@
     content: '';
     @apply absolute left-0 right-0 -bottom-px h-0.5 bg-teal;
   }
+
+  /* ============ EXPANDABLE ROW (shared: course sessions + trips) ============ */
+  /* Compact by default — the body only shows once expanded. Grid is 20/60/20: type / info / action. */
+  .expandable-row {
+    @apply bg-panel border border-line rounded-md transition-colors duration-200 hover:border-teal;
+  }
+  .expandable-row__grid {
+    @apply grid gap-3 items-center px-4 py-3;
+    grid-template-columns: 4fr 1fr;
+  }
+  .expandable-row__toggle {
+    @apply grid gap-3 items-center text-left min-w-0;
+    grid-template-columns: 1fr 3fr;
+  }
+  .expandable-row__indicator {
+    @apply text-mist text-sm flex-shrink-0;
+  }
+  .expandable-row__type {
+    @apply flex items-center gap-2 min-w-0;
+  }
+  .expandable-row__type-text {
+    @apply flex flex-col gap-0.5 min-w-0;
+  }
+  .expandable-row__type-main {
+    @apply text-base text-foam font-bold break-words;
+  }
+  .expandable-row__type-detail {
+    @apply text-sm text-mist break-words;
+  }
+  .expandable-row__info {
+    @apply flex flex-col gap-1 text-sm text-mist min-w-0;
+  }
+  .expandable-row__info span {
+    @apply break-words;
+  }
+  .expandable-row__action {
+    @apply flex items-center justify-end text-right;
+  }
+  .expandable-row__action-inner {
+    @apply flex flex-col items-center gap-2;
+  }
+  .expandable-row__people {
+    @apply text-xs text-mist;
+  }
+  .expandable-row__full {
+    @apply text-sm text-foam opacity-80 text-center;
+  }
+  @media (max-width: 700px) {
+    .expandable-row__grid {
+      grid-template-columns: 1fr;
+    }
+    .expandable-row__toggle {
+      grid-template-columns: 1fr;
+    }
+    .expandable-row__action {
+      @apply justify-start text-left mt-2;
+    }
+  }
+  .expandable-row__body {
+    @apply px-4 pb-4 pt-3 mt-1 border-t border-line text-sm text-mist leading-relaxed;
+  }
+  .expandable-row__body ol {
+    @apply list-decimal pl-5 mt-2 mb-2 flex flex-col gap-1;
+  }
+  .expandable-row__body ul {
+    @apply list-disc pl-5 mt-2 mb-2 flex flex-col gap-1;
+  }
+  .expandable-row__body a {
+    @apply text-teal underline;
+  }
+  .expandable-row__body strong,
+  .expandable-row__body b {
+    @apply text-foam font-bold;
+  }
+
 
   /* ============ EMPTY STATE ============ */
   .schedule-empty {
@@ -58,16 +136,15 @@
     @apply pb-4;
   }
   .compact-row {
-    @apply flex items-baseline gap-3 py-2.5 pl-[26px] border-t border-line text-sm text-foam
-           max-md:flex-wrap;
+    @apply flex flex-wrap items-baseline gap-x-3 gap-y-1 py-2.5 pl-[26px] border-t border-line text-sm text-foam;
   }
   .compact-row__icon {
     @apply flex-shrink-0;
   }
   .compact-row__title {
-    @apply flex-1;
+    @apply flex-1 min-w-0 break-words;
   }
   .compact-row__meta {
-    @apply text-mist font-mono text-xs whitespace-nowrap max-md:w-full max-md:pl-0;
+    @apply text-mist font-mono text-xs min-w-0 break-words;
   }
 }

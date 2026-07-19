@@ -127,7 +127,7 @@
   .nav__drop-menu a::after {
     @apply hidden;
   }
-  .nav__drop:hover .nav__drop-menu,
+  .nav__drop-menu.nav__drop-menu--open,
   .nav__drop:focus-within .nav__drop-menu {
     @apply flex;
   }
